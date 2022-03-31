@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  gateway:
+    container_name: manga_love_gateway
+    image: nginx:1.21.6-alpine
+    ports:
+      - "80:80"
+    networks:
+      - project
+    volumes:
+      - ./packages/gateway/config.nginx:/etc/nginx/conf.d/default.conf
+    env_file:
+      - ./.env
+    depends_on:
+      - api
+
   api:
     container_name: mange_love_api
     build:
@@ -12,8 +26,8 @@ services:
       - data_pnpm_storage:/pnpm-storage
       - data_libs_api:/project/node_modules
       - data_libs_api:/project/packages/api/node_modules
-    ports:
-      - "3000:3000"
+    networks:
+      - project
     env_file:
       - ./.env
 
@@ -24,3 +38,6 @@ volumes:
     driver: local
   data_libs_api:
     driver: local
+
+networks:
+  project:
