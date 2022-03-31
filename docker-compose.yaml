@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: mange_love_api
+    build:
+      context: .
+      dockerfile: ./packages/api/Dockerfile
+    command: sh -c "cd ./packages/api && pnpm start:dev"
+    volumes:
+      - ./packages/api:/project/packages/api
+      - data_pnpm_storage:/pnpm-storage
+      - data_libs_api:/project/node_modules
+      - data_libs_api:/project/packages/api/node_modules
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+
+volumes:
+  data_pnpm_storage:
+    driver: local
+  data_libs_root:
+    driver: local
+  data_libs_api:
+    driver: local
