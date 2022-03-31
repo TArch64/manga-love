@@ -1,5 +1,9 @@
 server {
-    location /api {
+    location = /api {
+        return 301 /api/;
+    }
+
+    location /api/ {
         proxy_pass http://api:3000/;
     }
 }

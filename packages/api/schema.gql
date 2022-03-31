@@ -1,0 +1,12 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Manga Lover """
+type UserModel {
+  id: ID!
+}
+
+type Query {
+  currentUser: UserModel!
+}
