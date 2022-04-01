@@ -1,12 +1,13 @@
 import {Resolver, Query} from "@nestjs/graphql";
 import {UserModel} from "./models";
+import {UsersRepository} from "./users.repository";
 
 @Resolver(of => UserModel)
 export class UsersResolver {
+    constructor(private readonly repository: UsersRepository) {}
+
     @Query(returns => UserModel)
     async currentUser(): Promise<UserModel> {
-        const model = new UserModel();
-        model.id = '123';
-        return model;
+        return this.repository.getUserById('');
     }
 }

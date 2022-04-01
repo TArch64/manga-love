@@ -11,7 +11,7 @@ import {UsersModule} from "./users";
           playground: {
               settings: { 'editor.theme': 'light' }
           },
-          autoSchemaFile: 'schema.gql'
+          autoSchemaFile: true
       })
   ]
 })
