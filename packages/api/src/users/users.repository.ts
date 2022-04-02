@@ -7,7 +7,13 @@ export class UsersRepository {
 
     async getUserById(id: string): Promise<DatabaseUser | undefined> {
         return this.prisma.databaseUser.findUnique({
-            where: { email: 'test@mail.com' }
+            where: { id }
+        })
+    }
+
+    async getUserByEmail(email: string): Promise<DatabaseUser | undefined> {
+        return this.prisma.databaseUser.findUnique({
+            where: { email }
         })
     }
 }

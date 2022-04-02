@@ -1,4 +1,4 @@
-import { client } from './client';
+import {client} from '../client-provider';
 import {seedUsers} from "./users";
 
 const seeds = [

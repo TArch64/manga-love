@@ -1,4 +1,11 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "assets": [
+      "./prisma/client/**",
+      "**/*.ejs"
+    ],
+    "watchAssets": true
+  }
 }
