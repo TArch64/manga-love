@@ -16,3 +16,10 @@ model DatabaseUser {
     email String @unique @db.VarChar(200)
     password String @db.VarChar(200)
 }
+
+model DatabaseManga {
+    id String @id @default(uuid())
+    createdAt DateTime @default(now())
+    originalName String @db.VarChar(200)
+    uaName String? @db.VarChar(200)
+}

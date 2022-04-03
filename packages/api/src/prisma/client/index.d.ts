@@ -22,6 +22,17 @@ export type DatabaseUser = {
   password: string
 }
 
+/**
+ * Model DatabaseManga
+ * 
+ */
+export type DatabaseManga = {
+  id: string
+  createdAt: Date
+  originalName: string
+  uaName: string | null
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -172,6 +183,16 @@ export class PrismaClient<
     * ```
     */
   get databaseUser(): Prisma.DatabaseUserDelegate<GlobalReject>;
+
+  /**
+   * `prisma.databaseManga`: Exposes CRUD operations for the **DatabaseManga** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DatabaseMangas
+    * const databaseMangas = await prisma.databaseManga.findMany()
+    * ```
+    */
+  get databaseManga(): Prisma.DatabaseMangaDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -586,7 +607,8 @@ export namespace Prisma {
   }
 
   export const ModelName: {
-    DatabaseUser: 'DatabaseUser'
+    DatabaseUser: 'DatabaseUser',
+    DatabaseManga: 'DatabaseManga'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1547,6 +1569,813 @@ export namespace Prisma {
 
 
   /**
+   * Model DatabaseManga
+   */
+
+
+  export type AggregateDatabaseManga = {
+    _count: DatabaseMangaCountAggregateOutputType | null
+    _min: DatabaseMangaMinAggregateOutputType | null
+    _max: DatabaseMangaMaxAggregateOutputType | null
+  }
+
+  export type DatabaseMangaMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    originalName: string | null
+    uaName: string | null
+  }
+
+  export type DatabaseMangaMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    originalName: string | null
+    uaName: string | null
+  }
+
+  export type DatabaseMangaCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    originalName: number
+    uaName: number
+    _all: number
+  }
+
+
+  export type DatabaseMangaMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    originalName?: true
+    uaName?: true
+  }
+
+  export type DatabaseMangaMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    originalName?: true
+    uaName?: true
+  }
+
+  export type DatabaseMangaCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    originalName?: true
+    uaName?: true
+    _all?: true
+  }
+
+  export type DatabaseMangaAggregateArgs = {
+    /**
+     * Filter which DatabaseManga to aggregate.
+     * 
+    **/
+    where?: DatabaseMangaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabaseMangas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabaseMangaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: DatabaseMangaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabaseMangas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabaseMangas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DatabaseMangas
+    **/
+    _count?: true | DatabaseMangaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DatabaseMangaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DatabaseMangaMaxAggregateInputType
+  }
+
+  export type GetDatabaseMangaAggregateType<T extends DatabaseMangaAggregateArgs> = {
+        [P in keyof T & keyof AggregateDatabaseManga]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDatabaseManga[P]>
+      : GetScalarType<T[P], AggregateDatabaseManga[P]>
+  }
+
+
+
+
+  export type DatabaseMangaGroupByArgs = {
+    where?: DatabaseMangaWhereInput
+    orderBy?: Enumerable<DatabaseMangaOrderByWithAggregationInput>
+    by: Array<DatabaseMangaScalarFieldEnum>
+    having?: DatabaseMangaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DatabaseMangaCountAggregateInputType | true
+    _min?: DatabaseMangaMinAggregateInputType
+    _max?: DatabaseMangaMaxAggregateInputType
+  }
+
+
+  export type DatabaseMangaGroupByOutputType = {
+    id: string
+    createdAt: Date
+    originalName: string
+    uaName: string | null
+    _count: DatabaseMangaCountAggregateOutputType | null
+    _min: DatabaseMangaMinAggregateOutputType | null
+    _max: DatabaseMangaMaxAggregateOutputType | null
+  }
+
+  type GetDatabaseMangaGroupByPayload<T extends DatabaseMangaGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<DatabaseMangaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DatabaseMangaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DatabaseMangaGroupByOutputType[P]>
+            : GetScalarType<T[P], DatabaseMangaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DatabaseMangaSelect = {
+    id?: boolean
+    createdAt?: boolean
+    originalName?: boolean
+    uaName?: boolean
+  }
+
+  export type DatabaseMangaGetPayload<
+    S extends boolean | null | undefined | DatabaseMangaArgs,
+    U = keyof S
+      > = S extends true
+        ? DatabaseManga
+    : S extends undefined
+    ? never
+    : S extends DatabaseMangaArgs | DatabaseMangaFindManyArgs
+    ?'include' extends U
+    ? DatabaseManga 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof DatabaseManga ? DatabaseManga[P] : never
+  } 
+    : DatabaseManga
+  : DatabaseManga
+
+
+  type DatabaseMangaCountArgs = Merge<
+    Omit<DatabaseMangaFindManyArgs, 'select' | 'include'> & {
+      select?: DatabaseMangaCountAggregateInputType | true
+    }
+  >
+
+  export interface DatabaseMangaDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one DatabaseManga that matches the filter.
+     * @param {DatabaseMangaFindUniqueArgs} args - Arguments to find a DatabaseManga
+     * @example
+     * // Get one DatabaseManga
+     * const databaseManga = await prisma.databaseManga.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends DatabaseMangaFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, DatabaseMangaFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'DatabaseManga'> extends True ? CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>> : CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga | null >, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T> | null >>
+
+    /**
+     * Find the first DatabaseManga that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseMangaFindFirstArgs} args - Arguments to find a DatabaseManga
+     * @example
+     * // Get one DatabaseManga
+     * const databaseManga = await prisma.databaseManga.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends DatabaseMangaFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, DatabaseMangaFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'DatabaseManga'> extends True ? CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>> : CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga | null >, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T> | null >>
+
+    /**
+     * Find zero or more DatabaseMangas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseMangaFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DatabaseMangas
+     * const databaseMangas = await prisma.databaseManga.findMany()
+     * 
+     * // Get first 10 DatabaseMangas
+     * const databaseMangas = await prisma.databaseManga.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const databaseMangaWithIdOnly = await prisma.databaseManga.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends DatabaseMangaFindManyArgs>(
+      args?: SelectSubset<T, DatabaseMangaFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<DatabaseManga>>, PrismaPromise<Array<DatabaseMangaGetPayload<T>>>>
+
+    /**
+     * Create a DatabaseManga.
+     * @param {DatabaseMangaCreateArgs} args - Arguments to create a DatabaseManga.
+     * @example
+     * // Create one DatabaseManga
+     * const DatabaseManga = await prisma.databaseManga.create({
+     *   data: {
+     *     // ... data to create a DatabaseManga
+     *   }
+     * })
+     * 
+    **/
+    create<T extends DatabaseMangaCreateArgs>(
+      args: SelectSubset<T, DatabaseMangaCreateArgs>
+    ): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>>
+
+    /**
+     * Create many DatabaseMangas.
+     *     @param {DatabaseMangaCreateManyArgs} args - Arguments to create many DatabaseMangas.
+     *     @example
+     *     // Create many DatabaseMangas
+     *     const databaseManga = await prisma.databaseManga.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends DatabaseMangaCreateManyArgs>(
+      args?: SelectSubset<T, DatabaseMangaCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a DatabaseManga.
+     * @param {DatabaseMangaDeleteArgs} args - Arguments to delete one DatabaseManga.
+     * @example
+     * // Delete one DatabaseManga
+     * const DatabaseManga = await prisma.databaseManga.delete({
+     *   where: {
+     *     // ... filter to delete one DatabaseManga
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends DatabaseMangaDeleteArgs>(
+      args: SelectSubset<T, DatabaseMangaDeleteArgs>
+    ): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>>
+
+    /**
+     * Update one DatabaseManga.
+     * @param {DatabaseMangaUpdateArgs} args - Arguments to update one DatabaseManga.
+     * @example
+     * // Update one DatabaseManga
+     * const databaseManga = await prisma.databaseManga.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends DatabaseMangaUpdateArgs>(
+      args: SelectSubset<T, DatabaseMangaUpdateArgs>
+    ): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>>
+
+    /**
+     * Delete zero or more DatabaseMangas.
+     * @param {DatabaseMangaDeleteManyArgs} args - Arguments to filter DatabaseMangas to delete.
+     * @example
+     * // Delete a few DatabaseMangas
+     * const { count } = await prisma.databaseManga.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends DatabaseMangaDeleteManyArgs>(
+      args?: SelectSubset<T, DatabaseMangaDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DatabaseMangas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseMangaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DatabaseMangas
+     * const databaseManga = await prisma.databaseManga.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends DatabaseMangaUpdateManyArgs>(
+      args: SelectSubset<T, DatabaseMangaUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DatabaseManga.
+     * @param {DatabaseMangaUpsertArgs} args - Arguments to update or create a DatabaseManga.
+     * @example
+     * // Update or create a DatabaseManga
+     * const databaseManga = await prisma.databaseManga.upsert({
+     *   create: {
+     *     // ... data to create a DatabaseManga
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DatabaseManga we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends DatabaseMangaUpsertArgs>(
+      args: SelectSubset<T, DatabaseMangaUpsertArgs>
+    ): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>>
+
+    /**
+     * Count the number of DatabaseMangas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseMangaCountArgs} args - Arguments to filter DatabaseMangas to count.
+     * @example
+     * // Count the number of DatabaseMangas
+     * const count = await prisma.databaseManga.count({
+     *   where: {
+     *     // ... the filter for the DatabaseMangas we want to count
+     *   }
+     * })
+    **/
+    count<T extends DatabaseMangaCountArgs>(
+      args?: Subset<T, DatabaseMangaCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DatabaseMangaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DatabaseManga.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseMangaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DatabaseMangaAggregateArgs>(args: Subset<T, DatabaseMangaAggregateArgs>): PrismaPromise<GetDatabaseMangaAggregateType<T>>
+
+    /**
+     * Group by DatabaseManga.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseMangaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DatabaseMangaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DatabaseMangaGroupByArgs['orderBy'] }
+        : { orderBy?: DatabaseMangaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DatabaseMangaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDatabaseMangaGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DatabaseManga.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__DatabaseMangaClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * DatabaseManga findUnique
+   */
+  export type DatabaseMangaFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+    /**
+     * Throw an Error if a DatabaseManga can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which DatabaseManga to fetch.
+     * 
+    **/
+    where: DatabaseMangaWhereUniqueInput
+  }
+
+
+  /**
+   * DatabaseManga findFirst
+   */
+  export type DatabaseMangaFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+    /**
+     * Throw an Error if a DatabaseManga can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which DatabaseManga to fetch.
+     * 
+    **/
+    where?: DatabaseMangaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabaseMangas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabaseMangaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DatabaseMangas.
+     * 
+    **/
+    cursor?: DatabaseMangaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabaseMangas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabaseMangas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DatabaseMangas.
+     * 
+    **/
+    distinct?: Enumerable<DatabaseMangaScalarFieldEnum>
+  }
+
+
+  /**
+   * DatabaseManga findMany
+   */
+  export type DatabaseMangaFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+    /**
+     * Filter, which DatabaseMangas to fetch.
+     * 
+    **/
+    where?: DatabaseMangaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabaseMangas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabaseMangaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DatabaseMangas.
+     * 
+    **/
+    cursor?: DatabaseMangaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabaseMangas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabaseMangas.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<DatabaseMangaScalarFieldEnum>
+  }
+
+
+  /**
+   * DatabaseManga create
+   */
+  export type DatabaseMangaCreateArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+    /**
+     * The data needed to create a DatabaseManga.
+     * 
+    **/
+    data: XOR<DatabaseMangaCreateInput, DatabaseMangaUncheckedCreateInput>
+  }
+
+
+  /**
+   * DatabaseManga createMany
+   */
+  export type DatabaseMangaCreateManyArgs = {
+    /**
+     * The data used to create many DatabaseMangas.
+     * 
+    **/
+    data: Enumerable<DatabaseMangaCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * DatabaseManga update
+   */
+  export type DatabaseMangaUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+    /**
+     * The data needed to update a DatabaseManga.
+     * 
+    **/
+    data: XOR<DatabaseMangaUpdateInput, DatabaseMangaUncheckedUpdateInput>
+    /**
+     * Choose, which DatabaseManga to update.
+     * 
+    **/
+    where: DatabaseMangaWhereUniqueInput
+  }
+
+
+  /**
+   * DatabaseManga updateMany
+   */
+  export type DatabaseMangaUpdateManyArgs = {
+    /**
+     * The data used to update DatabaseMangas.
+     * 
+    **/
+    data: XOR<DatabaseMangaUpdateManyMutationInput, DatabaseMangaUncheckedUpdateManyInput>
+    /**
+     * Filter which DatabaseMangas to update
+     * 
+    **/
+    where?: DatabaseMangaWhereInput
+  }
+
+
+  /**
+   * DatabaseManga upsert
+   */
+  export type DatabaseMangaUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+    /**
+     * The filter to search for the DatabaseManga to update in case it exists.
+     * 
+    **/
+    where: DatabaseMangaWhereUniqueInput
+    /**
+     * In case the DatabaseManga found by the `where` argument doesn't exist, create a new DatabaseManga with this data.
+     * 
+    **/
+    create: XOR<DatabaseMangaCreateInput, DatabaseMangaUncheckedCreateInput>
+    /**
+     * In case the DatabaseManga was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<DatabaseMangaUpdateInput, DatabaseMangaUncheckedUpdateInput>
+  }
+
+
+  /**
+   * DatabaseManga delete
+   */
+  export type DatabaseMangaDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+    /**
+     * Filter which DatabaseManga to delete.
+     * 
+    **/
+    where: DatabaseMangaWhereUniqueInput
+  }
+
+
+  /**
+   * DatabaseManga deleteMany
+   */
+  export type DatabaseMangaDeleteManyArgs = {
+    /**
+     * Filter which DatabaseMangas to delete
+     * 
+    **/
+    where?: DatabaseMangaWhereInput
+  }
+
+
+  /**
+   * DatabaseManga without action
+   */
+  export type DatabaseMangaArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseManga
+     * 
+    **/
+    select?: DatabaseMangaSelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -1560,6 +2389,16 @@ export namespace Prisma {
   };
 
   export type DatabaseUserScalarFieldEnum = (typeof DatabaseUserScalarFieldEnum)[keyof typeof DatabaseUserScalarFieldEnum]
+
+
+  export const DatabaseMangaScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    originalName: 'originalName',
+    uaName: 'uaName'
+  };
+
+  export type DatabaseMangaScalarFieldEnum = (typeof DatabaseMangaScalarFieldEnum)[keyof typeof DatabaseMangaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -1621,6 +2460,47 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter | string
   }
 
+  export type DatabaseMangaWhereInput = {
+    AND?: Enumerable<DatabaseMangaWhereInput>
+    OR?: Enumerable<DatabaseMangaWhereInput>
+    NOT?: Enumerable<DatabaseMangaWhereInput>
+    id?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    originalName?: StringFilter | string
+    uaName?: StringNullableFilter | string | null
+  }
+
+  export type DatabaseMangaOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    originalName?: SortOrder
+    uaName?: SortOrder
+  }
+
+  export type DatabaseMangaWhereUniqueInput = {
+    id?: string
+  }
+
+  export type DatabaseMangaOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    originalName?: SortOrder
+    uaName?: SortOrder
+    _count?: DatabaseMangaCountOrderByAggregateInput
+    _max?: DatabaseMangaMaxOrderByAggregateInput
+    _min?: DatabaseMangaMinOrderByAggregateInput
+  }
+
+  export type DatabaseMangaScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<DatabaseMangaScalarWhereWithAggregatesInput>
+    OR?: Enumerable<DatabaseMangaScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<DatabaseMangaScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    originalName?: StringWithAggregatesFilter | string
+    uaName?: StringNullableWithAggregatesFilter | string | null
+  }
+
   export type DatabaseUserCreateInput = {
     id?: string
     email: string
@@ -1661,6 +2541,55 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DatabaseMangaCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    originalName: string
+    uaName?: string | null
+  }
+
+  export type DatabaseMangaUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    originalName: string
+    uaName?: string | null
+  }
+
+  export type DatabaseMangaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    uaName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DatabaseMangaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    uaName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DatabaseMangaCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    originalName: string
+    uaName?: string | null
+  }
+
+  export type DatabaseMangaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    uaName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DatabaseMangaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    uaName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter = {
@@ -1714,8 +2643,95 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type DatabaseMangaCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    originalName?: SortOrder
+    uaName?: SortOrder
+  }
+
+  export type DatabaseMangaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    originalName?: SortOrder
+    uaName?: SortOrder
+  }
+
+  export type DatabaseMangaMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    originalName?: SortOrder
+    uaName?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type NestedStringFilter = {
@@ -1758,6 +2774,73 @@ export namespace Prisma {
     gt?: number
     gte?: number
     not?: NestedIntFilter | number
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type NestedStringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
   }
 
 

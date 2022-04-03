@@ -13,8 +13,6 @@ export class AppExceptionsFilter implements ExceptionFilter, GqlExceptionFilter 
     constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
     public catch(exception: Error, host: ArgumentsHost): ErrorResponse | void {
-        console.log('EXCEPTION', exception);
-
         const type = host.getType<'graphql' | 'http'>();
         const httpStatus = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
         const responseBody: ErrorResponse = {

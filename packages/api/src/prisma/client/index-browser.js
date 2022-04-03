@@ -82,6 +82,13 @@ exports.Prisma.DatabaseUserScalarFieldEnum = makeEnum({
   password: 'password'
 });
 
+exports.Prisma.DatabaseMangaScalarFieldEnum = makeEnum({
+  id: 'id',
+  createdAt: 'createdAt',
+  originalName: 'originalName',
+  uaName: 'uaName'
+});
+
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
@@ -94,7 +101,8 @@ exports.Prisma.QueryMode = makeEnum({
 
 
 exports.Prisma.ModelName = makeEnum({
-  DatabaseUser: 'DatabaseUser'
+  DatabaseUser: 'DatabaseUser',
+  DatabaseManga: 'DatabaseManga'
 });
 
 /**

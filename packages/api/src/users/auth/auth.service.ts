@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { UsersRepository } from '../users.repository';
+import { UsersRepository } from '../repository';
 import { CurrentUser } from './current-user.decorator';
 
 export type TokenPayload = { userId: string };

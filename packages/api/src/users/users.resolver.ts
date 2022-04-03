@@ -8,7 +8,6 @@ export class UsersResolver {
     @UseGuards(GqlAuthGuard)
     @Query(() => UserModel)
     public async currentUser(@QLCurrentUser() currentUser: CurrentUser): Promise<UserModel> {
-        console.log('CURRENT USER', currentUser);
         return currentUser;
     }
 }

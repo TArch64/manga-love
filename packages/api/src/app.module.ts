@@ -3,10 +3,10 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './users';
+import { MangasModule } from './mangas';
 
 @Module({
     imports: [
-        UsersModule,
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
             playground: {
@@ -17,7 +17,9 @@ import { UsersModule } from './users';
                 }
             },
             autoSchemaFile: join(process.cwd(), './schema.graphql')
-        })
+        }),
+        UsersModule,
+        MangasModule
     ]
 })
 export class AppModule {}

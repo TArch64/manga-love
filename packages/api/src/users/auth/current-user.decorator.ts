@@ -7,7 +7,6 @@ export type CurrentUser = Omit<DatabaseUser, 'password'>;
 export const QLCurrentUser = createParamDecorator<unknown, unknown, CurrentUser>(
     (data: unknown, context: ExecutionContext) => {
         const ctx = GqlExecutionContext.create(context);
-        console.log(ctx.getContext().req.user);
         return ctx.getContext().req.user;
     }
 );
