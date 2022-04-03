@@ -1,13 +1,15 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 import { UsersRepositoryModule } from '../users-repository.module';
 import { PublicUrlService } from '../../core/public-url.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { AuthMiddleware } from './auth.middleware';
+import { AuthStrategy } from './auth.strategy';
 
 @Module({
     imports: [
+        PassportModule,
         UsersRepositoryModule,
         JwtModule.register({
             secret: process.env.API_SECRET,
@@ -15,10 +17,10 @@ import { AuthMiddleware } from './auth.middleware';
         })
     ],
     controllers: [AuthController],
-    providers: [AuthService, PublicUrlService]
+    providers: [
+        AuthService,
+        PublicUrlService,
+        AuthStrategy
+    ]
 })
-export class AuthModule implements NestModule {
-    public configure(consumer: MiddlewareConsumer): void {
-        consumer.apply(AuthMiddleware).forRoutes('graphql');
-    }
-}
+export class AuthModule {}

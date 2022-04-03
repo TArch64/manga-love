@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Body, Get, Render, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Render, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { PublicUrlService } from '../../core/public-url.service';
 import { AuthService } from './auth.service';
@@ -24,10 +24,12 @@ export class AuthController {
     @Render('auth-sign-in.ejs')
     public signInPage(
         @Query('return') returnUrl?: string,
-            @Query('error') error?: string
+        @Query('error') error?: string
     ): SignInRender {
         return {
-            actionPath: this.publicUrl.resolve('auth/sign-in', { return: returnUrl }),
+            actionPath: this.publicUrl.resolve('auth/sign-in', {
+                return: returnUrl ?? this.publicUrl.resolve('graphql')
+            }),
             error
         };
     }
@@ -35,8 +37,8 @@ export class AuthController {
     @Post('sign-in')
     public async signIn(
         @Body() body: SignInBody,
-            @Query('return') returnUrl: string,
-            @Res() res: Response
+        @Query('return') returnUrl: string,
+        @Res() res: Response
     ): Promise<void> {
         try {
             const token = await this.authService.signIn(body.email, body.password);

@@ -198,7 +198,12 @@ module.exports = {
                     'error',
                     4,
                     {
-                        'SwitchCase': 1
+                        'SwitchCase': 1,
+                        'ignoredNodes': [
+                            'FunctionExpression > .params[decorators.length > 0]',
+                            'FunctionExpression > .params > :matches(Decorator, :not(:first-child))',
+                            'ClassBody.body > PropertyDefinition[decorators.length > 0] > .key'
+                        ]
                     }
                 ],
                 'linebreak-style': [
