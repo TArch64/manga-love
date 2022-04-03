@@ -1,4 +1,6 @@
 server {
+    access_log  off;
+
     location = /api {
         return 301 /api/;
     }

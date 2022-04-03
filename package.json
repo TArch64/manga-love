@@ -18,5 +18,8 @@
         "postcss-scss": "^4.0.3",
         "stylelint": "^14.6.1",
         "typescript": "^4.6.3"
+    },
+    "dependencies": {
+        "cookie-universal-nuxt": "^2.1.5"
     }
 }
