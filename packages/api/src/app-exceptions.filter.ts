@@ -1,11 +1,11 @@
-import {ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus} from '@nestjs/common';
-import {HttpAdapterHost} from "@nestjs/core";
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class AppExceptionsFilter implements ExceptionFilter {
     constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-    catch(exception: Error, host: ArgumentsHost): void {
+    public catch(exception: Error, host: ArgumentsHost): void {
         const { httpAdapter } = this.httpAdapterHost;
 
         const ctx = host.switchToHttp();
@@ -19,7 +19,7 @@ export class AppExceptionsFilter implements ExceptionFilter {
             statusCode: httpStatus,
             message: exception.message,
             timestamp: new Date().toISOString(),
-            path: httpAdapter.getRequestUrl(ctx.getRequest()),
+            path: httpAdapter.getRequestUrl(ctx.getRequest())
         };
 
         httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

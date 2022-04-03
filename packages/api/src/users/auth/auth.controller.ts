@@ -1,7 +1,7 @@
-import {Controller, Post, Res, Body, Get, Render, Query} from '@nestjs/common';
-import {Response} from 'express';
-import {AuthService} from "./auth.service";
-import {PublicUrlService} from "../../core/public-url.service";
+import { Controller, Post, Res, Body, Get, Render, Query } from '@nestjs/common';
+import { Response } from 'express';
+import { PublicUrlService } from '../../core/public-url.service';
+import { AuthService } from './auth.service';
 
 type SignInBody = {
     email: string;
@@ -22,21 +22,21 @@ export class AuthController {
 
     @Get('sign-in')
     @Render('auth-sign-in.ejs')
-    signInPage(
+    public signInPage(
         @Query('return') returnUrl?: string,
-        @Query('error') error?: string
+            @Query('error') error?: string
     ): SignInRender {
         return {
-            actionPath: this.publicUrl.resolve('auth/sign-in', {return: returnUrl}),
+            actionPath: this.publicUrl.resolve('auth/sign-in', { return: returnUrl }),
             error
-        }
+        };
     }
 
     @Post('sign-in')
-    async signIn(
+    public async signIn(
         @Body() body: SignInBody,
-        @Query('return') returnUrl: string,
-        @Res() res: Response
+            @Query('return') returnUrl: string,
+            @Res() res: Response
     ): Promise<void> {
         try {
             const token = await this.authService.signIn(body.email, body.password);
@@ -47,14 +47,14 @@ export class AuthController {
                 httpOnly: true
             });
 
-            if (returnUrl) res.redirect(returnUrl)
+            if (returnUrl) res.redirect(returnUrl);
         } catch (error) {
             if (!returnUrl) throw error;
 
             const url = this.publicUrl.resolve('auth/sign-in', {
                 return: returnUrl,
                 error: error.message
-            })
+            });
             res.redirect(url);
         }
     }

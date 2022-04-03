@@ -1,10 +1,10 @@
-import {MiddlewareConsumer, Module, NestModule} from "@nestjs/common";
-import {AuthService} from "./auth.service";
-import {AuthController} from "./auth.controller";
-import {UsersRepositoryModule} from "../users-repository.module";
-import {JwtModule} from "@nestjs/jwt";
-import {AuthMiddleware} from "./auth.middleware";
-import {PublicUrlService} from "../../core/public-url.service";
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersRepositoryModule } from '../users-repository.module';
+import { PublicUrlService } from '../../core/public-url.service';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { AuthMiddleware } from './auth.middleware';
 
 @Module({
     imports: [
@@ -18,7 +18,7 @@ import {PublicUrlService} from "../../core/public-url.service";
     providers: [AuthService, PublicUrlService]
 })
 export class AuthModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
+    public configure(consumer: MiddlewareConsumer): void {
         consumer.apply(AuthMiddleware).forRoutes('graphql');
     }
 }
