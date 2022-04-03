@@ -115,7 +115,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/project/packages/api/src/prisma/client",
+      "value": "/app/src/prisma/client",
       "fromEnvVar": null
     },
     "config": {

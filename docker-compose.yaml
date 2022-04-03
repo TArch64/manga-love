@@ -14,19 +14,18 @@ services:
       - ./.env
     depends_on:
       - api
+      - storefront
 
   api:
-    container_name: mange_love_api
+    container_name: manga_love_api
     build:
-      context: .
-      dockerfile: ./packages/api/Dockerfile
-    command: pnpm start:dev
-    working_dir: /project/packages/api
+      context: ./packages/api
+      dockerfile: ../../Dockerfile
+    command: npm run start:dev
+    stdin_open: true
     volumes:
-      - ./packages/api:/project/packages/api
-      - ./node_modules:/project/node_modules
-      - ./packages/api/node_modules:/project/packages/api/node_modules
-      - data_pnpm_storage:/pnpm-storage
+      - ./packages/api:/app
+      - ./packages/api/node_modules:/app/node_modules
     networks:
       - love
     env_file:
@@ -44,9 +43,24 @@ services:
     env_file:
       - ./.env
 
+  storefront:
+    container_name: manga_love_storefront
+    build:
+      context: ./packages/storefront
+      dockerfile: ../../Dockerfile
+    command: npm run dev -- --hostname 0.0.0.0
+    stdin_open: true
+    volumes:
+      - ./packages/storefront:/app
+      - ./packages/storefront/node_modules:/app/node_modules
+    ports:
+      - 24678:24678
+    networks:
+      - love
+    env_file:
+      - ./.env
+
 volumes:
-  data_pnpm_storage:
-    driver: local
   data_psql:
     driver: local
 
