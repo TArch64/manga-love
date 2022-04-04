@@ -84,6 +84,8 @@ exports.Prisma.DatabaseUserScalarFieldEnum = makeEnum({
 
 exports.Prisma.DatabaseMangaScalarFieldEnum = makeEnum({
   id: 'id',
+  sourceId: 'sourceId',
+  source: 'source',
   createdAt: 'createdAt',
   originalName: 'originalName',
   uaName: 'uaName'
@@ -98,7 +100,9 @@ exports.Prisma.QueryMode = makeEnum({
   default: 'default',
   insensitive: 'insensitive'
 });
-
+exports.DatabaseMangaSource = makeEnum({
+  KITSU: 'KITSU'
+});
 
 exports.Prisma.ModelName = makeEnum({
   DatabaseUser: 'DatabaseUser',

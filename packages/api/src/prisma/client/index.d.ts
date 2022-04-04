@@ -28,10 +28,26 @@ export type DatabaseUser = {
  */
 export type DatabaseManga = {
   id: string
+  sourceId: string
+  source: DatabaseMangaSource
   createdAt: Date
   originalName: string
   uaName: string | null
 }
+
+
+/**
+ * Enums
+ */
+
+// Based on
+// https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+export const DatabaseMangaSource: {
+  KITSU: 'KITSU'
+};
+
+export type DatabaseMangaSource = (typeof DatabaseMangaSource)[keyof typeof DatabaseMangaSource]
 
 
 /**
@@ -1581,6 +1597,8 @@ export namespace Prisma {
 
   export type DatabaseMangaMinAggregateOutputType = {
     id: string | null
+    sourceId: string | null
+    source: DatabaseMangaSource | null
     createdAt: Date | null
     originalName: string | null
     uaName: string | null
@@ -1588,6 +1606,8 @@ export namespace Prisma {
 
   export type DatabaseMangaMaxAggregateOutputType = {
     id: string | null
+    sourceId: string | null
+    source: DatabaseMangaSource | null
     createdAt: Date | null
     originalName: string | null
     uaName: string | null
@@ -1595,6 +1615,8 @@ export namespace Prisma {
 
   export type DatabaseMangaCountAggregateOutputType = {
     id: number
+    sourceId: number
+    source: number
     createdAt: number
     originalName: number
     uaName: number
@@ -1604,6 +1626,8 @@ export namespace Prisma {
 
   export type DatabaseMangaMinAggregateInputType = {
     id?: true
+    sourceId?: true
+    source?: true
     createdAt?: true
     originalName?: true
     uaName?: true
@@ -1611,6 +1635,8 @@ export namespace Prisma {
 
   export type DatabaseMangaMaxAggregateInputType = {
     id?: true
+    sourceId?: true
+    source?: true
     createdAt?: true
     originalName?: true
     uaName?: true
@@ -1618,6 +1644,8 @@ export namespace Prisma {
 
   export type DatabaseMangaCountAggregateInputType = {
     id?: true
+    sourceId?: true
+    source?: true
     createdAt?: true
     originalName?: true
     uaName?: true
@@ -1704,6 +1732,8 @@ export namespace Prisma {
 
   export type DatabaseMangaGroupByOutputType = {
     id: string
+    sourceId: string
+    source: DatabaseMangaSource
     createdAt: Date
     originalName: string
     uaName: string | null
@@ -1728,6 +1758,8 @@ export namespace Prisma {
 
   export type DatabaseMangaSelect = {
     id?: boolean
+    sourceId?: boolean
+    source?: boolean
     createdAt?: boolean
     originalName?: boolean
     uaName?: boolean
@@ -2393,6 +2425,8 @@ export namespace Prisma {
 
   export const DatabaseMangaScalarFieldEnum: {
     id: 'id',
+    sourceId: 'sourceId',
+    source: 'source',
     createdAt: 'createdAt',
     originalName: 'originalName',
     uaName: 'uaName'
@@ -2465,6 +2499,8 @@ export namespace Prisma {
     OR?: Enumerable<DatabaseMangaWhereInput>
     NOT?: Enumerable<DatabaseMangaWhereInput>
     id?: StringFilter | string
+    sourceId?: StringFilter | string
+    source?: EnumDatabaseMangaSourceFilter | DatabaseMangaSource
     createdAt?: DateTimeFilter | Date | string
     originalName?: StringFilter | string
     uaName?: StringNullableFilter | string | null
@@ -2472,6 +2508,8 @@ export namespace Prisma {
 
   export type DatabaseMangaOrderByWithRelationInput = {
     id?: SortOrder
+    sourceId?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
@@ -2479,10 +2517,13 @@ export namespace Prisma {
 
   export type DatabaseMangaWhereUniqueInput = {
     id?: string
+    sourceIdentifier?: DatabaseMangaSourceIdentifierCompoundUniqueInput
   }
 
   export type DatabaseMangaOrderByWithAggregationInput = {
     id?: SortOrder
+    sourceId?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
@@ -2496,6 +2537,8 @@ export namespace Prisma {
     OR?: Enumerable<DatabaseMangaScalarWhereWithAggregatesInput>
     NOT?: Enumerable<DatabaseMangaScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
+    sourceId?: StringWithAggregatesFilter | string
+    source?: EnumDatabaseMangaSourceWithAggregatesFilter | DatabaseMangaSource
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     originalName?: StringWithAggregatesFilter | string
     uaName?: StringNullableWithAggregatesFilter | string | null
@@ -2545,6 +2588,8 @@ export namespace Prisma {
 
   export type DatabaseMangaCreateInput = {
     id?: string
+    sourceId: string
+    source: DatabaseMangaSource
     createdAt?: Date | string
     originalName: string
     uaName?: string | null
@@ -2552,6 +2597,8 @@ export namespace Prisma {
 
   export type DatabaseMangaUncheckedCreateInput = {
     id?: string
+    sourceId: string
+    source: DatabaseMangaSource
     createdAt?: Date | string
     originalName: string
     uaName?: string | null
@@ -2559,6 +2606,8 @@ export namespace Prisma {
 
   export type DatabaseMangaUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2566,6 +2615,8 @@ export namespace Prisma {
 
   export type DatabaseMangaUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2573,6 +2624,8 @@ export namespace Prisma {
 
   export type DatabaseMangaCreateManyInput = {
     id?: string
+    sourceId: string
+    source: DatabaseMangaSource
     createdAt?: Date | string
     originalName: string
     uaName?: string | null
@@ -2580,6 +2633,8 @@ export namespace Prisma {
 
   export type DatabaseMangaUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2587,6 +2642,8 @@ export namespace Prisma {
 
   export type DatabaseMangaUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sourceId?: StringFieldUpdateOperationsInput | string
+    source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2643,6 +2700,13 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type EnumDatabaseMangaSourceFilter = {
+    equals?: DatabaseMangaSource
+    in?: Enumerable<DatabaseMangaSource>
+    notIn?: Enumerable<DatabaseMangaSource>
+    not?: NestedEnumDatabaseMangaSourceFilter | DatabaseMangaSource
+  }
+
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -2669,8 +2733,15 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
+  export type DatabaseMangaSourceIdentifierCompoundUniqueInput = {
+    source: DatabaseMangaSource
+    sourceId: string
+  }
+
   export type DatabaseMangaCountOrderByAggregateInput = {
     id?: SortOrder
+    sourceId?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
@@ -2678,6 +2749,8 @@ export namespace Prisma {
 
   export type DatabaseMangaMaxOrderByAggregateInput = {
     id?: SortOrder
+    sourceId?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
@@ -2685,9 +2758,21 @@ export namespace Prisma {
 
   export type DatabaseMangaMinOrderByAggregateInput = {
     id?: SortOrder
+    sourceId?: SortOrder
+    source?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
+  }
+
+  export type EnumDatabaseMangaSourceWithAggregatesFilter = {
+    equals?: DatabaseMangaSource
+    in?: Enumerable<DatabaseMangaSource>
+    notIn?: Enumerable<DatabaseMangaSource>
+    not?: NestedEnumDatabaseMangaSourceWithAggregatesFilter | DatabaseMangaSource
+    _count?: NestedIntFilter
+    _min?: NestedEnumDatabaseMangaSourceFilter
+    _max?: NestedEnumDatabaseMangaSourceFilter
   }
 
   export type DateTimeWithAggregatesFilter = {
@@ -2724,6 +2809,10 @@ export namespace Prisma {
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type EnumDatabaseMangaSourceFieldUpdateOperationsInput = {
+    set?: DatabaseMangaSource
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -2776,6 +2865,13 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
+  export type NestedEnumDatabaseMangaSourceFilter = {
+    equals?: DatabaseMangaSource
+    in?: Enumerable<DatabaseMangaSource>
+    notIn?: Enumerable<DatabaseMangaSource>
+    not?: NestedEnumDatabaseMangaSourceFilter | DatabaseMangaSource
+  }
+
   export type NestedDateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -2799,6 +2895,16 @@ export namespace Prisma {
     startsWith?: string
     endsWith?: string
     not?: NestedStringNullableFilter | string | null
+  }
+
+  export type NestedEnumDatabaseMangaSourceWithAggregatesFilter = {
+    equals?: DatabaseMangaSource
+    in?: Enumerable<DatabaseMangaSource>
+    notIn?: Enumerable<DatabaseMangaSource>
+    not?: NestedEnumDatabaseMangaSourceWithAggregatesFilter | DatabaseMangaSource
+    _count?: NestedIntFilter
+    _min?: NestedEnumDatabaseMangaSourceFilter
+    _max?: NestedEnumDatabaseMangaSourceFilter
   }
 
   export type NestedDateTimeWithAggregatesFilter = {

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, Render, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { PublicUrlService } from '../../core/public-url.service';
+import { PublicUrlService } from '../../core';
 import { AuthService } from './auth.service';
 
 type SignInBody = {

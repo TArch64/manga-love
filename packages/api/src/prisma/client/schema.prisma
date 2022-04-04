@@ -17,9 +17,17 @@ model DatabaseUser {
     password String @db.VarChar(200)
 }
 
+enum DatabaseMangaSource {
+    KITSU
+}
+
 model DatabaseManga {
     id String @id @default(uuid())
+    sourceId String @db.VarChar(200)
+    source DatabaseMangaSource
     createdAt DateTime @default(now())
     originalName String @db.VarChar(200)
     uaName String? @db.VarChar(200)
+
+    @@unique([source, sourceId], name: "sourceIdentifier")
 }
