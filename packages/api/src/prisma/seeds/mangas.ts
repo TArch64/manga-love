@@ -1,21 +1,22 @@
-import { client, DatabaseMangaSource } from '../client-provider';
+import { client } from '../client-provider';
 import { KitsuMangaMigrationFactory, KitsuManga } from '../../kitsu';
 import * as kitsuSnapshot from './mangas-kitsu-snapshot.json';
 
 export async function seedMangas(): Promise<void> {
-    const mangas = kitsuSnapshot as KitsuManga[];
     const migrationFactory = new KitsuMangaMigrationFactory();
+    const migrations = migrationFactory.migrateList(kitsuSnapshot as KitsuManga[]);
 
-    for (const manga of mangas) {
+    for (const { poster, manga } of migrations) {
+        await client.databaseImage.upsert({
+            where: { id: poster.id },
+            update: {},
+            create: poster
+        });
+
         await client.databaseManga.upsert({
-            where: {
-                sourceIdentifier: {
-                    source: DatabaseMangaSource.KITSU,
-                    sourceId: manga.id
-                }
-            },
-            create: migrationFactory.migrateManga(manga),
-            update: {}
+            where: { id: manga.id },
+            update: {},
+            create: manga
         });
     }
 }

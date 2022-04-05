@@ -1,11 +1,16 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { DatabaseMangaType } from '../../prisma';
+import { DatabaseManga, DatabaseMangaType } from '../../prisma';
+import { MangaPosterModel } from './manga-poster.model';
 
 registerEnumType(DatabaseMangaType, { name: 'MangaType' });
 
-@ObjectType({ description: 'Manga' })
+@ObjectType('Manga')
 export class MangaModel {
-    @Field((type) => ID)
+    constructor(model: DatabaseManga) {
+        Object.assign(this, model);
+    }
+
+    @Field(() => ID)
     public id: string;
 
     @Field()
@@ -20,7 +25,7 @@ export class MangaModel {
     @Field()
     public description: string;
 
-    @Field(() => DatabaseMangaType, { name: '' })
+    @Field(() => DatabaseMangaType)
     public type: DatabaseMangaType;
 
     @Field({ nullable: true })
@@ -28,4 +33,7 @@ export class MangaModel {
 
     @Field({ nullable: true })
     public finishDate: Date;
+
+    @Field(() => [MangaPosterModel])
+    public posters: MangaPosterModel[];
 }

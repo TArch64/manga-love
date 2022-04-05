@@ -1,18 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseMangaSource, DatabaseMangaType, Prisma } from '../../prisma';
-import { KitsuManga, KitsuMangaSubtype } from './kitsu-manga.model';
+import { v4 as generateUUID } from 'uuid';
+import { DatabaseImageEdgeTarget, DatabaseMangaSource, DatabaseMangaType, Prisma } from '../../prisma';
+import { KitsuManga, KitsuMangaSubtype, KitsuMangaPoster } from './kitsu-manga.model';
+
+interface KitsuMangaMigration {
+    poster: Prisma.DatabaseImageCreateInput;
+    manga: Prisma.DatabaseMangaCreateInput;
+}
 
 @Injectable()
 export class KitsuMangaMigrationFactory {
-    public migrateManga({ id, attributes }: KitsuManga): Prisma.DatabaseMangaCreateInput {
+    public migrateList(inputs: KitsuManga[]): KitsuMangaMigration[] {
+        return inputs.map(this.migrate.bind(this));
+    }
+
+    public migrate(input: KitsuManga): KitsuMangaMigration {
+        const manga = this.migrateManga(input);
+        const poster = this.migratePoster(manga.id, input.attributes.posterImage);
+        return { poster, manga };
+    }
+
+    private migrateManga({ id, attributes }: KitsuManga): KitsuMangaMigration['manga'] {
+        const mangaId = generateUUID();
+
         return {
+            id: mangaId,
             source: DatabaseMangaSource.KITSU,
             sourceId: id,
             originalName: attributes.canonicalTitle,
             description: this.migrateDescription(attributes.description),
             releaseDate: attributes.startDate ? new Date(attributes.startDate) : null,
             finishDate: attributes.endDate ? new Date(attributes.endDate) : null,
-            type: this.migrateType(attributes.subtype)
+            type: this.migrateType(attributes.subtype),
+            posterEdge: {
+                connect: {
+                    imageEdgeIdentifier: {
+                        targetId: mangaId,
+                        type: DatabaseImageEdgeTarget.MANGA
+                    }
+                }
+            }
         };
     }
 
@@ -30,5 +57,21 @@ export class KitsuMangaMigrationFactory {
     private migrateDescription(input: string): string {
         if (input.toLowerCase().includes('no synopsis')) return '';
         return input;
+    }
+
+    private migratePoster(mangaId, input: KitsuMangaPoster): KitsuMangaMigration['poster'] {
+        const { width, height } = input.meta.dimensions.medium;
+
+        return {
+            id: generateUUID(),
+            originalSrc: input.original,
+            originalAspectRatio: width / height,
+            edge: {
+                create: {
+                    type: DatabaseImageEdgeTarget.MANGA,
+                    targetId: mangaId
+                }
+            }
+        };
     }
 }

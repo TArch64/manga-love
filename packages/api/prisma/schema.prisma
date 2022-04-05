@@ -25,7 +25,8 @@ model DatabaseManga {
     type         DatabaseMangaType
     releaseDate  DateTime?           @db.Date
     finishDate   DateTime?           @db.Date
-    poster       DatabasePoster?
+    posterEdgeId String
+    posterEdge   DatabaseImageEdge   @relation(fields: [posterEdgeId], references: [id], onDelete: Cascade)
 
     @@unique([source, sourceId], name: "sourceIdentifier")
 }
@@ -40,11 +41,24 @@ enum DatabaseMangaType {
     MANHWA
 }
 
-model DatabasePoster {
-    id             String        @id @default(uuid())
-    originalSrc    String
-    originalWidth  Int
-    originalHeight Int
-    mangaId        String
-    manga          DatabaseManga @relation(fields: [mangaId], references: [id])
+model DatabaseImage {
+    id                   String             @id @default(uuid())
+    originalSrc          String
+    originalAspectRatio  Float
+    edgeId               String
+    edge                 DatabaseImageEdge  @relation(fields: [edgeId], references: [id], onDelete: Cascade)
+}
+
+enum DatabaseImageEdgeTarget {
+    MANGA
+}
+
+model DatabaseImageEdge {
+    id          String                  @id @default(uuid())
+    images      DatabaseImage[]
+    type        DatabaseImageEdgeTarget
+    targetId    String
+    targetManga DatabaseManga?
+
+    @@unique([type, targetId], name: "imageEdgeIdentifier")
 }

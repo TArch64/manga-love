@@ -8,24 +8,28 @@ export enum KitsuMangaSubtype {
     ONE_SHOT = 'oneshot'
 }
 
+export interface KitsuMangaPoster {
+    original: string;
+
+    meta: {
+        dimensions: {
+            medium: {
+                width: number;
+                height: number;
+            };
+        };
+    };
+}
+
 export interface KitsuManga {
     id: string;
+
     attributes: {
         canonicalTitle: string;
         description: string;
         startDate: string | null;
         endDate: string | null;
         subtype: KitsuMangaSubtype;
-        posterImage: {
-            original: string;
-            meta: {
-                dimensions: {
-                    medium: {
-                        width: number;
-                        height: number;
-                    };
-                };
-            };
-        };
+        posterImage: KitsuMangaPoster;
     };
 }

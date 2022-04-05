@@ -2,14 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""Manga Lover """
-type UserModel {
+type User {
   id: ID!
   email: String
 }
 
-"""Manga"""
-type MangaModel {
+type MangaPoster {
+  id: ID!
+  originalSrc: String!
+  originalAspectRatio: Float!
+}
+
+type Manga {
   id: ID!
   createdAt: DateTime!
   originalName: String!
@@ -18,6 +22,7 @@ type MangaModel {
   type: MangaType!
   releaseDate: DateTime
   finishDate: DateTime
+  posters: [MangaPoster!]!
 }
 
 """
@@ -32,6 +37,6 @@ enum MangaType {
 }
 
 type Query {
-  currentUser: UserModel!
-  mangas(offset: Float!, limit: Float!): [MangaModel!]!
+  currentUser: User!
+  mangas(offset: Float!, limit: Float!): [Manga!]!
 }
