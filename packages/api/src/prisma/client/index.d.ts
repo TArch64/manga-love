@@ -28,11 +28,27 @@ export type DatabaseUser = {
  */
 export type DatabaseManga = {
   id: string
-  sourceId: string
   source: DatabaseMangaSource
+  sourceId: string
   createdAt: Date
   originalName: string
   uaName: string | null
+  description: string
+  type: DatabaseMangaType
+  releaseDate: Date | null
+  finishDate: Date | null
+}
+
+/**
+ * Model DatabasePoster
+ * 
+ */
+export type DatabasePoster = {
+  id: string
+  originalSrc: string
+  originalWidth: number
+  originalHeight: number
+  mangaId: string
 }
 
 
@@ -48,6 +64,15 @@ export const DatabaseMangaSource: {
 };
 
 export type DatabaseMangaSource = (typeof DatabaseMangaSource)[keyof typeof DatabaseMangaSource]
+
+
+export const DatabaseMangaType: {
+  MANGA: 'MANGA',
+  MANHUA: 'MANHUA',
+  MANHWA: 'MANHWA'
+};
+
+export type DatabaseMangaType = (typeof DatabaseMangaType)[keyof typeof DatabaseMangaType]
 
 
 /**
@@ -209,6 +234,16 @@ export class PrismaClient<
     * ```
     */
   get databaseManga(): Prisma.DatabaseMangaDelegate<GlobalReject>;
+
+  /**
+   * `prisma.databasePoster`: Exposes CRUD operations for the **DatabasePoster** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DatabasePosters
+    * const databasePosters = await prisma.databasePoster.findMany()
+    * ```
+    */
+  get databasePoster(): Prisma.DatabasePosterDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -624,7 +659,8 @@ export namespace Prisma {
 
   export const ModelName: {
     DatabaseUser: 'DatabaseUser',
-    DatabaseManga: 'DatabaseManga'
+    DatabaseManga: 'DatabaseManga',
+    DatabasePoster: 'DatabasePoster'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1597,58 +1633,82 @@ export namespace Prisma {
 
   export type DatabaseMangaMinAggregateOutputType = {
     id: string | null
-    sourceId: string | null
     source: DatabaseMangaSource | null
+    sourceId: string | null
     createdAt: Date | null
     originalName: string | null
     uaName: string | null
+    description: string | null
+    type: DatabaseMangaType | null
+    releaseDate: Date | null
+    finishDate: Date | null
   }
 
   export type DatabaseMangaMaxAggregateOutputType = {
     id: string | null
-    sourceId: string | null
     source: DatabaseMangaSource | null
+    sourceId: string | null
     createdAt: Date | null
     originalName: string | null
     uaName: string | null
+    description: string | null
+    type: DatabaseMangaType | null
+    releaseDate: Date | null
+    finishDate: Date | null
   }
 
   export type DatabaseMangaCountAggregateOutputType = {
     id: number
-    sourceId: number
     source: number
+    sourceId: number
     createdAt: number
     originalName: number
     uaName: number
+    description: number
+    type: number
+    releaseDate: number
+    finishDate: number
     _all: number
   }
 
 
   export type DatabaseMangaMinAggregateInputType = {
     id?: true
-    sourceId?: true
     source?: true
+    sourceId?: true
     createdAt?: true
     originalName?: true
     uaName?: true
+    description?: true
+    type?: true
+    releaseDate?: true
+    finishDate?: true
   }
 
   export type DatabaseMangaMaxAggregateInputType = {
     id?: true
-    sourceId?: true
     source?: true
+    sourceId?: true
     createdAt?: true
     originalName?: true
     uaName?: true
+    description?: true
+    type?: true
+    releaseDate?: true
+    finishDate?: true
   }
 
   export type DatabaseMangaCountAggregateInputType = {
     id?: true
-    sourceId?: true
     source?: true
+    sourceId?: true
     createdAt?: true
     originalName?: true
     uaName?: true
+    description?: true
+    type?: true
+    releaseDate?: true
+    finishDate?: true
     _all?: true
   }
 
@@ -1732,11 +1792,15 @@ export namespace Prisma {
 
   export type DatabaseMangaGroupByOutputType = {
     id: string
-    sourceId: string
     source: DatabaseMangaSource
+    sourceId: string
     createdAt: Date
     originalName: string
     uaName: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate: Date | null
+    finishDate: Date | null
     _count: DatabaseMangaCountAggregateOutputType | null
     _min: DatabaseMangaMinAggregateOutputType | null
     _max: DatabaseMangaMaxAggregateOutputType | null
@@ -1758,11 +1822,20 @@ export namespace Prisma {
 
   export type DatabaseMangaSelect = {
     id?: boolean
-    sourceId?: boolean
     source?: boolean
+    sourceId?: boolean
     createdAt?: boolean
     originalName?: boolean
     uaName?: boolean
+    description?: boolean
+    type?: boolean
+    releaseDate?: boolean
+    finishDate?: boolean
+    poster?: boolean | DatabasePosterArgs
+  }
+
+  export type DatabaseMangaInclude = {
+    poster?: boolean | DatabasePosterArgs
   }
 
   export type DatabaseMangaGetPayload<
@@ -1774,11 +1847,14 @@ export namespace Prisma {
     ? never
     : S extends DatabaseMangaArgs | DatabaseMangaFindManyArgs
     ?'include' extends U
-    ? DatabaseManga 
+    ? DatabaseManga  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'poster' ? DatabasePosterGetPayload<S['include'][P]> | null :  never
+  } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof DatabaseManga ? DatabaseManga[P] : never
+        P extends 'poster' ? DatabasePosterGetPayload<S['select'][P]> | null :  P extends keyof DatabaseManga ? DatabaseManga[P] : never
   } 
     : DatabaseManga
   : DatabaseManga
@@ -2118,6 +2194,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    poster<T extends DatabasePosterArgs = {}>(args?: Subset<T, DatabasePosterArgs>): CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster | null >, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T> | null >>;
 
     private get _document();
     /**
@@ -2154,6 +2231,11 @@ export namespace Prisma {
     **/
     select?: DatabaseMangaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
+    /**
      * Throw an Error if a DatabaseManga can't be found
      * 
     **/
@@ -2175,6 +2257,11 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseMangaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
     /**
      * Throw an Error if a DatabaseManga can't be found
      * 
@@ -2233,6 +2320,11 @@ export namespace Prisma {
     **/
     select?: DatabaseMangaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
+    /**
      * Filter, which DatabaseMangas to fetch.
      * 
     **/
@@ -2279,6 +2371,11 @@ export namespace Prisma {
     **/
     select?: DatabaseMangaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
+    /**
      * The data needed to create a DatabaseManga.
      * 
     **/
@@ -2308,6 +2405,11 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseMangaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
     /**
      * The data needed to update a DatabaseManga.
      * 
@@ -2348,6 +2450,11 @@ export namespace Prisma {
     **/
     select?: DatabaseMangaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
+    /**
      * The filter to search for the DatabaseManga to update in case it exists.
      * 
     **/
@@ -2374,6 +2481,11 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseMangaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
     /**
      * Filter which DatabaseManga to delete.
      * 
@@ -2403,6 +2515,913 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseMangaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseMangaInclude | null
+  }
+
+
+
+  /**
+   * Model DatabasePoster
+   */
+
+
+  export type AggregateDatabasePoster = {
+    _count: DatabasePosterCountAggregateOutputType | null
+    _avg: DatabasePosterAvgAggregateOutputType | null
+    _sum: DatabasePosterSumAggregateOutputType | null
+    _min: DatabasePosterMinAggregateOutputType | null
+    _max: DatabasePosterMaxAggregateOutputType | null
+  }
+
+  export type DatabasePosterAvgAggregateOutputType = {
+    originalWidth: number | null
+    originalHeight: number | null
+  }
+
+  export type DatabasePosterSumAggregateOutputType = {
+    originalWidth: number | null
+    originalHeight: number | null
+  }
+
+  export type DatabasePosterMinAggregateOutputType = {
+    id: string | null
+    originalSrc: string | null
+    originalWidth: number | null
+    originalHeight: number | null
+    mangaId: string | null
+  }
+
+  export type DatabasePosterMaxAggregateOutputType = {
+    id: string | null
+    originalSrc: string | null
+    originalWidth: number | null
+    originalHeight: number | null
+    mangaId: string | null
+  }
+
+  export type DatabasePosterCountAggregateOutputType = {
+    id: number
+    originalSrc: number
+    originalWidth: number
+    originalHeight: number
+    mangaId: number
+    _all: number
+  }
+
+
+  export type DatabasePosterAvgAggregateInputType = {
+    originalWidth?: true
+    originalHeight?: true
+  }
+
+  export type DatabasePosterSumAggregateInputType = {
+    originalWidth?: true
+    originalHeight?: true
+  }
+
+  export type DatabasePosterMinAggregateInputType = {
+    id?: true
+    originalSrc?: true
+    originalWidth?: true
+    originalHeight?: true
+    mangaId?: true
+  }
+
+  export type DatabasePosterMaxAggregateInputType = {
+    id?: true
+    originalSrc?: true
+    originalWidth?: true
+    originalHeight?: true
+    mangaId?: true
+  }
+
+  export type DatabasePosterCountAggregateInputType = {
+    id?: true
+    originalSrc?: true
+    originalWidth?: true
+    originalHeight?: true
+    mangaId?: true
+    _all?: true
+  }
+
+  export type DatabasePosterAggregateArgs = {
+    /**
+     * Filter which DatabasePoster to aggregate.
+     * 
+    **/
+    where?: DatabasePosterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabasePosters to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabasePosterOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: DatabasePosterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabasePosters from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabasePosters.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DatabasePosters
+    **/
+    _count?: true | DatabasePosterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DatabasePosterAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DatabasePosterSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DatabasePosterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DatabasePosterMaxAggregateInputType
+  }
+
+  export type GetDatabasePosterAggregateType<T extends DatabasePosterAggregateArgs> = {
+        [P in keyof T & keyof AggregateDatabasePoster]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDatabasePoster[P]>
+      : GetScalarType<T[P], AggregateDatabasePoster[P]>
+  }
+
+
+
+
+  export type DatabasePosterGroupByArgs = {
+    where?: DatabasePosterWhereInput
+    orderBy?: Enumerable<DatabasePosterOrderByWithAggregationInput>
+    by: Array<DatabasePosterScalarFieldEnum>
+    having?: DatabasePosterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DatabasePosterCountAggregateInputType | true
+    _avg?: DatabasePosterAvgAggregateInputType
+    _sum?: DatabasePosterSumAggregateInputType
+    _min?: DatabasePosterMinAggregateInputType
+    _max?: DatabasePosterMaxAggregateInputType
+  }
+
+
+  export type DatabasePosterGroupByOutputType = {
+    id: string
+    originalSrc: string
+    originalWidth: number
+    originalHeight: number
+    mangaId: string
+    _count: DatabasePosterCountAggregateOutputType | null
+    _avg: DatabasePosterAvgAggregateOutputType | null
+    _sum: DatabasePosterSumAggregateOutputType | null
+    _min: DatabasePosterMinAggregateOutputType | null
+    _max: DatabasePosterMaxAggregateOutputType | null
+  }
+
+  type GetDatabasePosterGroupByPayload<T extends DatabasePosterGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<DatabasePosterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DatabasePosterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DatabasePosterGroupByOutputType[P]>
+            : GetScalarType<T[P], DatabasePosterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DatabasePosterSelect = {
+    id?: boolean
+    originalSrc?: boolean
+    originalWidth?: boolean
+    originalHeight?: boolean
+    mangaId?: boolean
+    manga?: boolean | DatabaseMangaArgs
+  }
+
+  export type DatabasePosterInclude = {
+    manga?: boolean | DatabaseMangaArgs
+  }
+
+  export type DatabasePosterGetPayload<
+    S extends boolean | null | undefined | DatabasePosterArgs,
+    U = keyof S
+      > = S extends true
+        ? DatabasePoster
+    : S extends undefined
+    ? never
+    : S extends DatabasePosterArgs | DatabasePosterFindManyArgs
+    ?'include' extends U
+    ? DatabasePoster  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'manga' ? DatabaseMangaGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'manga' ? DatabaseMangaGetPayload<S['select'][P]> :  P extends keyof DatabasePoster ? DatabasePoster[P] : never
+  } 
+    : DatabasePoster
+  : DatabasePoster
+
+
+  type DatabasePosterCountArgs = Merge<
+    Omit<DatabasePosterFindManyArgs, 'select' | 'include'> & {
+      select?: DatabasePosterCountAggregateInputType | true
+    }
+  >
+
+  export interface DatabasePosterDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one DatabasePoster that matches the filter.
+     * @param {DatabasePosterFindUniqueArgs} args - Arguments to find a DatabasePoster
+     * @example
+     * // Get one DatabasePoster
+     * const databasePoster = await prisma.databasePoster.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends DatabasePosterFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, DatabasePosterFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'DatabasePoster'> extends True ? CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster>, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T>>> : CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster | null >, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T> | null >>
+
+    /**
+     * Find the first DatabasePoster that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePosterFindFirstArgs} args - Arguments to find a DatabasePoster
+     * @example
+     * // Get one DatabasePoster
+     * const databasePoster = await prisma.databasePoster.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends DatabasePosterFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, DatabasePosterFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'DatabasePoster'> extends True ? CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster>, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T>>> : CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster | null >, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T> | null >>
+
+    /**
+     * Find zero or more DatabasePosters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePosterFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DatabasePosters
+     * const databasePosters = await prisma.databasePoster.findMany()
+     * 
+     * // Get first 10 DatabasePosters
+     * const databasePosters = await prisma.databasePoster.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const databasePosterWithIdOnly = await prisma.databasePoster.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends DatabasePosterFindManyArgs>(
+      args?: SelectSubset<T, DatabasePosterFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<DatabasePoster>>, PrismaPromise<Array<DatabasePosterGetPayload<T>>>>
+
+    /**
+     * Create a DatabasePoster.
+     * @param {DatabasePosterCreateArgs} args - Arguments to create a DatabasePoster.
+     * @example
+     * // Create one DatabasePoster
+     * const DatabasePoster = await prisma.databasePoster.create({
+     *   data: {
+     *     // ... data to create a DatabasePoster
+     *   }
+     * })
+     * 
+    **/
+    create<T extends DatabasePosterCreateArgs>(
+      args: SelectSubset<T, DatabasePosterCreateArgs>
+    ): CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster>, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T>>>
+
+    /**
+     * Create many DatabasePosters.
+     *     @param {DatabasePosterCreateManyArgs} args - Arguments to create many DatabasePosters.
+     *     @example
+     *     // Create many DatabasePosters
+     *     const databasePoster = await prisma.databasePoster.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends DatabasePosterCreateManyArgs>(
+      args?: SelectSubset<T, DatabasePosterCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a DatabasePoster.
+     * @param {DatabasePosterDeleteArgs} args - Arguments to delete one DatabasePoster.
+     * @example
+     * // Delete one DatabasePoster
+     * const DatabasePoster = await prisma.databasePoster.delete({
+     *   where: {
+     *     // ... filter to delete one DatabasePoster
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends DatabasePosterDeleteArgs>(
+      args: SelectSubset<T, DatabasePosterDeleteArgs>
+    ): CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster>, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T>>>
+
+    /**
+     * Update one DatabasePoster.
+     * @param {DatabasePosterUpdateArgs} args - Arguments to update one DatabasePoster.
+     * @example
+     * // Update one DatabasePoster
+     * const databasePoster = await prisma.databasePoster.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends DatabasePosterUpdateArgs>(
+      args: SelectSubset<T, DatabasePosterUpdateArgs>
+    ): CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster>, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T>>>
+
+    /**
+     * Delete zero or more DatabasePosters.
+     * @param {DatabasePosterDeleteManyArgs} args - Arguments to filter DatabasePosters to delete.
+     * @example
+     * // Delete a few DatabasePosters
+     * const { count } = await prisma.databasePoster.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends DatabasePosterDeleteManyArgs>(
+      args?: SelectSubset<T, DatabasePosterDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DatabasePosters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePosterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DatabasePosters
+     * const databasePoster = await prisma.databasePoster.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends DatabasePosterUpdateManyArgs>(
+      args: SelectSubset<T, DatabasePosterUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DatabasePoster.
+     * @param {DatabasePosterUpsertArgs} args - Arguments to update or create a DatabasePoster.
+     * @example
+     * // Update or create a DatabasePoster
+     * const databasePoster = await prisma.databasePoster.upsert({
+     *   create: {
+     *     // ... data to create a DatabasePoster
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DatabasePoster we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends DatabasePosterUpsertArgs>(
+      args: SelectSubset<T, DatabasePosterUpsertArgs>
+    ): CheckSelect<T, Prisma__DatabasePosterClient<DatabasePoster>, Prisma__DatabasePosterClient<DatabasePosterGetPayload<T>>>
+
+    /**
+     * Count the number of DatabasePosters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePosterCountArgs} args - Arguments to filter DatabasePosters to count.
+     * @example
+     * // Count the number of DatabasePosters
+     * const count = await prisma.databasePoster.count({
+     *   where: {
+     *     // ... the filter for the DatabasePosters we want to count
+     *   }
+     * })
+    **/
+    count<T extends DatabasePosterCountArgs>(
+      args?: Subset<T, DatabasePosterCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DatabasePosterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DatabasePoster.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePosterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DatabasePosterAggregateArgs>(args: Subset<T, DatabasePosterAggregateArgs>): PrismaPromise<GetDatabasePosterAggregateType<T>>
+
+    /**
+     * Group by DatabasePoster.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePosterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DatabasePosterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DatabasePosterGroupByArgs['orderBy'] }
+        : { orderBy?: DatabasePosterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DatabasePosterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDatabasePosterGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DatabasePoster.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__DatabasePosterClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    manga<T extends DatabaseMangaArgs = {}>(args?: Subset<T, DatabaseMangaArgs>): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga | null >, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * DatabasePoster findUnique
+   */
+  export type DatabasePosterFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
+    /**
+     * Throw an Error if a DatabasePoster can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which DatabasePoster to fetch.
+     * 
+    **/
+    where: DatabasePosterWhereUniqueInput
+  }
+
+
+  /**
+   * DatabasePoster findFirst
+   */
+  export type DatabasePosterFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
+    /**
+     * Throw an Error if a DatabasePoster can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which DatabasePoster to fetch.
+     * 
+    **/
+    where?: DatabasePosterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabasePosters to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabasePosterOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DatabasePosters.
+     * 
+    **/
+    cursor?: DatabasePosterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabasePosters from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabasePosters.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DatabasePosters.
+     * 
+    **/
+    distinct?: Enumerable<DatabasePosterScalarFieldEnum>
+  }
+
+
+  /**
+   * DatabasePoster findMany
+   */
+  export type DatabasePosterFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
+    /**
+     * Filter, which DatabasePosters to fetch.
+     * 
+    **/
+    where?: DatabasePosterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabasePosters to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabasePosterOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DatabasePosters.
+     * 
+    **/
+    cursor?: DatabasePosterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabasePosters from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabasePosters.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<DatabasePosterScalarFieldEnum>
+  }
+
+
+  /**
+   * DatabasePoster create
+   */
+  export type DatabasePosterCreateArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
+    /**
+     * The data needed to create a DatabasePoster.
+     * 
+    **/
+    data: XOR<DatabasePosterCreateInput, DatabasePosterUncheckedCreateInput>
+  }
+
+
+  /**
+   * DatabasePoster createMany
+   */
+  export type DatabasePosterCreateManyArgs = {
+    /**
+     * The data used to create many DatabasePosters.
+     * 
+    **/
+    data: Enumerable<DatabasePosterCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * DatabasePoster update
+   */
+  export type DatabasePosterUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
+    /**
+     * The data needed to update a DatabasePoster.
+     * 
+    **/
+    data: XOR<DatabasePosterUpdateInput, DatabasePosterUncheckedUpdateInput>
+    /**
+     * Choose, which DatabasePoster to update.
+     * 
+    **/
+    where: DatabasePosterWhereUniqueInput
+  }
+
+
+  /**
+   * DatabasePoster updateMany
+   */
+  export type DatabasePosterUpdateManyArgs = {
+    /**
+     * The data used to update DatabasePosters.
+     * 
+    **/
+    data: XOR<DatabasePosterUpdateManyMutationInput, DatabasePosterUncheckedUpdateManyInput>
+    /**
+     * Filter which DatabasePosters to update
+     * 
+    **/
+    where?: DatabasePosterWhereInput
+  }
+
+
+  /**
+   * DatabasePoster upsert
+   */
+  export type DatabasePosterUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
+    /**
+     * The filter to search for the DatabasePoster to update in case it exists.
+     * 
+    **/
+    where: DatabasePosterWhereUniqueInput
+    /**
+     * In case the DatabasePoster found by the `where` argument doesn't exist, create a new DatabasePoster with this data.
+     * 
+    **/
+    create: XOR<DatabasePosterCreateInput, DatabasePosterUncheckedCreateInput>
+    /**
+     * In case the DatabasePoster was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<DatabasePosterUpdateInput, DatabasePosterUncheckedUpdateInput>
+  }
+
+
+  /**
+   * DatabasePoster delete
+   */
+  export type DatabasePosterDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
+    /**
+     * Filter which DatabasePoster to delete.
+     * 
+    **/
+    where: DatabasePosterWhereUniqueInput
+  }
+
+
+  /**
+   * DatabasePoster deleteMany
+   */
+  export type DatabasePosterDeleteManyArgs = {
+    /**
+     * Filter which DatabasePosters to delete
+     * 
+    **/
+    where?: DatabasePosterWhereInput
+  }
+
+
+  /**
+   * DatabasePoster without action
+   */
+  export type DatabasePosterArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePoster
+     * 
+    **/
+    select?: DatabasePosterSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePosterInclude | null
   }
 
 
@@ -2425,14 +3444,29 @@ export namespace Prisma {
 
   export const DatabaseMangaScalarFieldEnum: {
     id: 'id',
-    sourceId: 'sourceId',
     source: 'source',
+    sourceId: 'sourceId',
     createdAt: 'createdAt',
     originalName: 'originalName',
-    uaName: 'uaName'
+    uaName: 'uaName',
+    description: 'description',
+    type: 'type',
+    releaseDate: 'releaseDate',
+    finishDate: 'finishDate'
   };
 
   export type DatabaseMangaScalarFieldEnum = (typeof DatabaseMangaScalarFieldEnum)[keyof typeof DatabaseMangaScalarFieldEnum]
+
+
+  export const DatabasePosterScalarFieldEnum: {
+    id: 'id',
+    originalSrc: 'originalSrc',
+    originalWidth: 'originalWidth',
+    originalHeight: 'originalHeight',
+    mangaId: 'mangaId'
+  };
+
+  export type DatabasePosterScalarFieldEnum = (typeof DatabasePosterScalarFieldEnum)[keyof typeof DatabasePosterScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2499,20 +3533,30 @@ export namespace Prisma {
     OR?: Enumerable<DatabaseMangaWhereInput>
     NOT?: Enumerable<DatabaseMangaWhereInput>
     id?: StringFilter | string
-    sourceId?: StringFilter | string
     source?: EnumDatabaseMangaSourceFilter | DatabaseMangaSource
+    sourceId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     originalName?: StringFilter | string
     uaName?: StringNullableFilter | string | null
+    description?: StringFilter | string
+    type?: EnumDatabaseMangaTypeFilter | DatabaseMangaType
+    releaseDate?: DateTimeNullableFilter | Date | string | null
+    finishDate?: DateTimeNullableFilter | Date | string | null
+    poster?: XOR<DatabasePosterRelationFilter, DatabasePosterWhereInput> | null
   }
 
   export type DatabaseMangaOrderByWithRelationInput = {
     id?: SortOrder
-    sourceId?: SortOrder
     source?: SortOrder
+    sourceId?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    releaseDate?: SortOrder
+    finishDate?: SortOrder
+    poster?: DatabasePosterOrderByWithRelationInput
   }
 
   export type DatabaseMangaWhereUniqueInput = {
@@ -2522,11 +3566,15 @@ export namespace Prisma {
 
   export type DatabaseMangaOrderByWithAggregationInput = {
     id?: SortOrder
-    sourceId?: SortOrder
     source?: SortOrder
+    sourceId?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    releaseDate?: SortOrder
+    finishDate?: SortOrder
     _count?: DatabaseMangaCountOrderByAggregateInput
     _max?: DatabaseMangaMaxOrderByAggregateInput
     _min?: DatabaseMangaMinOrderByAggregateInput
@@ -2537,11 +3585,65 @@ export namespace Prisma {
     OR?: Enumerable<DatabaseMangaScalarWhereWithAggregatesInput>
     NOT?: Enumerable<DatabaseMangaScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    sourceId?: StringWithAggregatesFilter | string
     source?: EnumDatabaseMangaSourceWithAggregatesFilter | DatabaseMangaSource
+    sourceId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     originalName?: StringWithAggregatesFilter | string
     uaName?: StringNullableWithAggregatesFilter | string | null
+    description?: StringWithAggregatesFilter | string
+    type?: EnumDatabaseMangaTypeWithAggregatesFilter | DatabaseMangaType
+    releaseDate?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    finishDate?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type DatabasePosterWhereInput = {
+    AND?: Enumerable<DatabasePosterWhereInput>
+    OR?: Enumerable<DatabasePosterWhereInput>
+    NOT?: Enumerable<DatabasePosterWhereInput>
+    id?: StringFilter | string
+    originalSrc?: StringFilter | string
+    originalWidth?: IntFilter | number
+    originalHeight?: IntFilter | number
+    mangaId?: StringFilter | string
+    manga?: XOR<DatabaseMangaRelationFilter, DatabaseMangaWhereInput>
+  }
+
+  export type DatabasePosterOrderByWithRelationInput = {
+    id?: SortOrder
+    originalSrc?: SortOrder
+    originalWidth?: SortOrder
+    originalHeight?: SortOrder
+    mangaId?: SortOrder
+    manga?: DatabaseMangaOrderByWithRelationInput
+  }
+
+  export type DatabasePosterWhereUniqueInput = {
+    id?: string
+    mangaId?: string
+  }
+
+  export type DatabasePosterOrderByWithAggregationInput = {
+    id?: SortOrder
+    originalSrc?: SortOrder
+    originalWidth?: SortOrder
+    originalHeight?: SortOrder
+    mangaId?: SortOrder
+    _count?: DatabasePosterCountOrderByAggregateInput
+    _avg?: DatabasePosterAvgOrderByAggregateInput
+    _max?: DatabasePosterMaxOrderByAggregateInput
+    _min?: DatabasePosterMinOrderByAggregateInput
+    _sum?: DatabasePosterSumOrderByAggregateInput
+  }
+
+  export type DatabasePosterScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<DatabasePosterScalarWhereWithAggregatesInput>
+    OR?: Enumerable<DatabasePosterScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<DatabasePosterScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    originalSrc?: StringWithAggregatesFilter | string
+    originalWidth?: IntWithAggregatesFilter | number
+    originalHeight?: IntWithAggregatesFilter | number
+    mangaId?: StringWithAggregatesFilter | string
   }
 
   export type DatabaseUserCreateInput = {
@@ -2588,65 +3690,152 @@ export namespace Prisma {
 
   export type DatabaseMangaCreateInput = {
     id?: string
-    sourceId: string
     source: DatabaseMangaSource
+    sourceId: string
     createdAt?: Date | string
     originalName: string
     uaName?: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate?: Date | string | null
+    finishDate?: Date | string | null
+    poster?: DatabasePosterCreateNestedOneWithoutMangaInput
   }
 
   export type DatabaseMangaUncheckedCreateInput = {
     id?: string
-    sourceId: string
     source: DatabaseMangaSource
+    sourceId: string
     createdAt?: Date | string
     originalName: string
     uaName?: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate?: Date | string | null
+    finishDate?: Date | string | null
+    poster?: DatabasePosterUncheckedCreateNestedOneWithoutMangaInput
   }
 
   export type DatabaseMangaUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sourceId?: StringFieldUpdateOperationsInput | string
     source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
+    sourceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
+    releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    poster?: DatabasePosterUpdateOneWithoutMangaInput
   }
 
   export type DatabaseMangaUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sourceId?: StringFieldUpdateOperationsInput | string
     source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
+    sourceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
+    releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    poster?: DatabasePosterUncheckedUpdateOneWithoutMangaInput
   }
 
   export type DatabaseMangaCreateManyInput = {
     id?: string
-    sourceId: string
     source: DatabaseMangaSource
+    sourceId: string
     createdAt?: Date | string
     originalName: string
     uaName?: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate?: Date | string | null
+    finishDate?: Date | string | null
   }
 
   export type DatabaseMangaUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sourceId?: StringFieldUpdateOperationsInput | string
     source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
+    sourceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
+    releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type DatabaseMangaUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sourceId?: StringFieldUpdateOperationsInput | string
     source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
+    sourceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     originalName?: StringFieldUpdateOperationsInput | string
     uaName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
+    releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DatabasePosterCreateInput = {
+    id?: string
+    originalSrc: string
+    originalWidth: number
+    originalHeight: number
+    manga: DatabaseMangaCreateNestedOneWithoutPosterInput
+  }
+
+  export type DatabasePosterUncheckedCreateInput = {
+    id?: string
+    originalSrc: string
+    originalWidth: number
+    originalHeight: number
+    mangaId: string
+  }
+
+  export type DatabasePosterUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalSrc?: StringFieldUpdateOperationsInput | string
+    originalWidth?: IntFieldUpdateOperationsInput | number
+    originalHeight?: IntFieldUpdateOperationsInput | number
+    manga?: DatabaseMangaUpdateOneRequiredWithoutPosterInput
+  }
+
+  export type DatabasePosterUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalSrc?: StringFieldUpdateOperationsInput | string
+    originalWidth?: IntFieldUpdateOperationsInput | number
+    originalHeight?: IntFieldUpdateOperationsInput | number
+    mangaId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DatabasePosterCreateManyInput = {
+    id?: string
+    originalSrc: string
+    originalWidth: number
+    originalHeight: number
+    mangaId: string
+  }
+
+  export type DatabasePosterUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalSrc?: StringFieldUpdateOperationsInput | string
+    originalWidth?: IntFieldUpdateOperationsInput | number
+    originalHeight?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type DatabasePosterUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalSrc?: StringFieldUpdateOperationsInput | string
+    originalWidth?: IntFieldUpdateOperationsInput | number
+    originalHeight?: IntFieldUpdateOperationsInput | number
+    mangaId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter = {
@@ -2733,6 +3922,29 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
+  export type EnumDatabaseMangaTypeFilter = {
+    equals?: DatabaseMangaType
+    in?: Enumerable<DatabaseMangaType>
+    notIn?: Enumerable<DatabaseMangaType>
+    not?: NestedEnumDatabaseMangaTypeFilter | DatabaseMangaType
+  }
+
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type DatabasePosterRelationFilter = {
+    is?: DatabasePosterWhereInput | null
+    isNot?: DatabasePosterWhereInput | null
+  }
+
   export type DatabaseMangaSourceIdentifierCompoundUniqueInput = {
     source: DatabaseMangaSource
     sourceId: string
@@ -2740,29 +3952,41 @@ export namespace Prisma {
 
   export type DatabaseMangaCountOrderByAggregateInput = {
     id?: SortOrder
-    sourceId?: SortOrder
     source?: SortOrder
+    sourceId?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    releaseDate?: SortOrder
+    finishDate?: SortOrder
   }
 
   export type DatabaseMangaMaxOrderByAggregateInput = {
     id?: SortOrder
-    sourceId?: SortOrder
     source?: SortOrder
+    sourceId?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    releaseDate?: SortOrder
+    finishDate?: SortOrder
   }
 
   export type DatabaseMangaMinOrderByAggregateInput = {
     id?: SortOrder
-    sourceId?: SortOrder
     source?: SortOrder
+    sourceId?: SortOrder
     createdAt?: SortOrder
     originalName?: SortOrder
     uaName?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    releaseDate?: SortOrder
+    finishDate?: SortOrder
   }
 
   export type EnumDatabaseMangaSourceWithAggregatesFilter = {
@@ -2807,8 +4031,110 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
+  export type EnumDatabaseMangaTypeWithAggregatesFilter = {
+    equals?: DatabaseMangaType
+    in?: Enumerable<DatabaseMangaType>
+    notIn?: Enumerable<DatabaseMangaType>
+    not?: NestedEnumDatabaseMangaTypeWithAggregatesFilter | DatabaseMangaType
+    _count?: NestedIntFilter
+    _min?: NestedEnumDatabaseMangaTypeFilter
+    _max?: NestedEnumDatabaseMangaTypeFilter
+  }
+
+  export type DateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type IntFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
+  }
+
+  export type DatabaseMangaRelationFilter = {
+    is?: DatabaseMangaWhereInput
+    isNot?: DatabaseMangaWhereInput
+  }
+
+  export type DatabasePosterCountOrderByAggregateInput = {
+    id?: SortOrder
+    originalSrc?: SortOrder
+    originalWidth?: SortOrder
+    originalHeight?: SortOrder
+    mangaId?: SortOrder
+  }
+
+  export type DatabasePosterAvgOrderByAggregateInput = {
+    originalWidth?: SortOrder
+    originalHeight?: SortOrder
+  }
+
+  export type DatabasePosterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    originalSrc?: SortOrder
+    originalWidth?: SortOrder
+    originalHeight?: SortOrder
+    mangaId?: SortOrder
+  }
+
+  export type DatabasePosterMinOrderByAggregateInput = {
+    id?: SortOrder
+    originalSrc?: SortOrder
+    originalWidth?: SortOrder
+    originalHeight?: SortOrder
+    mangaId?: SortOrder
+  }
+
+  export type DatabasePosterSumOrderByAggregateInput = {
+    originalWidth?: SortOrder
+    originalHeight?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedIntFilter
+    _min?: NestedIntFilter
+    _max?: NestedIntFilter
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type DatabasePosterCreateNestedOneWithoutMangaInput = {
+    create?: XOR<DatabasePosterCreateWithoutMangaInput, DatabasePosterUncheckedCreateWithoutMangaInput>
+    connectOrCreate?: DatabasePosterCreateOrConnectWithoutMangaInput
+    connect?: DatabasePosterWhereUniqueInput
+  }
+
+  export type DatabasePosterUncheckedCreateNestedOneWithoutMangaInput = {
+    create?: XOR<DatabasePosterCreateWithoutMangaInput, DatabasePosterUncheckedCreateWithoutMangaInput>
+    connectOrCreate?: DatabasePosterCreateOrConnectWithoutMangaInput
+    connect?: DatabasePosterWhereUniqueInput
   }
 
   export type EnumDatabaseMangaSourceFieldUpdateOperationsInput = {
@@ -2821,6 +4147,56 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type EnumDatabaseMangaTypeFieldUpdateOperationsInput = {
+    set?: DatabaseMangaType
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type DatabasePosterUpdateOneWithoutMangaInput = {
+    create?: XOR<DatabasePosterCreateWithoutMangaInput, DatabasePosterUncheckedCreateWithoutMangaInput>
+    connectOrCreate?: DatabasePosterCreateOrConnectWithoutMangaInput
+    upsert?: DatabasePosterUpsertWithoutMangaInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: DatabasePosterWhereUniqueInput
+    update?: XOR<DatabasePosterUpdateWithoutMangaInput, DatabasePosterUncheckedUpdateWithoutMangaInput>
+  }
+
+  export type DatabasePosterUncheckedUpdateOneWithoutMangaInput = {
+    create?: XOR<DatabasePosterCreateWithoutMangaInput, DatabasePosterUncheckedCreateWithoutMangaInput>
+    connectOrCreate?: DatabasePosterCreateOrConnectWithoutMangaInput
+    upsert?: DatabasePosterUpsertWithoutMangaInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: DatabasePosterWhereUniqueInput
+    update?: XOR<DatabasePosterUpdateWithoutMangaInput, DatabasePosterUncheckedUpdateWithoutMangaInput>
+  }
+
+  export type DatabaseMangaCreateNestedOneWithoutPosterInput = {
+    create?: XOR<DatabaseMangaCreateWithoutPosterInput, DatabaseMangaUncheckedCreateWithoutPosterInput>
+    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPosterInput
+    connect?: DatabaseMangaWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type DatabaseMangaUpdateOneRequiredWithoutPosterInput = {
+    create?: XOR<DatabaseMangaCreateWithoutPosterInput, DatabaseMangaUncheckedCreateWithoutPosterInput>
+    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPosterInput
+    upsert?: DatabaseMangaUpsertWithoutPosterInput
+    connect?: DatabaseMangaWhereUniqueInput
+    update?: XOR<DatabaseMangaUpdateWithoutPosterInput, DatabaseMangaUncheckedUpdateWithoutPosterInput>
   }
 
   export type NestedStringFilter = {
@@ -2897,6 +4273,24 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
+  export type NestedEnumDatabaseMangaTypeFilter = {
+    equals?: DatabaseMangaType
+    in?: Enumerable<DatabaseMangaType>
+    notIn?: Enumerable<DatabaseMangaType>
+    not?: NestedEnumDatabaseMangaTypeFilter | DatabaseMangaType
+  }
+
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
   export type NestedEnumDatabaseMangaSourceWithAggregatesFilter = {
     equals?: DatabaseMangaSource
     in?: Enumerable<DatabaseMangaSource>
@@ -2947,6 +4341,157 @@ export namespace Prisma {
     gt?: number
     gte?: number
     not?: NestedIntNullableFilter | number | null
+  }
+
+  export type NestedEnumDatabaseMangaTypeWithAggregatesFilter = {
+    equals?: DatabaseMangaType
+    in?: Enumerable<DatabaseMangaType>
+    notIn?: Enumerable<DatabaseMangaType>
+    not?: NestedEnumDatabaseMangaTypeWithAggregatesFilter | DatabaseMangaType
+    _count?: NestedIntFilter
+    _min?: NestedEnumDatabaseMangaTypeFilter
+    _max?: NestedEnumDatabaseMangaTypeFilter
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type NestedIntWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedIntFilter
+    _min?: NestedIntFilter
+    _max?: NestedIntFilter
+  }
+
+  export type NestedFloatFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
+  }
+
+  export type DatabasePosterCreateWithoutMangaInput = {
+    id?: string
+    originalSrc: string
+    originalWidth: number
+    originalHeight: number
+  }
+
+  export type DatabasePosterUncheckedCreateWithoutMangaInput = {
+    id?: string
+    originalSrc: string
+    originalWidth: number
+    originalHeight: number
+  }
+
+  export type DatabasePosterCreateOrConnectWithoutMangaInput = {
+    where: DatabasePosterWhereUniqueInput
+    create: XOR<DatabasePosterCreateWithoutMangaInput, DatabasePosterUncheckedCreateWithoutMangaInput>
+  }
+
+  export type DatabasePosterUpsertWithoutMangaInput = {
+    update: XOR<DatabasePosterUpdateWithoutMangaInput, DatabasePosterUncheckedUpdateWithoutMangaInput>
+    create: XOR<DatabasePosterCreateWithoutMangaInput, DatabasePosterUncheckedCreateWithoutMangaInput>
+  }
+
+  export type DatabasePosterUpdateWithoutMangaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalSrc?: StringFieldUpdateOperationsInput | string
+    originalWidth?: IntFieldUpdateOperationsInput | number
+    originalHeight?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type DatabasePosterUncheckedUpdateWithoutMangaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    originalSrc?: StringFieldUpdateOperationsInput | string
+    originalWidth?: IntFieldUpdateOperationsInput | number
+    originalHeight?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type DatabaseMangaCreateWithoutPosterInput = {
+    id?: string
+    source: DatabaseMangaSource
+    sourceId: string
+    createdAt?: Date | string
+    originalName: string
+    uaName?: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate?: Date | string | null
+    finishDate?: Date | string | null
+  }
+
+  export type DatabaseMangaUncheckedCreateWithoutPosterInput = {
+    id?: string
+    source: DatabaseMangaSource
+    sourceId: string
+    createdAt?: Date | string
+    originalName: string
+    uaName?: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate?: Date | string | null
+    finishDate?: Date | string | null
+  }
+
+  export type DatabaseMangaCreateOrConnectWithoutPosterInput = {
+    where: DatabaseMangaWhereUniqueInput
+    create: XOR<DatabaseMangaCreateWithoutPosterInput, DatabaseMangaUncheckedCreateWithoutPosterInput>
+  }
+
+  export type DatabaseMangaUpsertWithoutPosterInput = {
+    update: XOR<DatabaseMangaUpdateWithoutPosterInput, DatabaseMangaUncheckedUpdateWithoutPosterInput>
+    create: XOR<DatabaseMangaCreateWithoutPosterInput, DatabaseMangaUncheckedCreateWithoutPosterInput>
+  }
+
+  export type DatabaseMangaUpdateWithoutPosterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
+    sourceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    uaName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
+    releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DatabaseMangaUncheckedUpdateWithoutPosterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
+    sourceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    uaName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
+    releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

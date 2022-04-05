@@ -1,8 +1,12 @@
 import { client, DatabaseMangaSource } from '../client-provider';
-import * as kitsuSnapshot from './kitsu-snapshot.json';
+import { KitsuMangaMigrationFactory, KitsuManga } from '../../kitsu';
+import * as kitsuSnapshot from './mangas-kitsu-snapshot.json';
 
 export async function seedMangas(): Promise<void> {
-    for (const manga of kitsuSnapshot) {
+    const mangas = kitsuSnapshot as KitsuManga[];
+    const migrationFactory = new KitsuMangaMigrationFactory();
+
+    for (const manga of mangas) {
         await client.databaseManga.upsert({
             where: {
                 sourceIdentifier: {
@@ -10,11 +14,7 @@ export async function seedMangas(): Promise<void> {
                     sourceId: manga.id
                 }
             },
-            create: {
-                source: DatabaseMangaSource.KITSU,
-                sourceId: manga.id,
-                originalName: manga.attributes.canonicalTitle
-            },
+            create: migrationFactory.migrateManga(manga),
             update: {}
         });
     }

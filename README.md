@@ -15,11 +15,11 @@
 ```shell
 docker compose run --rm api npm run prisma:generate
 ```
-3. Add seeds and execute them
-```shell
-docker compose run --rm api npm run prisma:seeds
-```
-4. Generate migration
+3. Generate migration
 ```shell
 docker compose run --rm api npm run prisma:migrate "migration name here"
+```
+4. Add seeds and execute them
+```shell
+docker compose run --rm api npm run prisma:seeds
 ```

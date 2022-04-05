@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
   output = "../src/prisma/client"
@@ -12,22 +9,42 @@ datasource db {
 }
 
 model DatabaseUser {
-    id String @id @default(uuid())
-    email String @unique @db.VarChar(200)
+    id       String @id @default(uuid())
+    email    String @db.VarChar(200) @unique
     password String @db.VarChar(200)
+}
+
+model DatabaseManga {
+    id           String              @id @default(uuid())
+    source       DatabaseMangaSource
+    sourceId     String              @db.VarChar(200)
+    createdAt    DateTime            @default(now())
+    originalName String              @db.VarChar(200)
+    uaName       String?             @db.VarChar(200)
+    description  String
+    type         DatabaseMangaType
+    releaseDate  DateTime?           @db.Date
+    finishDate   DateTime?           @db.Date
+    poster       DatabasePoster?
+
+    @@unique([source, sourceId], name: "sourceIdentifier")
 }
 
 enum DatabaseMangaSource {
     KITSU
 }
 
-model DatabaseManga {
-    id String @id @default(uuid())
-    sourceId String @db.VarChar(200)
-    source DatabaseMangaSource
-    createdAt DateTime @default(now())
-    originalName String @db.VarChar(200)
-    uaName String? @db.VarChar(200)
+enum DatabaseMangaType {
+    MANGA
+    MANHUA
+    MANHWA
+}
 
-    @@unique([source, sourceId], name: "sourceIdentifier")
+model DatabasePoster {
+    id             String        @id @default(uuid())
+    originalSrc    String
+    originalWidth  Int
+    originalHeight Int
+    mangaId        String
+    manga          DatabaseManga @relation(fields: [mangaId], references: [id])
 }

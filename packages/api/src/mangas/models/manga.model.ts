@@ -1,4 +1,7 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { DatabaseMangaType } from '../../prisma';
+
+registerEnumType(DatabaseMangaType, { name: 'MangaType' });
 
 @ObjectType({ description: 'Manga' })
 export class MangaModel {
@@ -13,4 +16,16 @@ export class MangaModel {
 
     @Field({ nullable: true })
     public uaName: string;
+
+    @Field()
+    public description: string;
+
+    @Field(() => DatabaseMangaType, { name: '' })
+    public type: DatabaseMangaType;
+
+    @Field({ nullable: true })
+    public releaseDate: Date;
+
+    @Field({ nullable: true })
+    public finishDate: Date;
 }

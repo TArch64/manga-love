@@ -84,11 +84,23 @@ exports.Prisma.DatabaseUserScalarFieldEnum = makeEnum({
 
 exports.Prisma.DatabaseMangaScalarFieldEnum = makeEnum({
   id: 'id',
-  sourceId: 'sourceId',
   source: 'source',
+  sourceId: 'sourceId',
   createdAt: 'createdAt',
   originalName: 'originalName',
-  uaName: 'uaName'
+  uaName: 'uaName',
+  description: 'description',
+  type: 'type',
+  releaseDate: 'releaseDate',
+  finishDate: 'finishDate'
+});
+
+exports.Prisma.DatabasePosterScalarFieldEnum = makeEnum({
+  id: 'id',
+  originalSrc: 'originalSrc',
+  originalWidth: 'originalWidth',
+  originalHeight: 'originalHeight',
+  mangaId: 'mangaId'
 });
 
 exports.Prisma.SortOrder = makeEnum({
@@ -104,9 +116,16 @@ exports.DatabaseMangaSource = makeEnum({
   KITSU: 'KITSU'
 });
 
+exports.DatabaseMangaType = makeEnum({
+  MANGA: 'MANGA',
+  MANHUA: 'MANHUA',
+  MANHWA: 'MANHWA'
+});
+
 exports.Prisma.ModelName = makeEnum({
   DatabaseUser: 'DatabaseUser',
-  DatabaseManga: 'DatabaseManga'
+  DatabaseManga: 'DatabaseManga',
+  DatabasePoster: 'DatabasePoster'
 });
 
 /**
