@@ -1,26 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as generateUUID } from 'uuid';
-import { DatabaseImageEdgeTarget, DatabaseMangaSource, DatabaseMangaType, Prisma } from '../../prisma';
+import { DatabaseMangaSource, DatabaseMangaType, Prisma } from '../../prisma';
 import { KitsuManga, KitsuMangaSubtype, KitsuMangaPoster } from './kitsu-manga.model';
-
-interface KitsuMangaMigration {
-    poster: Prisma.DatabaseImageCreateInput;
-    manga: Prisma.DatabaseMangaCreateInput;
-}
 
 @Injectable()
 export class KitsuMangaMigrationFactory {
-    public migrateList(inputs: KitsuManga[]): KitsuMangaMigration[] {
+    public migrateList(inputs: KitsuManga[]): Prisma.DatabaseMangaCreateInput[] {
         return inputs.map(this.migrate.bind(this));
     }
 
-    public migrate(input: KitsuManga): KitsuMangaMigration {
-        const manga = this.migrateManga(input);
-        const poster = this.migratePoster(manga.id, input.attributes.posterImage);
-        return { poster, manga };
-    }
-
-    private migrateManga({ id, attributes }: KitsuManga): KitsuMangaMigration['manga'] {
+    public migrate({ id, attributes }: KitsuManga): Prisma.DatabaseMangaCreateInput {
         const mangaId = generateUUID();
 
         return {
@@ -32,13 +21,8 @@ export class KitsuMangaMigrationFactory {
             releaseDate: attributes.startDate ? new Date(attributes.startDate) : null,
             finishDate: attributes.endDate ? new Date(attributes.endDate) : null,
             type: this.migrateType(attributes.subtype),
-            posterEdge: {
-                connect: {
-                    imageEdgeIdentifier: {
-                        targetId: mangaId,
-                        type: DatabaseImageEdgeTarget.MANGA
-                    }
-                }
+            posters: {
+                create: [this.migratePoster(attributes.posterImage)]
             }
         };
     }
@@ -59,19 +43,13 @@ export class KitsuMangaMigrationFactory {
         return input;
     }
 
-    private migratePoster(mangaId, input: KitsuMangaPoster): KitsuMangaMigration['poster'] {
+    private migratePoster(input: KitsuMangaPoster): Prisma.DatabaseImageCreateWithoutTargetMangaInput {
         const { width, height } = input.meta.dimensions.medium;
 
         return {
             id: generateUUID(),
             originalSrc: input.original,
-            originalAspectRatio: width / height,
-            edge: {
-                create: {
-                    type: DatabaseImageEdgeTarget.MANGA,
-                    targetId: mangaId
-                }
-            }
+            originalAspectRatio: width / height
         };
     }
 }

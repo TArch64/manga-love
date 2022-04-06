@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseImage, DatabaseImageEdgeTarget, DatabaseManga, PrismaService } from '../../prisma';
+import { DatabaseImage, DatabaseManga, PrismaService } from '../../prisma';
 
 export interface MangaFilter {
     offset: number;
@@ -19,15 +19,10 @@ export class MangasRepository {
     }
 
     public async getPostersByMangaId(mangaId: string): Promise<DatabaseImage[]> {
-        const edge = this.prisma.databaseImageEdge.findUnique({
-            where: {
-                imageEdgeIdentifier: {
-                    targetId: mangaId,
-                    type: DatabaseImageEdgeTarget.MANGA
-                }
-            }
+        const edge = this.prisma.databaseManga.findUnique({
+            where: { id: mangaId }
         });
 
-        return edge.images();
+        return edge.posters();
     }
 }

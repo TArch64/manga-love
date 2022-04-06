@@ -37,7 +37,6 @@ export type DatabaseManga = {
   type: DatabaseMangaType
   releaseDate: Date | null
   finishDate: Date | null
-  posterEdgeId: string
 }
 
 /**
@@ -48,16 +47,6 @@ export type DatabaseImage = {
   id: string
   originalSrc: string
   originalAspectRatio: number
-  edgeId: string
-}
-
-/**
- * Model DatabaseImageEdge
- * 
- */
-export type DatabaseImageEdge = {
-  id: string
-  type: DatabaseImageEdgeTarget
   targetId: string
 }
 
@@ -83,13 +72,6 @@ export const DatabaseMangaType: {
 };
 
 export type DatabaseMangaType = (typeof DatabaseMangaType)[keyof typeof DatabaseMangaType]
-
-
-export const DatabaseImageEdgeTarget: {
-  MANGA: 'MANGA'
-};
-
-export type DatabaseImageEdgeTarget = (typeof DatabaseImageEdgeTarget)[keyof typeof DatabaseImageEdgeTarget]
 
 
 /**
@@ -261,16 +243,6 @@ export class PrismaClient<
     * ```
     */
   get databaseImage(): Prisma.DatabaseImageDelegate<GlobalReject>;
-
-  /**
-   * `prisma.databaseImageEdge`: Exposes CRUD operations for the **DatabaseImageEdge** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more DatabaseImageEdges
-    * const databaseImageEdges = await prisma.databaseImageEdge.findMany()
-    * ```
-    */
-  get databaseImageEdge(): Prisma.DatabaseImageEdgeDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -687,8 +659,7 @@ export namespace Prisma {
   export const ModelName: {
     DatabaseUser: 'DatabaseUser',
     DatabaseManga: 'DatabaseManga',
-    DatabaseImage: 'DatabaseImage',
-    DatabaseImageEdge: 'DatabaseImageEdge'
+    DatabaseImage: 'DatabaseImage'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -845,35 +816,35 @@ export namespace Prisma {
 
 
   /**
-   * Count Type DatabaseImageEdgeCountOutputType
+   * Count Type DatabaseMangaCountOutputType
    */
 
 
-  export type DatabaseImageEdgeCountOutputType = {
-    images: number
+  export type DatabaseMangaCountOutputType = {
+    posters: number
   }
 
-  export type DatabaseImageEdgeCountOutputTypeSelect = {
-    images?: boolean
+  export type DatabaseMangaCountOutputTypeSelect = {
+    posters?: boolean
   }
 
-  export type DatabaseImageEdgeCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | DatabaseImageEdgeCountOutputTypeArgs,
+  export type DatabaseMangaCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | DatabaseMangaCountOutputTypeArgs,
     U = keyof S
       > = S extends true
-        ? DatabaseImageEdgeCountOutputType
+        ? DatabaseMangaCountOutputType
     : S extends undefined
     ? never
-    : S extends DatabaseImageEdgeCountOutputTypeArgs
+    : S extends DatabaseMangaCountOutputTypeArgs
     ?'include' extends U
-    ? DatabaseImageEdgeCountOutputType 
+    ? DatabaseMangaCountOutputType 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof DatabaseImageEdgeCountOutputType ? DatabaseImageEdgeCountOutputType[P] : never
+    P extends keyof DatabaseMangaCountOutputType ? DatabaseMangaCountOutputType[P] : never
   } 
-    : DatabaseImageEdgeCountOutputType
-  : DatabaseImageEdgeCountOutputType
+    : DatabaseMangaCountOutputType
+  : DatabaseMangaCountOutputType
 
 
 
@@ -881,14 +852,14 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * DatabaseImageEdgeCountOutputType without action
+   * DatabaseMangaCountOutputType without action
    */
-  export type DatabaseImageEdgeCountOutputTypeArgs = {
+  export type DatabaseMangaCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the DatabaseImageEdgeCountOutputType
+     * Select specific fields to fetch from the DatabaseMangaCountOutputType
      * 
     **/
-    select?: DatabaseImageEdgeCountOutputTypeSelect | null
+    select?: DatabaseMangaCountOutputTypeSelect | null
   }
 
 
@@ -1718,7 +1689,6 @@ export namespace Prisma {
     type: DatabaseMangaType | null
     releaseDate: Date | null
     finishDate: Date | null
-    posterEdgeId: string | null
   }
 
   export type DatabaseMangaMaxAggregateOutputType = {
@@ -1732,7 +1702,6 @@ export namespace Prisma {
     type: DatabaseMangaType | null
     releaseDate: Date | null
     finishDate: Date | null
-    posterEdgeId: string | null
   }
 
   export type DatabaseMangaCountAggregateOutputType = {
@@ -1746,7 +1715,6 @@ export namespace Prisma {
     type: number
     releaseDate: number
     finishDate: number
-    posterEdgeId: number
     _all: number
   }
 
@@ -1762,7 +1730,6 @@ export namespace Prisma {
     type?: true
     releaseDate?: true
     finishDate?: true
-    posterEdgeId?: true
   }
 
   export type DatabaseMangaMaxAggregateInputType = {
@@ -1776,7 +1743,6 @@ export namespace Prisma {
     type?: true
     releaseDate?: true
     finishDate?: true
-    posterEdgeId?: true
   }
 
   export type DatabaseMangaCountAggregateInputType = {
@@ -1790,7 +1756,6 @@ export namespace Prisma {
     type?: true
     releaseDate?: true
     finishDate?: true
-    posterEdgeId?: true
     _all?: true
   }
 
@@ -1883,7 +1848,6 @@ export namespace Prisma {
     type: DatabaseMangaType
     releaseDate: Date | null
     finishDate: Date | null
-    posterEdgeId: string
     _count: DatabaseMangaCountAggregateOutputType | null
     _min: DatabaseMangaMinAggregateOutputType | null
     _max: DatabaseMangaMaxAggregateOutputType | null
@@ -1914,12 +1878,13 @@ export namespace Prisma {
     type?: boolean
     releaseDate?: boolean
     finishDate?: boolean
-    posterEdgeId?: boolean
-    posterEdge?: boolean | DatabaseImageEdgeArgs
+    posters?: boolean | DatabaseImageFindManyArgs
+    _count?: boolean | DatabaseMangaCountOutputTypeArgs
   }
 
   export type DatabaseMangaInclude = {
-    posterEdge?: boolean | DatabaseImageEdgeArgs
+    posters?: boolean | DatabaseImageFindManyArgs
+    _count?: boolean | DatabaseMangaCountOutputTypeArgs
   }
 
   export type DatabaseMangaGetPayload<
@@ -1933,12 +1898,14 @@ export namespace Prisma {
     ?'include' extends U
     ? DatabaseManga  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'posterEdge' ? DatabaseImageEdgeGetPayload<S['include'][P]> :  never
+        P extends 'posters' ? Array < DatabaseImageGetPayload<S['include'][P]>>  :
+        P extends '_count' ? DatabaseMangaCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'posterEdge' ? DatabaseImageEdgeGetPayload<S['select'][P]> :  P extends keyof DatabaseManga ? DatabaseManga[P] : never
+        P extends 'posters' ? Array < DatabaseImageGetPayload<S['select'][P]>>  :
+        P extends '_count' ? DatabaseMangaCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof DatabaseManga ? DatabaseManga[P] : never
   } 
     : DatabaseManga
   : DatabaseManga
@@ -2278,7 +2245,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    posterEdge<T extends DatabaseImageEdgeArgs = {}>(args?: Subset<T, DatabaseImageEdgeArgs>): CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge | null >, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T> | null >>;
+    posters<T extends DatabaseImageFindManyArgs = {}>(args?: Subset<T, DatabaseImageFindManyArgs>): CheckSelect<T, PrismaPromise<Array<DatabaseImage>>, PrismaPromise<Array<DatabaseImageGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -2633,21 +2600,21 @@ export namespace Prisma {
     id: string | null
     originalSrc: string | null
     originalAspectRatio: number | null
-    edgeId: string | null
+    targetId: string | null
   }
 
   export type DatabaseImageMaxAggregateOutputType = {
     id: string | null
     originalSrc: string | null
     originalAspectRatio: number | null
-    edgeId: string | null
+    targetId: string | null
   }
 
   export type DatabaseImageCountAggregateOutputType = {
     id: number
     originalSrc: number
     originalAspectRatio: number
-    edgeId: number
+    targetId: number
     _all: number
   }
 
@@ -2664,21 +2631,21 @@ export namespace Prisma {
     id?: true
     originalSrc?: true
     originalAspectRatio?: true
-    edgeId?: true
+    targetId?: true
   }
 
   export type DatabaseImageMaxAggregateInputType = {
     id?: true
     originalSrc?: true
     originalAspectRatio?: true
-    edgeId?: true
+    targetId?: true
   }
 
   export type DatabaseImageCountAggregateInputType = {
     id?: true
     originalSrc?: true
     originalAspectRatio?: true
-    edgeId?: true
+    targetId?: true
     _all?: true
   }
 
@@ -2778,7 +2745,7 @@ export namespace Prisma {
     id: string
     originalSrc: string
     originalAspectRatio: number
-    edgeId: string
+    targetId: string
     _count: DatabaseImageCountAggregateOutputType | null
     _avg: DatabaseImageAvgAggregateOutputType | null
     _sum: DatabaseImageSumAggregateOutputType | null
@@ -2804,12 +2771,12 @@ export namespace Prisma {
     id?: boolean
     originalSrc?: boolean
     originalAspectRatio?: boolean
-    edgeId?: boolean
-    edge?: boolean | DatabaseImageEdgeArgs
+    targetId?: boolean
+    targetManga?: boolean | DatabaseMangaArgs
   }
 
   export type DatabaseImageInclude = {
-    edge?: boolean | DatabaseImageEdgeArgs
+    targetManga?: boolean | DatabaseMangaArgs
   }
 
   export type DatabaseImageGetPayload<
@@ -2823,12 +2790,12 @@ export namespace Prisma {
     ?'include' extends U
     ? DatabaseImage  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'edge' ? DatabaseImageEdgeGetPayload<S['include'][P]> :  never
+        P extends 'targetManga' ? DatabaseMangaGetPayload<S['include'][P]> | null :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'edge' ? DatabaseImageEdgeGetPayload<S['select'][P]> :  P extends keyof DatabaseImage ? DatabaseImage[P] : never
+        P extends 'targetManga' ? DatabaseMangaGetPayload<S['select'][P]> | null :  P extends keyof DatabaseImage ? DatabaseImage[P] : never
   } 
     : DatabaseImage
   : DatabaseImage
@@ -3168,7 +3135,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    edge<T extends DatabaseImageEdgeArgs = {}>(args?: Subset<T, DatabaseImageEdgeArgs>): CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge | null >, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T> | null >>;
+    targetManga<T extends DatabaseMangaArgs = {}>(args?: Subset<T, DatabaseMangaArgs>): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga | null >, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T> | null >>;
 
     private get _document();
     /**
@@ -3499,864 +3466,6 @@ export namespace Prisma {
 
 
   /**
-   * Model DatabaseImageEdge
-   */
-
-
-  export type AggregateDatabaseImageEdge = {
-    _count: DatabaseImageEdgeCountAggregateOutputType | null
-    _min: DatabaseImageEdgeMinAggregateOutputType | null
-    _max: DatabaseImageEdgeMaxAggregateOutputType | null
-  }
-
-  export type DatabaseImageEdgeMinAggregateOutputType = {
-    id: string | null
-    type: DatabaseImageEdgeTarget | null
-    targetId: string | null
-  }
-
-  export type DatabaseImageEdgeMaxAggregateOutputType = {
-    id: string | null
-    type: DatabaseImageEdgeTarget | null
-    targetId: string | null
-  }
-
-  export type DatabaseImageEdgeCountAggregateOutputType = {
-    id: number
-    type: number
-    targetId: number
-    _all: number
-  }
-
-
-  export type DatabaseImageEdgeMinAggregateInputType = {
-    id?: true
-    type?: true
-    targetId?: true
-  }
-
-  export type DatabaseImageEdgeMaxAggregateInputType = {
-    id?: true
-    type?: true
-    targetId?: true
-  }
-
-  export type DatabaseImageEdgeCountAggregateInputType = {
-    id?: true
-    type?: true
-    targetId?: true
-    _all?: true
-  }
-
-  export type DatabaseImageEdgeAggregateArgs = {
-    /**
-     * Filter which DatabaseImageEdge to aggregate.
-     * 
-    **/
-    where?: DatabaseImageEdgeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of DatabaseImageEdges to fetch.
-     * 
-    **/
-    orderBy?: Enumerable<DatabaseImageEdgeOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     * 
-    **/
-    cursor?: DatabaseImageEdgeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` DatabaseImageEdges from the position of the cursor.
-     * 
-    **/
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` DatabaseImageEdges.
-     * 
-    **/
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned DatabaseImageEdges
-    **/
-    _count?: true | DatabaseImageEdgeCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: DatabaseImageEdgeMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: DatabaseImageEdgeMaxAggregateInputType
-  }
-
-  export type GetDatabaseImageEdgeAggregateType<T extends DatabaseImageEdgeAggregateArgs> = {
-        [P in keyof T & keyof AggregateDatabaseImageEdge]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateDatabaseImageEdge[P]>
-      : GetScalarType<T[P], AggregateDatabaseImageEdge[P]>
-  }
-
-
-
-
-  export type DatabaseImageEdgeGroupByArgs = {
-    where?: DatabaseImageEdgeWhereInput
-    orderBy?: Enumerable<DatabaseImageEdgeOrderByWithAggregationInput>
-    by: Array<DatabaseImageEdgeScalarFieldEnum>
-    having?: DatabaseImageEdgeScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: DatabaseImageEdgeCountAggregateInputType | true
-    _min?: DatabaseImageEdgeMinAggregateInputType
-    _max?: DatabaseImageEdgeMaxAggregateInputType
-  }
-
-
-  export type DatabaseImageEdgeGroupByOutputType = {
-    id: string
-    type: DatabaseImageEdgeTarget
-    targetId: string
-    _count: DatabaseImageEdgeCountAggregateOutputType | null
-    _min: DatabaseImageEdgeMinAggregateOutputType | null
-    _max: DatabaseImageEdgeMaxAggregateOutputType | null
-  }
-
-  type GetDatabaseImageEdgeGroupByPayload<T extends DatabaseImageEdgeGroupByArgs> = PrismaPromise<
-    Array<
-      PickArray<DatabaseImageEdgeGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof DatabaseImageEdgeGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], DatabaseImageEdgeGroupByOutputType[P]>
-            : GetScalarType<T[P], DatabaseImageEdgeGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type DatabaseImageEdgeSelect = {
-    id?: boolean
-    images?: boolean | DatabaseImageFindManyArgs
-    type?: boolean
-    targetId?: boolean
-    targetManga?: boolean | DatabaseMangaArgs
-    _count?: boolean | DatabaseImageEdgeCountOutputTypeArgs
-  }
-
-  export type DatabaseImageEdgeInclude = {
-    images?: boolean | DatabaseImageFindManyArgs
-    targetManga?: boolean | DatabaseMangaArgs
-    _count?: boolean | DatabaseImageEdgeCountOutputTypeArgs
-  }
-
-  export type DatabaseImageEdgeGetPayload<
-    S extends boolean | null | undefined | DatabaseImageEdgeArgs,
-    U = keyof S
-      > = S extends true
-        ? DatabaseImageEdge
-    : S extends undefined
-    ? never
-    : S extends DatabaseImageEdgeArgs | DatabaseImageEdgeFindManyArgs
-    ?'include' extends U
-    ? DatabaseImageEdge  & {
-    [P in TrueKeys<S['include']>]:
-        P extends 'images' ? Array < DatabaseImageGetPayload<S['include'][P]>>  :
-        P extends 'targetManga' ? DatabaseMangaGetPayload<S['include'][P]> | null :
-        P extends '_count' ? DatabaseImageEdgeCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
-        P extends 'images' ? Array < DatabaseImageGetPayload<S['select'][P]>>  :
-        P extends 'targetManga' ? DatabaseMangaGetPayload<S['select'][P]> | null :
-        P extends '_count' ? DatabaseImageEdgeCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof DatabaseImageEdge ? DatabaseImageEdge[P] : never
-  } 
-    : DatabaseImageEdge
-  : DatabaseImageEdge
-
-
-  type DatabaseImageEdgeCountArgs = Merge<
-    Omit<DatabaseImageEdgeFindManyArgs, 'select' | 'include'> & {
-      select?: DatabaseImageEdgeCountAggregateInputType | true
-    }
-  >
-
-  export interface DatabaseImageEdgeDelegate<GlobalRejectSettings> {
-    /**
-     * Find zero or one DatabaseImageEdge that matches the filter.
-     * @param {DatabaseImageEdgeFindUniqueArgs} args - Arguments to find a DatabaseImageEdge
-     * @example
-     * // Get one DatabaseImageEdge
-     * const databaseImageEdge = await prisma.databaseImageEdge.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends DatabaseImageEdgeFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, DatabaseImageEdgeFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'DatabaseImageEdge'> extends True ? CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge>, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T>>> : CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge | null >, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T> | null >>
-
-    /**
-     * Find the first DatabaseImageEdge that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabaseImageEdgeFindFirstArgs} args - Arguments to find a DatabaseImageEdge
-     * @example
-     * // Get one DatabaseImageEdge
-     * const databaseImageEdge = await prisma.databaseImageEdge.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends DatabaseImageEdgeFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, DatabaseImageEdgeFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'DatabaseImageEdge'> extends True ? CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge>, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T>>> : CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge | null >, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T> | null >>
-
-    /**
-     * Find zero or more DatabaseImageEdges that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabaseImageEdgeFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all DatabaseImageEdges
-     * const databaseImageEdges = await prisma.databaseImageEdge.findMany()
-     * 
-     * // Get first 10 DatabaseImageEdges
-     * const databaseImageEdges = await prisma.databaseImageEdge.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const databaseImageEdgeWithIdOnly = await prisma.databaseImageEdge.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends DatabaseImageEdgeFindManyArgs>(
-      args?: SelectSubset<T, DatabaseImageEdgeFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<DatabaseImageEdge>>, PrismaPromise<Array<DatabaseImageEdgeGetPayload<T>>>>
-
-    /**
-     * Create a DatabaseImageEdge.
-     * @param {DatabaseImageEdgeCreateArgs} args - Arguments to create a DatabaseImageEdge.
-     * @example
-     * // Create one DatabaseImageEdge
-     * const DatabaseImageEdge = await prisma.databaseImageEdge.create({
-     *   data: {
-     *     // ... data to create a DatabaseImageEdge
-     *   }
-     * })
-     * 
-    **/
-    create<T extends DatabaseImageEdgeCreateArgs>(
-      args: SelectSubset<T, DatabaseImageEdgeCreateArgs>
-    ): CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge>, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T>>>
-
-    /**
-     * Create many DatabaseImageEdges.
-     *     @param {DatabaseImageEdgeCreateManyArgs} args - Arguments to create many DatabaseImageEdges.
-     *     @example
-     *     // Create many DatabaseImageEdges
-     *     const databaseImageEdge = await prisma.databaseImageEdge.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends DatabaseImageEdgeCreateManyArgs>(
-      args?: SelectSubset<T, DatabaseImageEdgeCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a DatabaseImageEdge.
-     * @param {DatabaseImageEdgeDeleteArgs} args - Arguments to delete one DatabaseImageEdge.
-     * @example
-     * // Delete one DatabaseImageEdge
-     * const DatabaseImageEdge = await prisma.databaseImageEdge.delete({
-     *   where: {
-     *     // ... filter to delete one DatabaseImageEdge
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends DatabaseImageEdgeDeleteArgs>(
-      args: SelectSubset<T, DatabaseImageEdgeDeleteArgs>
-    ): CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge>, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T>>>
-
-    /**
-     * Update one DatabaseImageEdge.
-     * @param {DatabaseImageEdgeUpdateArgs} args - Arguments to update one DatabaseImageEdge.
-     * @example
-     * // Update one DatabaseImageEdge
-     * const databaseImageEdge = await prisma.databaseImageEdge.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends DatabaseImageEdgeUpdateArgs>(
-      args: SelectSubset<T, DatabaseImageEdgeUpdateArgs>
-    ): CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge>, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T>>>
-
-    /**
-     * Delete zero or more DatabaseImageEdges.
-     * @param {DatabaseImageEdgeDeleteManyArgs} args - Arguments to filter DatabaseImageEdges to delete.
-     * @example
-     * // Delete a few DatabaseImageEdges
-     * const { count } = await prisma.databaseImageEdge.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends DatabaseImageEdgeDeleteManyArgs>(
-      args?: SelectSubset<T, DatabaseImageEdgeDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more DatabaseImageEdges.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabaseImageEdgeUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many DatabaseImageEdges
-     * const databaseImageEdge = await prisma.databaseImageEdge.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends DatabaseImageEdgeUpdateManyArgs>(
-      args: SelectSubset<T, DatabaseImageEdgeUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one DatabaseImageEdge.
-     * @param {DatabaseImageEdgeUpsertArgs} args - Arguments to update or create a DatabaseImageEdge.
-     * @example
-     * // Update or create a DatabaseImageEdge
-     * const databaseImageEdge = await prisma.databaseImageEdge.upsert({
-     *   create: {
-     *     // ... data to create a DatabaseImageEdge
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the DatabaseImageEdge we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends DatabaseImageEdgeUpsertArgs>(
-      args: SelectSubset<T, DatabaseImageEdgeUpsertArgs>
-    ): CheckSelect<T, Prisma__DatabaseImageEdgeClient<DatabaseImageEdge>, Prisma__DatabaseImageEdgeClient<DatabaseImageEdgeGetPayload<T>>>
-
-    /**
-     * Count the number of DatabaseImageEdges.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabaseImageEdgeCountArgs} args - Arguments to filter DatabaseImageEdges to count.
-     * @example
-     * // Count the number of DatabaseImageEdges
-     * const count = await prisma.databaseImageEdge.count({
-     *   where: {
-     *     // ... the filter for the DatabaseImageEdges we want to count
-     *   }
-     * })
-    **/
-    count<T extends DatabaseImageEdgeCountArgs>(
-      args?: Subset<T, DatabaseImageEdgeCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], DatabaseImageEdgeCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a DatabaseImageEdge.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabaseImageEdgeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends DatabaseImageEdgeAggregateArgs>(args: Subset<T, DatabaseImageEdgeAggregateArgs>): PrismaPromise<GetDatabaseImageEdgeAggregateType<T>>
-
-    /**
-     * Group by DatabaseImageEdge.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabaseImageEdgeGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends DatabaseImageEdgeGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DatabaseImageEdgeGroupByArgs['orderBy'] }
-        : { orderBy?: DatabaseImageEdgeGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, DatabaseImageEdgeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDatabaseImageEdgeGroupByPayload<T> : PrismaPromise<InputErrors>
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for DatabaseImageEdge.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__DatabaseImageEdgeClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
-    private readonly _dmmf;
-    private readonly _fetcher;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
-
-    images<T extends DatabaseImageFindManyArgs = {}>(args?: Subset<T, DatabaseImageFindManyArgs>): CheckSelect<T, PrismaPromise<Array<DatabaseImage>>, PrismaPromise<Array<DatabaseImageGetPayload<T>>>>;
-
-    targetManga<T extends DatabaseMangaArgs = {}>(args?: Subset<T, DatabaseMangaArgs>): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga | null >, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T> | null >>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-  // Custom InputTypes
-
-  /**
-   * DatabaseImageEdge findUnique
-   */
-  export type DatabaseImageEdgeFindUniqueArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-    /**
-     * Throw an Error if a DatabaseImageEdge can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
-    /**
-     * Filter, which DatabaseImageEdge to fetch.
-     * 
-    **/
-    where: DatabaseImageEdgeWhereUniqueInput
-  }
-
-
-  /**
-   * DatabaseImageEdge findFirst
-   */
-  export type DatabaseImageEdgeFindFirstArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-    /**
-     * Throw an Error if a DatabaseImageEdge can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
-    /**
-     * Filter, which DatabaseImageEdge to fetch.
-     * 
-    **/
-    where?: DatabaseImageEdgeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of DatabaseImageEdges to fetch.
-     * 
-    **/
-    orderBy?: Enumerable<DatabaseImageEdgeOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for DatabaseImageEdges.
-     * 
-    **/
-    cursor?: DatabaseImageEdgeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` DatabaseImageEdges from the position of the cursor.
-     * 
-    **/
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` DatabaseImageEdges.
-     * 
-    **/
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of DatabaseImageEdges.
-     * 
-    **/
-    distinct?: Enumerable<DatabaseImageEdgeScalarFieldEnum>
-  }
-
-
-  /**
-   * DatabaseImageEdge findMany
-   */
-  export type DatabaseImageEdgeFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-    /**
-     * Filter, which DatabaseImageEdges to fetch.
-     * 
-    **/
-    where?: DatabaseImageEdgeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of DatabaseImageEdges to fetch.
-     * 
-    **/
-    orderBy?: Enumerable<DatabaseImageEdgeOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing DatabaseImageEdges.
-     * 
-    **/
-    cursor?: DatabaseImageEdgeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` DatabaseImageEdges from the position of the cursor.
-     * 
-    **/
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` DatabaseImageEdges.
-     * 
-    **/
-    skip?: number
-    distinct?: Enumerable<DatabaseImageEdgeScalarFieldEnum>
-  }
-
-
-  /**
-   * DatabaseImageEdge create
-   */
-  export type DatabaseImageEdgeCreateArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-    /**
-     * The data needed to create a DatabaseImageEdge.
-     * 
-    **/
-    data: XOR<DatabaseImageEdgeCreateInput, DatabaseImageEdgeUncheckedCreateInput>
-  }
-
-
-  /**
-   * DatabaseImageEdge createMany
-   */
-  export type DatabaseImageEdgeCreateManyArgs = {
-    /**
-     * The data used to create many DatabaseImageEdges.
-     * 
-    **/
-    data: Enumerable<DatabaseImageEdgeCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * DatabaseImageEdge update
-   */
-  export type DatabaseImageEdgeUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-    /**
-     * The data needed to update a DatabaseImageEdge.
-     * 
-    **/
-    data: XOR<DatabaseImageEdgeUpdateInput, DatabaseImageEdgeUncheckedUpdateInput>
-    /**
-     * Choose, which DatabaseImageEdge to update.
-     * 
-    **/
-    where: DatabaseImageEdgeWhereUniqueInput
-  }
-
-
-  /**
-   * DatabaseImageEdge updateMany
-   */
-  export type DatabaseImageEdgeUpdateManyArgs = {
-    /**
-     * The data used to update DatabaseImageEdges.
-     * 
-    **/
-    data: XOR<DatabaseImageEdgeUpdateManyMutationInput, DatabaseImageEdgeUncheckedUpdateManyInput>
-    /**
-     * Filter which DatabaseImageEdges to update
-     * 
-    **/
-    where?: DatabaseImageEdgeWhereInput
-  }
-
-
-  /**
-   * DatabaseImageEdge upsert
-   */
-  export type DatabaseImageEdgeUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-    /**
-     * The filter to search for the DatabaseImageEdge to update in case it exists.
-     * 
-    **/
-    where: DatabaseImageEdgeWhereUniqueInput
-    /**
-     * In case the DatabaseImageEdge found by the `where` argument doesn't exist, create a new DatabaseImageEdge with this data.
-     * 
-    **/
-    create: XOR<DatabaseImageEdgeCreateInput, DatabaseImageEdgeUncheckedCreateInput>
-    /**
-     * In case the DatabaseImageEdge was found with the provided `where` argument, update it with this data.
-     * 
-    **/
-    update: XOR<DatabaseImageEdgeUpdateInput, DatabaseImageEdgeUncheckedUpdateInput>
-  }
-
-
-  /**
-   * DatabaseImageEdge delete
-   */
-  export type DatabaseImageEdgeDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-    /**
-     * Filter which DatabaseImageEdge to delete.
-     * 
-    **/
-    where: DatabaseImageEdgeWhereUniqueInput
-  }
-
-
-  /**
-   * DatabaseImageEdge deleteMany
-   */
-  export type DatabaseImageEdgeDeleteManyArgs = {
-    /**
-     * Filter which DatabaseImageEdges to delete
-     * 
-    **/
-    where?: DatabaseImageEdgeWhereInput
-  }
-
-
-  /**
-   * DatabaseImageEdge without action
-   */
-  export type DatabaseImageEdgeArgs = {
-    /**
-     * Select specific fields to fetch from the DatabaseImageEdge
-     * 
-    **/
-    select?: DatabaseImageEdgeSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: DatabaseImageEdgeInclude | null
-  }
-
-
-
-  /**
    * Enums
    */
 
@@ -4382,8 +3491,7 @@ export namespace Prisma {
     description: 'description',
     type: 'type',
     releaseDate: 'releaseDate',
-    finishDate: 'finishDate',
-    posterEdgeId: 'posterEdgeId'
+    finishDate: 'finishDate'
   };
 
   export type DatabaseMangaScalarFieldEnum = (typeof DatabaseMangaScalarFieldEnum)[keyof typeof DatabaseMangaScalarFieldEnum]
@@ -4393,19 +3501,10 @@ export namespace Prisma {
     id: 'id',
     originalSrc: 'originalSrc',
     originalAspectRatio: 'originalAspectRatio',
-    edgeId: 'edgeId'
-  };
-
-  export type DatabaseImageScalarFieldEnum = (typeof DatabaseImageScalarFieldEnum)[keyof typeof DatabaseImageScalarFieldEnum]
-
-
-  export const DatabaseImageEdgeScalarFieldEnum: {
-    id: 'id',
-    type: 'type',
     targetId: 'targetId'
   };
 
-  export type DatabaseImageEdgeScalarFieldEnum = (typeof DatabaseImageEdgeScalarFieldEnum)[keyof typeof DatabaseImageEdgeScalarFieldEnum]
+  export type DatabaseImageScalarFieldEnum = (typeof DatabaseImageScalarFieldEnum)[keyof typeof DatabaseImageScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4481,8 +3580,7 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeFilter | DatabaseMangaType
     releaseDate?: DateTimeNullableFilter | Date | string | null
     finishDate?: DateTimeNullableFilter | Date | string | null
-    posterEdgeId?: StringFilter | string
-    posterEdge?: XOR<DatabaseImageEdgeRelationFilter, DatabaseImageEdgeWhereInput>
+    posters?: DatabaseImageListRelationFilter
   }
 
   export type DatabaseMangaOrderByWithRelationInput = {
@@ -4496,13 +3594,11 @@ export namespace Prisma {
     type?: SortOrder
     releaseDate?: SortOrder
     finishDate?: SortOrder
-    posterEdgeId?: SortOrder
-    posterEdge?: DatabaseImageEdgeOrderByWithRelationInput
+    posters?: DatabaseImageOrderByRelationAggregateInput
   }
 
   export type DatabaseMangaWhereUniqueInput = {
     id?: string
-    posterEdgeId?: string
     sourceIdentifier?: DatabaseMangaSourceIdentifierCompoundUniqueInput
   }
 
@@ -4517,7 +3613,6 @@ export namespace Prisma {
     type?: SortOrder
     releaseDate?: SortOrder
     finishDate?: SortOrder
-    posterEdgeId?: SortOrder
     _count?: DatabaseMangaCountOrderByAggregateInput
     _max?: DatabaseMangaMaxOrderByAggregateInput
     _min?: DatabaseMangaMinOrderByAggregateInput
@@ -4537,7 +3632,6 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeWithAggregatesFilter | DatabaseMangaType
     releaseDate?: DateTimeNullableWithAggregatesFilter | Date | string | null
     finishDate?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    posterEdgeId?: StringWithAggregatesFilter | string
   }
 
   export type DatabaseImageWhereInput = {
@@ -4547,16 +3641,16 @@ export namespace Prisma {
     id?: StringFilter | string
     originalSrc?: StringFilter | string
     originalAspectRatio?: FloatFilter | number
-    edgeId?: StringFilter | string
-    edge?: XOR<DatabaseImageEdgeRelationFilter, DatabaseImageEdgeWhereInput>
+    targetId?: StringFilter | string
+    targetManga?: XOR<DatabaseMangaRelationFilter, DatabaseMangaWhereInput> | null
   }
 
   export type DatabaseImageOrderByWithRelationInput = {
     id?: SortOrder
     originalSrc?: SortOrder
     originalAspectRatio?: SortOrder
-    edgeId?: SortOrder
-    edge?: DatabaseImageEdgeOrderByWithRelationInput
+    targetId?: SortOrder
+    targetManga?: DatabaseMangaOrderByWithRelationInput
   }
 
   export type DatabaseImageWhereUniqueInput = {
@@ -4567,7 +3661,7 @@ export namespace Prisma {
     id?: SortOrder
     originalSrc?: SortOrder
     originalAspectRatio?: SortOrder
-    edgeId?: SortOrder
+    targetId?: SortOrder
     _count?: DatabaseImageCountOrderByAggregateInput
     _avg?: DatabaseImageAvgOrderByAggregateInput
     _max?: DatabaseImageMaxOrderByAggregateInput
@@ -4582,48 +3676,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     originalSrc?: StringWithAggregatesFilter | string
     originalAspectRatio?: FloatWithAggregatesFilter | number
-    edgeId?: StringWithAggregatesFilter | string
-  }
-
-  export type DatabaseImageEdgeWhereInput = {
-    AND?: Enumerable<DatabaseImageEdgeWhereInput>
-    OR?: Enumerable<DatabaseImageEdgeWhereInput>
-    NOT?: Enumerable<DatabaseImageEdgeWhereInput>
-    id?: StringFilter | string
-    images?: DatabaseImageListRelationFilter
-    type?: EnumDatabaseImageEdgeTargetFilter | DatabaseImageEdgeTarget
-    targetId?: StringFilter | string
-    targetManga?: XOR<DatabaseMangaRelationFilter, DatabaseMangaWhereInput> | null
-  }
-
-  export type DatabaseImageEdgeOrderByWithRelationInput = {
-    id?: SortOrder
-    images?: DatabaseImageOrderByRelationAggregateInput
-    type?: SortOrder
-    targetId?: SortOrder
-    targetManga?: DatabaseMangaOrderByWithRelationInput
-  }
-
-  export type DatabaseImageEdgeWhereUniqueInput = {
-    id?: string
-    imageEdgeIdentifier?: DatabaseImageEdgeImageEdgeIdentifierCompoundUniqueInput
-  }
-
-  export type DatabaseImageEdgeOrderByWithAggregationInput = {
-    id?: SortOrder
-    type?: SortOrder
-    targetId?: SortOrder
-    _count?: DatabaseImageEdgeCountOrderByAggregateInput
-    _max?: DatabaseImageEdgeMaxOrderByAggregateInput
-    _min?: DatabaseImageEdgeMinOrderByAggregateInput
-  }
-
-  export type DatabaseImageEdgeScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<DatabaseImageEdgeScalarWhereWithAggregatesInput>
-    OR?: Enumerable<DatabaseImageEdgeScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<DatabaseImageEdgeScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
-    type?: EnumDatabaseImageEdgeTargetWithAggregatesFilter | DatabaseImageEdgeTarget
     targetId?: StringWithAggregatesFilter | string
   }
 
@@ -4680,7 +3732,7 @@ export namespace Prisma {
     type: DatabaseMangaType
     releaseDate?: Date | string | null
     finishDate?: Date | string | null
-    posterEdge: DatabaseImageEdgeCreateNestedOneWithoutTargetMangaInput
+    posters?: DatabaseImageCreateNestedManyWithoutTargetMangaInput
   }
 
   export type DatabaseMangaUncheckedCreateInput = {
@@ -4694,7 +3746,7 @@ export namespace Prisma {
     type: DatabaseMangaType
     releaseDate?: Date | string | null
     finishDate?: Date | string | null
-    posterEdgeId: string
+    posters?: DatabaseImageUncheckedCreateNestedManyWithoutTargetMangaInput
   }
 
   export type DatabaseMangaUpdateInput = {
@@ -4708,7 +3760,7 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
     releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    posterEdge?: DatabaseImageEdgeUpdateOneRequiredWithoutTargetMangaInput
+    posters?: DatabaseImageUpdateManyWithoutTargetMangaInput
   }
 
   export type DatabaseMangaUncheckedUpdateInput = {
@@ -4722,7 +3774,7 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
     releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    posterEdgeId?: StringFieldUpdateOperationsInput | string
+    posters?: DatabaseImageUncheckedUpdateManyWithoutTargetMangaInput
   }
 
   export type DatabaseMangaCreateManyInput = {
@@ -4736,7 +3788,6 @@ export namespace Prisma {
     type: DatabaseMangaType
     releaseDate?: Date | string | null
     finishDate?: Date | string | null
-    posterEdgeId: string
   }
 
   export type DatabaseMangaUpdateManyMutationInput = {
@@ -4763,42 +3814,41 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
     releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    posterEdgeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type DatabaseImageCreateInput = {
     id?: string
     originalSrc: string
     originalAspectRatio: number
-    edge: DatabaseImageEdgeCreateNestedOneWithoutImagesInput
+    targetManga?: DatabaseMangaCreateNestedOneWithoutPostersInput
   }
 
   export type DatabaseImageUncheckedCreateInput = {
     id?: string
     originalSrc: string
     originalAspectRatio: number
-    edgeId: string
+    targetId: string
   }
 
   export type DatabaseImageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalSrc?: StringFieldUpdateOperationsInput | string
     originalAspectRatio?: FloatFieldUpdateOperationsInput | number
-    edge?: DatabaseImageEdgeUpdateOneRequiredWithoutImagesInput
+    targetManga?: DatabaseMangaUpdateOneWithoutPostersInput
   }
 
   export type DatabaseImageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalSrc?: StringFieldUpdateOperationsInput | string
     originalAspectRatio?: FloatFieldUpdateOperationsInput | number
-    edgeId?: StringFieldUpdateOperationsInput | string
+    targetId?: StringFieldUpdateOperationsInput | string
   }
 
   export type DatabaseImageCreateManyInput = {
     id?: string
     originalSrc: string
     originalAspectRatio: number
-    edgeId: string
+    targetId: string
   }
 
   export type DatabaseImageUpdateManyMutationInput = {
@@ -4811,56 +3861,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     originalSrc?: StringFieldUpdateOperationsInput | string
     originalAspectRatio?: FloatFieldUpdateOperationsInput | number
-    edgeId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DatabaseImageEdgeCreateInput = {
-    id?: string
-    images?: DatabaseImageCreateNestedManyWithoutEdgeInput
-    type: DatabaseImageEdgeTarget
-    targetId: string
-    targetManga?: DatabaseMangaCreateNestedOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageEdgeUncheckedCreateInput = {
-    id?: string
-    images?: DatabaseImageUncheckedCreateNestedManyWithoutEdgeInput
-    type: DatabaseImageEdgeTarget
-    targetId: string
-    targetManga?: DatabaseMangaUncheckedCreateNestedOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageEdgeUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    images?: DatabaseImageUpdateManyWithoutEdgeInput
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
-    targetId?: StringFieldUpdateOperationsInput | string
-    targetManga?: DatabaseMangaUpdateOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageEdgeUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    images?: DatabaseImageUncheckedUpdateManyWithoutEdgeInput
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
-    targetId?: StringFieldUpdateOperationsInput | string
-    targetManga?: DatabaseMangaUncheckedUpdateOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageEdgeCreateManyInput = {
-    id?: string
-    type: DatabaseImageEdgeTarget
-    targetId: string
-  }
-
-  export type DatabaseImageEdgeUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
-    targetId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DatabaseImageEdgeUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
     targetId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -4966,9 +3966,14 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
-  export type DatabaseImageEdgeRelationFilter = {
-    is?: DatabaseImageEdgeWhereInput
-    isNot?: DatabaseImageEdgeWhereInput
+  export type DatabaseImageListRelationFilter = {
+    every?: DatabaseImageWhereInput
+    some?: DatabaseImageWhereInput
+    none?: DatabaseImageWhereInput
+  }
+
+  export type DatabaseImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type DatabaseMangaSourceIdentifierCompoundUniqueInput = {
@@ -4987,7 +3992,6 @@ export namespace Prisma {
     type?: SortOrder
     releaseDate?: SortOrder
     finishDate?: SortOrder
-    posterEdgeId?: SortOrder
   }
 
   export type DatabaseMangaMaxOrderByAggregateInput = {
@@ -5001,7 +4005,6 @@ export namespace Prisma {
     type?: SortOrder
     releaseDate?: SortOrder
     finishDate?: SortOrder
-    posterEdgeId?: SortOrder
   }
 
   export type DatabaseMangaMinOrderByAggregateInput = {
@@ -5015,7 +4018,6 @@ export namespace Prisma {
     type?: SortOrder
     releaseDate?: SortOrder
     finishDate?: SortOrder
-    posterEdgeId?: SortOrder
   }
 
   export type EnumDatabaseMangaSourceWithAggregatesFilter = {
@@ -5095,11 +4097,16 @@ export namespace Prisma {
     not?: NestedFloatFilter | number
   }
 
+  export type DatabaseMangaRelationFilter = {
+    is?: DatabaseMangaWhereInput | null
+    isNot?: DatabaseMangaWhereInput | null
+  }
+
   export type DatabaseImageCountOrderByAggregateInput = {
     id?: SortOrder
     originalSrc?: SortOrder
     originalAspectRatio?: SortOrder
-    edgeId?: SortOrder
+    targetId?: SortOrder
   }
 
   export type DatabaseImageAvgOrderByAggregateInput = {
@@ -5110,14 +4117,14 @@ export namespace Prisma {
     id?: SortOrder
     originalSrc?: SortOrder
     originalAspectRatio?: SortOrder
-    edgeId?: SortOrder
+    targetId?: SortOrder
   }
 
   export type DatabaseImageMinOrderByAggregateInput = {
     id?: SortOrder
     originalSrc?: SortOrder
     originalAspectRatio?: SortOrder
-    edgeId?: SortOrder
+    targetId?: SortOrder
   }
 
   export type DatabaseImageSumOrderByAggregateInput = {
@@ -5140,69 +4147,22 @@ export namespace Prisma {
     _max?: NestedFloatFilter
   }
 
-  export type DatabaseImageListRelationFilter = {
-    every?: DatabaseImageWhereInput
-    some?: DatabaseImageWhereInput
-    none?: DatabaseImageWhereInput
-  }
-
-  export type EnumDatabaseImageEdgeTargetFilter = {
-    equals?: DatabaseImageEdgeTarget
-    in?: Enumerable<DatabaseImageEdgeTarget>
-    notIn?: Enumerable<DatabaseImageEdgeTarget>
-    not?: NestedEnumDatabaseImageEdgeTargetFilter | DatabaseImageEdgeTarget
-  }
-
-  export type DatabaseMangaRelationFilter = {
-    is?: DatabaseMangaWhereInput | null
-    isNot?: DatabaseMangaWhereInput | null
-  }
-
-  export type DatabaseImageOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type DatabaseImageEdgeImageEdgeIdentifierCompoundUniqueInput = {
-    type: DatabaseImageEdgeTarget
-    targetId: string
-  }
-
-  export type DatabaseImageEdgeCountOrderByAggregateInput = {
-    id?: SortOrder
-    type?: SortOrder
-    targetId?: SortOrder
-  }
-
-  export type DatabaseImageEdgeMaxOrderByAggregateInput = {
-    id?: SortOrder
-    type?: SortOrder
-    targetId?: SortOrder
-  }
-
-  export type DatabaseImageEdgeMinOrderByAggregateInput = {
-    id?: SortOrder
-    type?: SortOrder
-    targetId?: SortOrder
-  }
-
-  export type EnumDatabaseImageEdgeTargetWithAggregatesFilter = {
-    equals?: DatabaseImageEdgeTarget
-    in?: Enumerable<DatabaseImageEdgeTarget>
-    notIn?: Enumerable<DatabaseImageEdgeTarget>
-    not?: NestedEnumDatabaseImageEdgeTargetWithAggregatesFilter | DatabaseImageEdgeTarget
-    _count?: NestedIntFilter
-    _min?: NestedEnumDatabaseImageEdgeTargetFilter
-    _max?: NestedEnumDatabaseImageEdgeTargetFilter
-  }
-
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type DatabaseImageEdgeCreateNestedOneWithoutTargetMangaInput = {
-    create?: XOR<DatabaseImageEdgeCreateWithoutTargetMangaInput, DatabaseImageEdgeUncheckedCreateWithoutTargetMangaInput>
-    connectOrCreate?: DatabaseImageEdgeCreateOrConnectWithoutTargetMangaInput
-    connect?: DatabaseImageEdgeWhereUniqueInput
+  export type DatabaseImageCreateNestedManyWithoutTargetMangaInput = {
+    create?: XOR<Enumerable<DatabaseImageCreateWithoutTargetMangaInput>, Enumerable<DatabaseImageUncheckedCreateWithoutTargetMangaInput>>
+    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutTargetMangaInput>
+    createMany?: DatabaseImageCreateManyTargetMangaInputEnvelope
+    connect?: Enumerable<DatabaseImageWhereUniqueInput>
+  }
+
+  export type DatabaseImageUncheckedCreateNestedManyWithoutTargetMangaInput = {
+    create?: XOR<Enumerable<DatabaseImageCreateWithoutTargetMangaInput>, Enumerable<DatabaseImageUncheckedCreateWithoutTargetMangaInput>>
+    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutTargetMangaInput>
+    createMany?: DatabaseImageCreateManyTargetMangaInputEnvelope
+    connect?: Enumerable<DatabaseImageWhereUniqueInput>
   }
 
   export type EnumDatabaseMangaSourceFieldUpdateOperationsInput = {
@@ -5225,18 +4185,38 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type DatabaseImageEdgeUpdateOneRequiredWithoutTargetMangaInput = {
-    create?: XOR<DatabaseImageEdgeCreateWithoutTargetMangaInput, DatabaseImageEdgeUncheckedCreateWithoutTargetMangaInput>
-    connectOrCreate?: DatabaseImageEdgeCreateOrConnectWithoutTargetMangaInput
-    upsert?: DatabaseImageEdgeUpsertWithoutTargetMangaInput
-    connect?: DatabaseImageEdgeWhereUniqueInput
-    update?: XOR<DatabaseImageEdgeUpdateWithoutTargetMangaInput, DatabaseImageEdgeUncheckedUpdateWithoutTargetMangaInput>
+  export type DatabaseImageUpdateManyWithoutTargetMangaInput = {
+    create?: XOR<Enumerable<DatabaseImageCreateWithoutTargetMangaInput>, Enumerable<DatabaseImageUncheckedCreateWithoutTargetMangaInput>>
+    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutTargetMangaInput>
+    upsert?: Enumerable<DatabaseImageUpsertWithWhereUniqueWithoutTargetMangaInput>
+    createMany?: DatabaseImageCreateManyTargetMangaInputEnvelope
+    set?: Enumerable<DatabaseImageWhereUniqueInput>
+    disconnect?: Enumerable<DatabaseImageWhereUniqueInput>
+    delete?: Enumerable<DatabaseImageWhereUniqueInput>
+    connect?: Enumerable<DatabaseImageWhereUniqueInput>
+    update?: Enumerable<DatabaseImageUpdateWithWhereUniqueWithoutTargetMangaInput>
+    updateMany?: Enumerable<DatabaseImageUpdateManyWithWhereWithoutTargetMangaInput>
+    deleteMany?: Enumerable<DatabaseImageScalarWhereInput>
   }
 
-  export type DatabaseImageEdgeCreateNestedOneWithoutImagesInput = {
-    create?: XOR<DatabaseImageEdgeCreateWithoutImagesInput, DatabaseImageEdgeUncheckedCreateWithoutImagesInput>
-    connectOrCreate?: DatabaseImageEdgeCreateOrConnectWithoutImagesInput
-    connect?: DatabaseImageEdgeWhereUniqueInput
+  export type DatabaseImageUncheckedUpdateManyWithoutTargetMangaInput = {
+    create?: XOR<Enumerable<DatabaseImageCreateWithoutTargetMangaInput>, Enumerable<DatabaseImageUncheckedCreateWithoutTargetMangaInput>>
+    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutTargetMangaInput>
+    upsert?: Enumerable<DatabaseImageUpsertWithWhereUniqueWithoutTargetMangaInput>
+    createMany?: DatabaseImageCreateManyTargetMangaInputEnvelope
+    set?: Enumerable<DatabaseImageWhereUniqueInput>
+    disconnect?: Enumerable<DatabaseImageWhereUniqueInput>
+    delete?: Enumerable<DatabaseImageWhereUniqueInput>
+    connect?: Enumerable<DatabaseImageWhereUniqueInput>
+    update?: Enumerable<DatabaseImageUpdateWithWhereUniqueWithoutTargetMangaInput>
+    updateMany?: Enumerable<DatabaseImageUpdateManyWithWhereWithoutTargetMangaInput>
+    deleteMany?: Enumerable<DatabaseImageScalarWhereInput>
+  }
+
+  export type DatabaseMangaCreateNestedOneWithoutPostersInput = {
+    create?: XOR<DatabaseMangaCreateWithoutPostersInput, DatabaseMangaUncheckedCreateWithoutPostersInput>
+    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPostersInput
+    connect?: DatabaseMangaWhereUniqueInput
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -5247,90 +4227,14 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DatabaseImageEdgeUpdateOneRequiredWithoutImagesInput = {
-    create?: XOR<DatabaseImageEdgeCreateWithoutImagesInput, DatabaseImageEdgeUncheckedCreateWithoutImagesInput>
-    connectOrCreate?: DatabaseImageEdgeCreateOrConnectWithoutImagesInput
-    upsert?: DatabaseImageEdgeUpsertWithoutImagesInput
-    connect?: DatabaseImageEdgeWhereUniqueInput
-    update?: XOR<DatabaseImageEdgeUpdateWithoutImagesInput, DatabaseImageEdgeUncheckedUpdateWithoutImagesInput>
-  }
-
-  export type DatabaseImageCreateNestedManyWithoutEdgeInput = {
-    create?: XOR<Enumerable<DatabaseImageCreateWithoutEdgeInput>, Enumerable<DatabaseImageUncheckedCreateWithoutEdgeInput>>
-    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutEdgeInput>
-    createMany?: DatabaseImageCreateManyEdgeInputEnvelope
-    connect?: Enumerable<DatabaseImageWhereUniqueInput>
-  }
-
-  export type DatabaseMangaCreateNestedOneWithoutPosterEdgeInput = {
-    create?: XOR<DatabaseMangaCreateWithoutPosterEdgeInput, DatabaseMangaUncheckedCreateWithoutPosterEdgeInput>
-    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPosterEdgeInput
-    connect?: DatabaseMangaWhereUniqueInput
-  }
-
-  export type DatabaseImageUncheckedCreateNestedManyWithoutEdgeInput = {
-    create?: XOR<Enumerable<DatabaseImageCreateWithoutEdgeInput>, Enumerable<DatabaseImageUncheckedCreateWithoutEdgeInput>>
-    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutEdgeInput>
-    createMany?: DatabaseImageCreateManyEdgeInputEnvelope
-    connect?: Enumerable<DatabaseImageWhereUniqueInput>
-  }
-
-  export type DatabaseMangaUncheckedCreateNestedOneWithoutPosterEdgeInput = {
-    create?: XOR<DatabaseMangaCreateWithoutPosterEdgeInput, DatabaseMangaUncheckedCreateWithoutPosterEdgeInput>
-    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPosterEdgeInput
-    connect?: DatabaseMangaWhereUniqueInput
-  }
-
-  export type DatabaseImageUpdateManyWithoutEdgeInput = {
-    create?: XOR<Enumerable<DatabaseImageCreateWithoutEdgeInput>, Enumerable<DatabaseImageUncheckedCreateWithoutEdgeInput>>
-    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutEdgeInput>
-    upsert?: Enumerable<DatabaseImageUpsertWithWhereUniqueWithoutEdgeInput>
-    createMany?: DatabaseImageCreateManyEdgeInputEnvelope
-    set?: Enumerable<DatabaseImageWhereUniqueInput>
-    disconnect?: Enumerable<DatabaseImageWhereUniqueInput>
-    delete?: Enumerable<DatabaseImageWhereUniqueInput>
-    connect?: Enumerable<DatabaseImageWhereUniqueInput>
-    update?: Enumerable<DatabaseImageUpdateWithWhereUniqueWithoutEdgeInput>
-    updateMany?: Enumerable<DatabaseImageUpdateManyWithWhereWithoutEdgeInput>
-    deleteMany?: Enumerable<DatabaseImageScalarWhereInput>
-  }
-
-  export type EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput = {
-    set?: DatabaseImageEdgeTarget
-  }
-
-  export type DatabaseMangaUpdateOneWithoutPosterEdgeInput = {
-    create?: XOR<DatabaseMangaCreateWithoutPosterEdgeInput, DatabaseMangaUncheckedCreateWithoutPosterEdgeInput>
-    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPosterEdgeInput
-    upsert?: DatabaseMangaUpsertWithoutPosterEdgeInput
+  export type DatabaseMangaUpdateOneWithoutPostersInput = {
+    create?: XOR<DatabaseMangaCreateWithoutPostersInput, DatabaseMangaUncheckedCreateWithoutPostersInput>
+    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPostersInput
+    upsert?: DatabaseMangaUpsertWithoutPostersInput
     disconnect?: boolean
     delete?: boolean
     connect?: DatabaseMangaWhereUniqueInput
-    update?: XOR<DatabaseMangaUpdateWithoutPosterEdgeInput, DatabaseMangaUncheckedUpdateWithoutPosterEdgeInput>
-  }
-
-  export type DatabaseImageUncheckedUpdateManyWithoutEdgeInput = {
-    create?: XOR<Enumerable<DatabaseImageCreateWithoutEdgeInput>, Enumerable<DatabaseImageUncheckedCreateWithoutEdgeInput>>
-    connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutEdgeInput>
-    upsert?: Enumerable<DatabaseImageUpsertWithWhereUniqueWithoutEdgeInput>
-    createMany?: DatabaseImageCreateManyEdgeInputEnvelope
-    set?: Enumerable<DatabaseImageWhereUniqueInput>
-    disconnect?: Enumerable<DatabaseImageWhereUniqueInput>
-    delete?: Enumerable<DatabaseImageWhereUniqueInput>
-    connect?: Enumerable<DatabaseImageWhereUniqueInput>
-    update?: Enumerable<DatabaseImageUpdateWithWhereUniqueWithoutEdgeInput>
-    updateMany?: Enumerable<DatabaseImageUpdateManyWithWhereWithoutEdgeInput>
-    deleteMany?: Enumerable<DatabaseImageScalarWhereInput>
-  }
-
-  export type DatabaseMangaUncheckedUpdateOneWithoutPosterEdgeInput = {
-    create?: XOR<DatabaseMangaCreateWithoutPosterEdgeInput, DatabaseMangaUncheckedCreateWithoutPosterEdgeInput>
-    connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPosterEdgeInput
-    upsert?: DatabaseMangaUpsertWithoutPosterEdgeInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: DatabaseMangaWhereUniqueInput
-    update?: XOR<DatabaseMangaUpdateWithoutPosterEdgeInput, DatabaseMangaUncheckedUpdateWithoutPosterEdgeInput>
+    update?: XOR<DatabaseMangaUpdateWithoutPostersInput, DatabaseMangaUncheckedUpdateWithoutPostersInput>
   }
 
   export type NestedStringFilter = {
@@ -5528,166 +4432,42 @@ export namespace Prisma {
     _max?: NestedFloatFilter
   }
 
-  export type NestedEnumDatabaseImageEdgeTargetFilter = {
-    equals?: DatabaseImageEdgeTarget
-    in?: Enumerable<DatabaseImageEdgeTarget>
-    notIn?: Enumerable<DatabaseImageEdgeTarget>
-    not?: NestedEnumDatabaseImageEdgeTargetFilter | DatabaseImageEdgeTarget
-  }
-
-  export type NestedEnumDatabaseImageEdgeTargetWithAggregatesFilter = {
-    equals?: DatabaseImageEdgeTarget
-    in?: Enumerable<DatabaseImageEdgeTarget>
-    notIn?: Enumerable<DatabaseImageEdgeTarget>
-    not?: NestedEnumDatabaseImageEdgeTargetWithAggregatesFilter | DatabaseImageEdgeTarget
-    _count?: NestedIntFilter
-    _min?: NestedEnumDatabaseImageEdgeTargetFilter
-    _max?: NestedEnumDatabaseImageEdgeTargetFilter
-  }
-
-  export type DatabaseImageEdgeCreateWithoutTargetMangaInput = {
-    id?: string
-    images?: DatabaseImageCreateNestedManyWithoutEdgeInput
-    type: DatabaseImageEdgeTarget
-    targetId: string
-  }
-
-  export type DatabaseImageEdgeUncheckedCreateWithoutTargetMangaInput = {
-    id?: string
-    images?: DatabaseImageUncheckedCreateNestedManyWithoutEdgeInput
-    type: DatabaseImageEdgeTarget
-    targetId: string
-  }
-
-  export type DatabaseImageEdgeCreateOrConnectWithoutTargetMangaInput = {
-    where: DatabaseImageEdgeWhereUniqueInput
-    create: XOR<DatabaseImageEdgeCreateWithoutTargetMangaInput, DatabaseImageEdgeUncheckedCreateWithoutTargetMangaInput>
-  }
-
-  export type DatabaseImageEdgeUpsertWithoutTargetMangaInput = {
-    update: XOR<DatabaseImageEdgeUpdateWithoutTargetMangaInput, DatabaseImageEdgeUncheckedUpdateWithoutTargetMangaInput>
-    create: XOR<DatabaseImageEdgeCreateWithoutTargetMangaInput, DatabaseImageEdgeUncheckedCreateWithoutTargetMangaInput>
-  }
-
-  export type DatabaseImageEdgeUpdateWithoutTargetMangaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    images?: DatabaseImageUpdateManyWithoutEdgeInput
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
-    targetId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DatabaseImageEdgeUncheckedUpdateWithoutTargetMangaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    images?: DatabaseImageUncheckedUpdateManyWithoutEdgeInput
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
-    targetId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DatabaseImageEdgeCreateWithoutImagesInput = {
-    id?: string
-    type: DatabaseImageEdgeTarget
-    targetId: string
-    targetManga?: DatabaseMangaCreateNestedOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageEdgeUncheckedCreateWithoutImagesInput = {
-    id?: string
-    type: DatabaseImageEdgeTarget
-    targetId: string
-    targetManga?: DatabaseMangaUncheckedCreateNestedOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageEdgeCreateOrConnectWithoutImagesInput = {
-    where: DatabaseImageEdgeWhereUniqueInput
-    create: XOR<DatabaseImageEdgeCreateWithoutImagesInput, DatabaseImageEdgeUncheckedCreateWithoutImagesInput>
-  }
-
-  export type DatabaseImageEdgeUpsertWithoutImagesInput = {
-    update: XOR<DatabaseImageEdgeUpdateWithoutImagesInput, DatabaseImageEdgeUncheckedUpdateWithoutImagesInput>
-    create: XOR<DatabaseImageEdgeCreateWithoutImagesInput, DatabaseImageEdgeUncheckedCreateWithoutImagesInput>
-  }
-
-  export type DatabaseImageEdgeUpdateWithoutImagesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
-    targetId?: StringFieldUpdateOperationsInput | string
-    targetManga?: DatabaseMangaUpdateOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageEdgeUncheckedUpdateWithoutImagesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: EnumDatabaseImageEdgeTargetFieldUpdateOperationsInput | DatabaseImageEdgeTarget
-    targetId?: StringFieldUpdateOperationsInput | string
-    targetManga?: DatabaseMangaUncheckedUpdateOneWithoutPosterEdgeInput
-  }
-
-  export type DatabaseImageCreateWithoutEdgeInput = {
+  export type DatabaseImageCreateWithoutTargetMangaInput = {
     id?: string
     originalSrc: string
     originalAspectRatio: number
   }
 
-  export type DatabaseImageUncheckedCreateWithoutEdgeInput = {
+  export type DatabaseImageUncheckedCreateWithoutTargetMangaInput = {
     id?: string
     originalSrc: string
     originalAspectRatio: number
   }
 
-  export type DatabaseImageCreateOrConnectWithoutEdgeInput = {
+  export type DatabaseImageCreateOrConnectWithoutTargetMangaInput = {
     where: DatabaseImageWhereUniqueInput
-    create: XOR<DatabaseImageCreateWithoutEdgeInput, DatabaseImageUncheckedCreateWithoutEdgeInput>
+    create: XOR<DatabaseImageCreateWithoutTargetMangaInput, DatabaseImageUncheckedCreateWithoutTargetMangaInput>
   }
 
-  export type DatabaseImageCreateManyEdgeInputEnvelope = {
-    data: Enumerable<DatabaseImageCreateManyEdgeInput>
+  export type DatabaseImageCreateManyTargetMangaInputEnvelope = {
+    data: Enumerable<DatabaseImageCreateManyTargetMangaInput>
     skipDuplicates?: boolean
   }
 
-  export type DatabaseMangaCreateWithoutPosterEdgeInput = {
-    id?: string
-    source: DatabaseMangaSource
-    sourceId: string
-    createdAt?: Date | string
-    originalName: string
-    uaName?: string | null
-    description: string
-    type: DatabaseMangaType
-    releaseDate?: Date | string | null
-    finishDate?: Date | string | null
-  }
-
-  export type DatabaseMangaUncheckedCreateWithoutPosterEdgeInput = {
-    id?: string
-    source: DatabaseMangaSource
-    sourceId: string
-    createdAt?: Date | string
-    originalName: string
-    uaName?: string | null
-    description: string
-    type: DatabaseMangaType
-    releaseDate?: Date | string | null
-    finishDate?: Date | string | null
-  }
-
-  export type DatabaseMangaCreateOrConnectWithoutPosterEdgeInput = {
-    where: DatabaseMangaWhereUniqueInput
-    create: XOR<DatabaseMangaCreateWithoutPosterEdgeInput, DatabaseMangaUncheckedCreateWithoutPosterEdgeInput>
-  }
-
-  export type DatabaseImageUpsertWithWhereUniqueWithoutEdgeInput = {
+  export type DatabaseImageUpsertWithWhereUniqueWithoutTargetMangaInput = {
     where: DatabaseImageWhereUniqueInput
-    update: XOR<DatabaseImageUpdateWithoutEdgeInput, DatabaseImageUncheckedUpdateWithoutEdgeInput>
-    create: XOR<DatabaseImageCreateWithoutEdgeInput, DatabaseImageUncheckedCreateWithoutEdgeInput>
+    update: XOR<DatabaseImageUpdateWithoutTargetMangaInput, DatabaseImageUncheckedUpdateWithoutTargetMangaInput>
+    create: XOR<DatabaseImageCreateWithoutTargetMangaInput, DatabaseImageUncheckedCreateWithoutTargetMangaInput>
   }
 
-  export type DatabaseImageUpdateWithWhereUniqueWithoutEdgeInput = {
+  export type DatabaseImageUpdateWithWhereUniqueWithoutTargetMangaInput = {
     where: DatabaseImageWhereUniqueInput
-    data: XOR<DatabaseImageUpdateWithoutEdgeInput, DatabaseImageUncheckedUpdateWithoutEdgeInput>
+    data: XOR<DatabaseImageUpdateWithoutTargetMangaInput, DatabaseImageUncheckedUpdateWithoutTargetMangaInput>
   }
 
-  export type DatabaseImageUpdateManyWithWhereWithoutEdgeInput = {
+  export type DatabaseImageUpdateManyWithWhereWithoutTargetMangaInput = {
     where: DatabaseImageScalarWhereInput
-    data: XOR<DatabaseImageUpdateManyMutationInput, DatabaseImageUncheckedUpdateManyWithoutImagesInput>
+    data: XOR<DatabaseImageUpdateManyMutationInput, DatabaseImageUncheckedUpdateManyWithoutPostersInput>
   }
 
   export type DatabaseImageScalarWhereInput = {
@@ -5697,15 +4477,46 @@ export namespace Prisma {
     id?: StringFilter | string
     originalSrc?: StringFilter | string
     originalAspectRatio?: FloatFilter | number
-    edgeId?: StringFilter | string
+    targetId?: StringFilter | string
   }
 
-  export type DatabaseMangaUpsertWithoutPosterEdgeInput = {
-    update: XOR<DatabaseMangaUpdateWithoutPosterEdgeInput, DatabaseMangaUncheckedUpdateWithoutPosterEdgeInput>
-    create: XOR<DatabaseMangaCreateWithoutPosterEdgeInput, DatabaseMangaUncheckedCreateWithoutPosterEdgeInput>
+  export type DatabaseMangaCreateWithoutPostersInput = {
+    id?: string
+    source: DatabaseMangaSource
+    sourceId: string
+    createdAt?: Date | string
+    originalName: string
+    uaName?: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate?: Date | string | null
+    finishDate?: Date | string | null
   }
 
-  export type DatabaseMangaUpdateWithoutPosterEdgeInput = {
+  export type DatabaseMangaUncheckedCreateWithoutPostersInput = {
+    id?: string
+    source: DatabaseMangaSource
+    sourceId: string
+    createdAt?: Date | string
+    originalName: string
+    uaName?: string | null
+    description: string
+    type: DatabaseMangaType
+    releaseDate?: Date | string | null
+    finishDate?: Date | string | null
+  }
+
+  export type DatabaseMangaCreateOrConnectWithoutPostersInput = {
+    where: DatabaseMangaWhereUniqueInput
+    create: XOR<DatabaseMangaCreateWithoutPostersInput, DatabaseMangaUncheckedCreateWithoutPostersInput>
+  }
+
+  export type DatabaseMangaUpsertWithoutPostersInput = {
+    update: XOR<DatabaseMangaUpdateWithoutPostersInput, DatabaseMangaUncheckedUpdateWithoutPostersInput>
+    create: XOR<DatabaseMangaCreateWithoutPostersInput, DatabaseMangaUncheckedCreateWithoutPostersInput>
+  }
+
+  export type DatabaseMangaUpdateWithoutPostersInput = {
     id?: StringFieldUpdateOperationsInput | string
     source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
     sourceId?: StringFieldUpdateOperationsInput | string
@@ -5718,7 +4529,7 @@ export namespace Prisma {
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type DatabaseMangaUncheckedUpdateWithoutPosterEdgeInput = {
+  export type DatabaseMangaUncheckedUpdateWithoutPostersInput = {
     id?: StringFieldUpdateOperationsInput | string
     source?: EnumDatabaseMangaSourceFieldUpdateOperationsInput | DatabaseMangaSource
     sourceId?: StringFieldUpdateOperationsInput | string
@@ -5731,25 +4542,25 @@ export namespace Prisma {
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type DatabaseImageCreateManyEdgeInput = {
+  export type DatabaseImageCreateManyTargetMangaInput = {
     id?: string
     originalSrc: string
     originalAspectRatio: number
   }
 
-  export type DatabaseImageUpdateWithoutEdgeInput = {
+  export type DatabaseImageUpdateWithoutTargetMangaInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalSrc?: StringFieldUpdateOperationsInput | string
     originalAspectRatio?: FloatFieldUpdateOperationsInput | number
   }
 
-  export type DatabaseImageUncheckedUpdateWithoutEdgeInput = {
+  export type DatabaseImageUncheckedUpdateWithoutTargetMangaInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalSrc?: StringFieldUpdateOperationsInput | string
     originalAspectRatio?: FloatFieldUpdateOperationsInput | number
   }
 
-  export type DatabaseImageUncheckedUpdateManyWithoutImagesInput = {
+  export type DatabaseImageUncheckedUpdateManyWithoutPostersInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalSrc?: StringFieldUpdateOperationsInput | string
     originalAspectRatio?: FloatFieldUpdateOperationsInput | number
