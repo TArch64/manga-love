@@ -1,11 +1,12 @@
 <template>
-    <div>hello</div>
+    <div v-if="currentUser">
+        hello {{ currentUser }}
+    </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
+<script lang="ts" setup>
+import { useQueryAsync } from '~/composables/apollo';
+import { currentUserQuery } from '~/graphql/user';
 
-export default Vue.extend({
-    name: 'Index'
-});
+const currentUser = useQueryAsync({ query: currentUserQuery });
 </script>

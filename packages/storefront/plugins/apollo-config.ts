@@ -6,7 +6,5 @@ export default (context: Context): ApolloClientConfig => {
     const { STOREFRONT_SERVER_GRAPHQL_URL, STOREFRONT_BROWSER_GRAPHQL_URL } = env;
     const endpoint = context.ssrContext ? STOREFRONT_SERVER_GRAPHQL_URL : STOREFRONT_BROWSER_GRAPHQL_URL;
 
-    return {
-        httpEndpoint: endpoint || ''
-    };
+    return { httpEndpoint: endpoint || '' };
 };
