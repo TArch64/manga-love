@@ -1,12 +1,15 @@
 <template>
     <div>
-        {{ $t('hello') }} {{ currentUser || 'No User' }}
+        {{ $t('hello') }} {{ userStore.currentUser || 'No User' }}
     </div>
 </template>
 
 <script lang="ts" setup>
-import { useQueryAsync } from '~/composables/apollo';
-import { currentUserQuery } from '~/graphql/user';
+import { onBeforeMount, ssrPromise } from '@nuxtjs/composition-api';
+import { useUserStore } from '~/store/user-store';
 
-const currentUser = useQueryAsync({ query: currentUserQuery });
+const userStore = useUserStore();
+const userLoader = ssrPromise(() => userStore.loadCurrentUser());
+
+onBeforeMount(async () => await userLoader);
 </script>

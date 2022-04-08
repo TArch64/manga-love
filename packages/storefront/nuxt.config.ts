@@ -24,7 +24,8 @@ export default {
 
     buildModules: [
         '@nuxt/typescript-build',
-        '@nuxtjs/composition-api/module'
+        '@nuxtjs/composition-api/module',
+        ['@pinia/nuxt', { disableVuex: true }]
     ],
 
     modules: [
