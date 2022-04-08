@@ -26,7 +26,8 @@
         "types": [
             "@nuxt/types",
             "@types/node",
-            "vue-apollo/types"
+            "vue-apollo/types",
+            "@nuxtjs/i18n"
         ]
     },
     "exclude": [

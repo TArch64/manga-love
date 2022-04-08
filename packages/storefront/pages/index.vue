@@ -1,6 +1,6 @@
 <template>
-    <div v-if="currentUser">
-        hello {{ currentUser }}
+    <div>
+        {{ $t('hello') }} {{ currentUser || 'No User' }}
     </div>
 </template>
 

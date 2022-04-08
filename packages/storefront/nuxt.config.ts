@@ -28,7 +28,8 @@ export default {
     ],
 
     modules: [
-        '@nuxtjs/apollo'
+        '@nuxtjs/apollo',
+        '@nuxtjs/i18n'
     ],
 
     env: proxyEnvs([
@@ -39,5 +40,22 @@ export default {
         clientConfigs: {
             default: '~/plugins/apollo-config.ts'
         }
+    },
+
+    i18n: {
+        locales: [
+            {
+                code: 'en',
+                file: 'locale-en.ts'
+            },
+            {
+                code: 'ua',
+                file: 'locale-ua.ts'
+            }
+        ],
+        lazy: true,
+        langDir: 'locales/',
+        defaultLocale: 'en',
+        strategy: 'prefix_and_default'
     }
 };
