@@ -1,20 +1,15 @@
 <template>
-    <FormField :name="name" :label="label">
-        <template #input="{ value, setValue }">
-            <input
-                class="ml-form-text-field__input"
-                :value="value"
-                :placeholder="placeholder"
-                :type="type"
-                @input="setValue($event.target.value)"
-            >
-        </template>
-    </FormField>
+    <input
+        class="ml-input"
+        :value="value"
+        :placeholder="placeholder"
+        :type="type"
+        @input="$emit('input', $event.target.value)"
+    >
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from '@nuxtjs/composition-api';
-import FormField from './form-field.vue';
 
 export enum TextFieldType {
     TEXT = 'text',
@@ -23,32 +18,32 @@ export enum TextFieldType {
 }
 
 export default defineComponent({
-    name: 'FormTextField',
-
-    components: {
-        FormField
-    },
+    name: 'MlInput',
 
     props: {
-        name: FormField.props!.name,
-        label: FormField.props!.label,
-
         type: {
             type: String as PropType<TextFieldType>,
             required: false,
-            default: 'text'
+            default: TextFieldType.TEXT
+        },
+
+        value: {
+            type: String,
+            required: true
         },
 
         placeholder: {
             type: String,
             required: true
         }
-    }
+    },
+
+    emits: ['input']
 });
 </script>
 
 <style scoped>
-.ml-form-text-field__input {
+.ml-input {
     border: none;
     background: none;
     padding: 0;
@@ -58,5 +53,9 @@ export default defineComponent({
     font-size: 16px;
     line-height: 22px;
     color: #242424;
+
+    &::placeholder {
+        color: #B3B3B3;
+    }
 }
 </style>

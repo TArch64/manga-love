@@ -1,5 +1,5 @@
 <template>
-    <svg :width="size" :height="size">
+    <svg class="ml-icon" :width="size" :height="size">
         <use :href="`/icons.svg#${name}`" />
     </svg>
 </template>
@@ -8,7 +8,7 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 
 export default defineComponent({
-    name: 'Icon',
+    name: 'MlIcon',
 
     props: {
         name: {
@@ -23,3 +23,9 @@ export default defineComponent({
     }
 });
 </script>
+
+<style scoped>
+.ml-icon {
+    line-height: 1;
+}
+</style>

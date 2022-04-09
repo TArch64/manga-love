@@ -1,6 +1,6 @@
 module.exports = {
     js2svg: {
-        indent: 2,
+        indent: 4,
         pretty: true
     },
     multipass: true,

@@ -18,9 +18,6 @@ module.exports = {
         es6: true,
         node: true
     },
-    globals: {
-        defineProps: true
-    },
     overrides: [
         {
             files: ['*.ts', '*.vue'],
@@ -186,7 +183,14 @@ module.exports = {
                 'import/order': [
                     'error',
                     {
-                        'groups': [
+                        pathGroups: [
+                            {
+                                pattern: '~/**',
+                                group: 'external',
+                                position: 'after'
+                            }
+                        ],
+                        groups: [
                             'builtin',
                             'external',
                             'internal',

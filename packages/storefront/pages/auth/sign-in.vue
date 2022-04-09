@@ -12,8 +12,10 @@
             </span>
         </h1>
 
-        <FormWrapper :data="authForm.data" @change="authForm.update">
-            <FormTextField
+        <div class="ml-spacer" />
+
+        <MlWrapper :data="authForm.data" @change="authForm.update">
+            <MlTextField
                 class="ml-margin-bottom--md"
                 name="email"
                 type="email"
@@ -21,13 +23,11 @@
                 placeholder="Type e-mail"
             />
 
-            <FormTextField
+            <MlPasswordField
                 name="password"
-                type="password"
                 label="Password"
-                placeholder="*************"
             />
-        </FormWrapper>
+        </MlWrapper>
 
         {{ authForm.data }}
     </div>
@@ -35,15 +35,16 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
-import { FormWrapper, useForm, FormTextField } from '~/components/common/form';
+import { MlWrapper, useForm, MlTextField, MlPasswordField } from '~/components/common/form';
 
 export default defineComponent({
     name: 'SignIn',
     layout: 'auth',
 
     components: {
-        FormWrapper,
-        FormTextField
+        MlWrapper,
+        MlTextField,
+        MlPasswordField
     },
 
     head: {
@@ -75,7 +76,7 @@ export default defineComponent({
     font-weight: 400;
     letter-spacing: 1.5px;
     margin-top: 0;
-    margin-bottom: auto;
+    margin-bottom: 40px;
 }
 
 .ml-sign-in__greeting-hello {

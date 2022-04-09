@@ -1,10 +1,10 @@
 <template>
-    <Icon name="logo" :class="iconClasses" :size="size" />
+    <MlIcon name="logo" :class="iconClasses" :size="size" />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from '@nuxtjs/composition-api';
-import Icon from './icon.vue';
+import MlIcon from './ml-icon.vue';
 
 export enum AppLogoTypes {
     OUTLINED = 'outlined',
@@ -12,10 +12,10 @@ export enum AppLogoTypes {
 }
 
 export default defineComponent({
-    name: 'AppLogo',
+    name: 'MlLogo',
 
     components: {
-        Icon
+        MlIcon
     },
 
     props: {
@@ -24,7 +24,7 @@ export default defineComponent({
             required: true
         },
 
-        size: Icon.props!.size
+        size: MlIcon.props!.size
     },
 
     setup(props) {

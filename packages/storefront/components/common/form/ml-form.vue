@@ -10,7 +10,7 @@ import { computed, ComputedRef, defineComponent, provide, reactive, UnwrapRef } 
 export const FORM_REGISTER = Symbol('FORM_REGISTER');
 
 export interface FormControlContext<T> {
-    value: ComputedRef<T>;
+    data: ComputedRef<T>;
     setValue(value: T): void;
 }
 
@@ -33,7 +33,7 @@ export function useForm<T extends {}>(initial: T): FormAccessor<T> {
 }
 
 export default defineComponent({
-    name: 'FormWrapper',
+    name: 'MlForm',
 
     props: {
         data: {

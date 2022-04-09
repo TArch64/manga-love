@@ -1,3 +1,9 @@
-import AppLogo from './app-logo.vue';
+import MlLogo from './ml-logo.vue';
+import MlIcon from './ml-icon.vue';
+import MlButton from './ml-button.vue';
 
-export { AppLogo };
+export {
+    MlLogo,
+    MlIcon,
+    MlButton
+};

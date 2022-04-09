@@ -4,6 +4,8 @@ xs = 10
 sm = 15
 md = 20
 lg = 30
+xlg = 40
  */
 
 .ml-margin-bottom--md { margin-bottom: 20px }
+.ml-margin-bottom--xlg { margin-bottom: 40px }

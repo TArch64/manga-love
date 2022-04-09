@@ -1,7 +1,7 @@
 <template>
     <div class="ml-auth-layout">
         <div class="ml-auth-layout__logo">
-            <AppLogo type="outlined" size="64px" />
+            <MlLogo type="outlined" size="64px" />
         </div>
 
         <div class="ml-auth-layout__content">
@@ -12,13 +12,13 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
-import { AppLogo } from '~/components/common';
+import { MlLogo } from '~/components/common';
 
 export default defineComponent({
     name: 'Auth',
 
     components: {
-        AppLogo
+        MlLogo
     }
 });
 </script>
@@ -56,5 +56,6 @@ export default defineComponent({
 
 .ml-auth-layout__content {
     flex-grow: 1;
+    flex-basis: 0;
 }
 </style>
