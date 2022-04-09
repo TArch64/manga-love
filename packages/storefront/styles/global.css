@@ -22,4 +22,6 @@ body {
     font-weight: 600;
 }
 
-.ml-spacer { flex-grow: 1; flex-basis: 0; }
+@media (max-width: 767.98px) {
+    .ml-mobile-spacer { flex-grow: 1; flex-basis: 0; }
+}

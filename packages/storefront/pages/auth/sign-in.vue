@@ -12,7 +12,7 @@
             </span>
         </h1>
 
-        <div class="ml-spacer" />
+        <div class="ml-mobile-spacer" />
 
         <MlWrapper :data="authForm.data" @change="authForm.update">
             <MlTextField

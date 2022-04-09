@@ -29,6 +29,13 @@ export default defineComponent({
     min-height: 100%;
     display: flex;
     flex-direction: column;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: 768px) {
+        justify-content: center;
+    }
 }
 
 .ml-auth-layout__logo {
@@ -54,8 +61,11 @@ export default defineComponent({
     }
 }
 
-.ml-auth-layout__content {
-    flex-grow: 1;
-    flex-basis: 0;
+@media (max-width: 767.98px) {
+
+    .ml-auth-layout__content {
+        flex-grow: 1;
+        flex-basis: 0;
+    }
 }
 </style>
