@@ -1,3 +1,5 @@
+import { NuxtRouteConfig } from '@nuxt/types/config/router';
+
 function proxyEnvs(envs: string[]): Record<string, string> {
     return envs.reduce((collector, env) => ({ ...collector, [env]: process.env[env] }), {});
 }
@@ -57,6 +59,12 @@ export default {
         lazy: true,
         langDir: 'locales/',
         defaultLocale: 'en',
-        strategy: 'prefix_and_default'
+        strategy: 'no_prefix'
+    },
+
+    router: {
+        extendRoutes(routes: NuxtRouteConfig[]): void {
+            routes.push({ path: '*', redirect: '/' });
+        }
     }
 };
