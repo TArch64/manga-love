@@ -1,3 +1,10 @@
 export default {
-    hello: 'Hello'
+    hello: 'Hello',
+
+    auth: {
+        signIn: {
+            greetingHello: 'Hello!',
+            greeting: 'Welcome back'
+        }
+    }
 };

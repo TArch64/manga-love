@@ -55,9 +55,6 @@ export default defineComponent({
 }
 
 .ml-auth-layout__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     flex-grow: 1;
 }
 </style>
