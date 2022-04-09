@@ -5,7 +5,8 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs } from '@nuxtjs/composition-api';
 import { useUserStore } from '~/store/user-store';
 
-const { currentUser } = useUserStore();
+const { currentUser } = toRefs(useUserStore());
 </script>

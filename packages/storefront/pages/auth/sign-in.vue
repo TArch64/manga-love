@@ -12,9 +12,7 @@
             </span>
         </h1>
 
-        <div class="ml-mobile-spacer" />
-
-        <MlWrapper :data="authForm.data" @change="authForm.update">
+        <MlForm :data="authForm.data" @change="authForm.update" @submit="signIn">
             <MlTextField
                 class="ml-margin-bottom--md"
                 name="email"
@@ -24,25 +22,35 @@
             />
 
             <MlPasswordField
+                class="ml-margin-bottom--xlg"
                 name="password"
                 label="Password"
             />
-        </MlWrapper>
 
-        {{ authForm.data }}
+            <MlButton class="ml-width--full ml-margin-bottom--md" type="submit" skin="primary" size="lg">
+                Log in
+            </MlButton>
+
+            <MlButton class="ml-width--full" type="submit" skin="flat" size="lg">
+                SIGN UP
+            </MlButton>
+        </MlForm>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
-import { MlWrapper, useForm, MlTextField, MlPasswordField } from '~/components/common/form';
+import { MlForm, useForm, MlTextField, MlPasswordField } from '~/components/common/form';
+import { MlButton } from '~/components/common';
+import { useUserStore, SignInCredentials } from '~/store/user-store';
 
 export default defineComponent({
     name: 'SignIn',
     layout: 'auth',
 
     components: {
-        MlWrapper,
+        MlButton,
+        MlForm,
         MlTextField,
         MlPasswordField
     },
@@ -52,12 +60,18 @@ export default defineComponent({
     },
 
     setup() {
-        const authForm = useForm({
+        const authForm = useForm<SignInCredentials>({
             email: '',
             password: ''
         });
 
-        return { authForm };
+        const userStore = useUserStore();
+
+        function signIn(): void {
+            userStore.signIn(authForm.data);
+        }
+
+        return { authForm, signIn };
     }
 });
 </script>

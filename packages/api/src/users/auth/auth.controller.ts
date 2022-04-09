@@ -49,7 +49,7 @@ export class AuthController {
                 httpOnly: true
             });
 
-            if (returnUrl) res.redirect(returnUrl);
+            returnUrl ? res.redirect(returnUrl) : res.json({ success: true });
         } catch (error) {
             if (!returnUrl) throw error;
 

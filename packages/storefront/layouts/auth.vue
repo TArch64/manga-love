@@ -1,7 +1,7 @@
 <template>
     <div class="ml-auth-layout">
         <div class="ml-auth-layout__logo">
-            <MlLogo type="outlined" size="64px" />
+            <MlLogo skin="outlined" size="64px" />
         </div>
 
         <div class="ml-auth-layout__content">

@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia';
-import { useQuery } from '~/composables';
+import { useQuery, useBrowserFetch } from '~/composables';
 import { currentUserQuery } from '~/graphql/user';
 
 export interface User {
     id: string;
     email: string;
+}
+
+export interface SignInCredentials {
+    email: string;
+    password: string;
 }
 
 interface State {
@@ -13,6 +18,7 @@ interface State {
 
 interface Actions {
     loadCurrentUser(): Promise<void>;
+    signIn(credentials: SignInCredentials): Promise<void>;
 }
 
 export const useUserStore = defineStore<string, State, {}, Actions>('user', {
@@ -28,6 +34,12 @@ export const useUserStore = defineStore<string, State, {}, Actions>('user', {
             } catch (error) {
                 this.currentUser = null;
             }
+        },
+
+        async signIn(credentials: SignInCredentials) {
+            await useBrowserFetch('/api/auth/sign-in', credentials);
+            await this.loadCurrentUser();
+            this.$nuxt.redirect('/');
         }
     }
 });

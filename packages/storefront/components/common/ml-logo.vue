@@ -6,7 +6,7 @@
 import { computed, defineComponent, PropType } from '@nuxtjs/composition-api';
 import MlIcon from './ml-icon.vue';
 
-export enum AppLogoTypes {
+export enum AppLogoSkin {
     OUTLINED = 'outlined',
     SOLID = 'solid'
 }
@@ -19,8 +19,8 @@ export default defineComponent({
     },
 
     props: {
-        type: {
-            type: String as PropType<AppLogoTypes>,
+        skin: {
+            type: String as PropType<AppLogoSkin>,
             required: true
         },
 
@@ -28,7 +28,7 @@ export default defineComponent({
     },
 
     setup(props) {
-        const iconClasses = computed(() => `ml-logo--${props.type}`);
+        const iconClasses = computed(() => `ml-logo--${props.skin}`);
 
         return { iconClasses };
     }
