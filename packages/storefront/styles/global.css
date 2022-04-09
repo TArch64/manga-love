@@ -25,3 +25,7 @@ body {
 .ml-width--full {
     width: 100%;
 }
+
+.ml-text--uppercase {
+    text-transform: uppercase;
+}

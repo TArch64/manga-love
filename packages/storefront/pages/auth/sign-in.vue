@@ -17,22 +17,22 @@
                 class="ml-margin-bottom--md"
                 name="email"
                 type="email"
-                label="e-mail"
-                placeholder="Type e-mail"
+                :label="$t('auth.form.email.label')"
+                :placeholder="$t('auth.form.email.placeholder')"
             />
 
             <MlPasswordField
                 class="ml-margin-bottom--xlg"
                 name="password"
-                label="Password"
+                :label="$t('auth.form.password.label')"
             />
 
             <MlButton class="ml-width--full ml-margin-bottom--md" type="submit" skin="primary" size="lg">
-                Log in
+                {{ $t('auth.signIn.submit') }}
             </MlButton>
 
-            <MlButton class="ml-width--full" type="submit" skin="flat" size="lg">
-                SIGN UP
+            <MlButton class="ml-width--full ml-text--uppercase" type="submit" skin="flat" size="lg">
+                {{ $t('auth.signIn.toSignUp') }}
             </MlButton>
         </MlForm>
     </div>
