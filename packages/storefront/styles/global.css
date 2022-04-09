@@ -1,3 +1,4 @@
+/* Need to set styles for nuxt wrappers */
 /* stylelint-disable selector-max-specificity */
 
 *, *::before, *::after { box-sizing: border-box }
@@ -7,4 +8,14 @@ body,
 #__nuxt,
 #__layout {
     height: 100%
+}
+
+:root {
+    --font-serif: "Merriweather", serif;
+    --font-sans: "Nunito Sans", sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-weight: 600;
 }
