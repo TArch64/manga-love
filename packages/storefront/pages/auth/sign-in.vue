@@ -11,19 +11,52 @@
                 {{ $t('auth.signIn.greeting') }}
             </span>
         </h1>
+
+        <FormWrapper :data="authForm.data" @change="authForm.update">
+            <FormTextField
+                class="ml-margin-bottom--md"
+                name="email"
+                type="email"
+                label="e-mail"
+                placeholder="Type e-mail"
+            />
+
+            <FormTextField
+                name="password"
+                type="password"
+                label="Password"
+                placeholder="*************"
+            />
+        </FormWrapper>
+
+        {{ authForm.data }}
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
+import { FormWrapper, useForm, FormTextField } from '~/components/common/form';
 
 export default defineComponent({
     name: 'SignIn',
-
     layout: 'auth',
+
+    components: {
+        FormWrapper,
+        FormTextField
+    },
 
     head: {
         title: 'Sign In'
+    },
+
+    setup() {
+        const authForm = useForm({
+            email: '',
+            password: ''
+        });
+
+        return { authForm };
     }
 });
 </script>
