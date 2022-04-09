@@ -31,7 +31,7 @@
                 {{ $t('auth.signIn.submit') }}
             </MlButton>
 
-            <MlButton class="ml-width--full ml-text--uppercase" type="submit" skin="flat" size="lg">
+            <MlButton class="ml-width--full ml-text--uppercase" link="/auth/sign-up" skin="flat" size="lg">
                 {{ $t('auth.signIn.toSignUp') }}
             </MlButton>
         </MlForm>

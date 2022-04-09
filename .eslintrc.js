@@ -336,7 +336,7 @@ module.exports = {
                 'vue/no-useless-v-bind': 'error',
                 'vue/padding-line-between-blocks': ['error', 'always'],
                 'vue/require-name-property': 'error',
-                'vue/html-button-has-type': ['error'],
+                'vue/html-button-has-type': ['warn'],
                 'vue/no-unused-refs': 'error',
                 'vue/no-deprecated-slot-attribute': 'error',
                 'vue/no-deprecated-slot-scope-attribute': 'error',

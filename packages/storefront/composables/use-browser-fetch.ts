@@ -6,5 +6,5 @@ export async function useBrowserFetch<B extends {}, R = unknown>(url: string, bo
         },
         body: JSON.stringify(body)
     });
-    return response.json().catch(() => null);
+    return response.json();
 }

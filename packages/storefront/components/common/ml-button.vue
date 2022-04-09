@@ -2,7 +2,7 @@
     <button
         class="ml-button"
         :class="buttonClasses"
-        :type="type"
+        v-bind="buttonAttrs"
         @click="$emit('click')"
     >
         <slot />
@@ -36,6 +36,12 @@ export default defineComponent({
             default: ButtonType.BUTTON
         },
 
+        link: {
+            type: String as PropType<ButtonType>,
+            required: false,
+            default: ''
+        },
+
         skin: {
             type: String as PropType<ButtonSkin>,
             required: false,
@@ -54,10 +60,18 @@ export default defineComponent({
     setup(props) {
         const buttonClasses = computed(() => ({
             [`ml-button--${props.skin}`]: !!props.skin,
-            [`ml-button--${props.size}`]: !!props.size
+            [`ml-button--${props.size}`]: !!props.size,
+            'ml-button--link': !!props.link
         }));
 
-        return { buttonClasses };
+        const buttonAttrs = computed(() => {
+            if (props.link) {
+                return { is: 'NuxtLink', to: props.link, role: 'button' };
+            }
+            return { type: props.type };
+        });
+
+        return { buttonClasses, buttonAttrs };
     }
 });
 </script>
@@ -73,6 +87,16 @@ export default defineComponent({
     &:hover,
     &:focus {
         outline: none;
+    }
+}
+
+.ml-button--link {
+    color: inherit;
+    text-decoration: none;
+
+    &:active,
+    &:visited {
+        color: inherit;
     }
 }
 
