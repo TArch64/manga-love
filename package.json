@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "scripts": {
         "prepare": "husky install",
-        "lint:ts": "eslint --fix ."
+        "lint:ts": "eslint --fix .",
+        "optimize:svg": "svgo --config ./svgo.config.js"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.17.0",
@@ -17,9 +18,7 @@
         "postcss-html": "^1.3.0",
         "postcss-scss": "^4.0.3",
         "stylelint": "^14.6.1",
+        "svgo": "^2.8.0",
         "typescript": "^4.6.3"
-    },
-    "dependencies": {
-        "cookie-universal-nuxt": "^2.1.5"
     }
 }

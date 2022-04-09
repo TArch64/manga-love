@@ -1,0 +1,10 @@
+/* stylelint-disable selector-max-specificity */
+
+*, *::before, *::after { box-sizing: border-box }
+
+html,
+body,
+#__nuxt,
+#__layout {
+    height: 100%
+}

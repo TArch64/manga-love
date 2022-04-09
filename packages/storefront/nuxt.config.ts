@@ -24,6 +24,14 @@ export default {
         ]
     },
 
+    build: {
+        postcss: {
+            plugins: {
+                'postcss-nested': true
+            }
+        }
+    },
+
     buildModules: [
         '@nuxt/typescript-build',
         '@nuxtjs/composition-api/module',
@@ -33,6 +41,11 @@ export default {
     modules: [
         '@nuxtjs/apollo',
         '@nuxtjs/i18n'
+    ],
+
+    css: [
+        'normalize.css/normalize.css',
+        '~/styles/global.css'
     ],
 
     env: proxyEnvs([

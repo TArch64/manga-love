@@ -18,6 +18,9 @@ module.exports = {
         es6: true,
         node: true
     },
+    globals: {
+        defineProps: true
+    },
     overrides: [
         {
             files: ['*.ts', '*.vue'],
@@ -243,7 +246,8 @@ module.exports = {
                 ],
                 '@typescript-eslint/no-explicit-any': 'error',
                 '@typescript-eslint/no-empty-interface': 'off',
-                '@typescript-eslint/ban-types': 'off'
+                '@typescript-eslint/ban-types': 'off',
+                '@typescript-eslint/no-non-null-assertion': 'off'
             }
         },
         {

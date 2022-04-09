@@ -13,3 +13,5 @@ declare module '*.graphql' {
     const content: DocumentNode;
     export default content;
 }
+
+declare function defineProps<T extends {}>(): void;
