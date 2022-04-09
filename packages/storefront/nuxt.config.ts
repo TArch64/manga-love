@@ -6,8 +6,11 @@ function proxyEnvs(envs: string[]): Record<string, string> {
 
 export default {
     head: {
-        title: 'MangaLove',
-        titleTemplate: 'MangeLove ~ %s',
+        title: '',
+
+        titleTemplate(title: string): string {
+            return title ? `MangeLove ~ ${title}` : 'MangaLove';
+        },
 
         htmlAttrs: {
             lang: 'en'
@@ -15,12 +18,10 @@ export default {
 
         meta: [
             { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            { hid: 'description', name: 'description', content: '' },
-            { name: 'format-detection', content: 'telephone=no' }
+            { name: 'viewport', content: 'width=device-width, initial-scale=1' }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
             { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
             { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
             { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito+Sans:wght@400;600&display=swap' }
