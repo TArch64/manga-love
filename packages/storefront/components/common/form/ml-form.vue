@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, provide, reactive, UnwrapRef } from '@nuxtjs/composition-api';
+import { computed, ComputedRef, defineComponent, PropType, provide, reactive, UnwrapRef } from '@nuxtjs/composition-api';
 
 export const FORM_REGISTER = Symbol('FORM_REGISTER');
 
@@ -18,7 +18,7 @@ export interface FormRegister<T> {
     register(fieldId: string): FormControlContext<T>;
 }
 
-export interface FormAccessor<T> {
+export interface FormAccessor<T = Record<string, unknown>> {
     data: UnwrapRef<T>;
     update(changed: Partial<T>): void;
 }
@@ -36,8 +36,8 @@ export default defineComponent({
     name: 'MlForm',
 
     props: {
-        data: {
-            type: Object,
+        form: {
+            type: Object as PropType<FormAccessor>,
             required: true
         }
     },
@@ -46,13 +46,10 @@ export default defineComponent({
 
     setup(props, context) {
         const registerField = (fieldId: string): FormControlContext<unknown> => ({
-            data: computed(() => props.data[fieldId]),
+            data: computed(() => props.form.data[fieldId]),
 
             setValue(value: unknown): void {
-                context.emit('change', {
-                    ...props.data,
-                    [fieldId]: value
-                });
+                props.form.update({ [fieldId]: value });
             }
         });
 

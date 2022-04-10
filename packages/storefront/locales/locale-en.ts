@@ -8,6 +8,9 @@ export default {
             submit: 'Log In',
             toSignUp: 'Sign Up'
         },
+        signUp: {
+            greeting: 'Welcome'
+        },
         form: {
             email: {
                 label: 'e-mail',

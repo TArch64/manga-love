@@ -12,7 +12,7 @@
             </span>
         </h1>
 
-        <MlForm :data="authForm.data" @change="authForm.update" @submit="signIn">
+        <MlForm :form="authForm" @submit="signIn">
             <MlTextField
                 class="ml-margin-bottom--md"
                 name="email"

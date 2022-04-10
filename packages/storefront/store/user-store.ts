@@ -12,6 +12,10 @@ export interface SignInCredentials {
     password: string;
 }
 
+export interface SignUpInfo extends SignInCredentials {
+    username: string;
+}
+
 interface State {
     currentUser: User | null;
 }
@@ -19,6 +23,7 @@ interface State {
 interface Actions {
     loadCurrentUser(): Promise<void>;
     signIn(credentials: SignInCredentials): Promise<void>;
+    signUp(info: SignUpInfo): Promise<void>;
 }
 
 export const useUserStore = defineStore<string, State, {}, Actions>('user', {
@@ -36,9 +41,11 @@ export const useUserStore = defineStore<string, State, {}, Actions>('user', {
             }
         },
 
-        async signIn(credentials: SignInCredentials) {
+        async signIn(credentials) {
             await useBrowserFetch('/api/auth/sign-in', credentials);
             await this.loadCurrentUser();
-        }
+        },
+
+        async signUp() {}
     }
 });

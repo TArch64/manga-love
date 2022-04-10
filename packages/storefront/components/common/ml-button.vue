@@ -93,6 +93,7 @@ export default defineComponent({
 .ml-button--link {
     color: inherit;
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
 
     &:active,
     &:visited {
