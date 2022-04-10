@@ -1,23 +1,29 @@
 <template>
-    <label class="ml-form-field">
-        <div class="ml-form-field__main">
-            <p class="ml-form-field__label">{{ label }}</p>
+    <label class="ml-form-field" @focusout="formContext.makeTouched()">
+        <div class="ml-form-field__control" :class="controlClasses">
+            <div class="ml-form-field__main">
+                <p class="ml-form-field__label">{{ label }}</p>
 
-            <slot
-                name="input"
-                :value="formContext.data.value"
-                :setValue="formContext.setValue"
-            />
+                <slot
+                    name="input"
+                    :value="formContext.data.value"
+                    :setValue="formContext.setValue"
+                />
+            </div>
+
+            <div class="ml-form-field__end-icon" v-if="$scopedSlots['end-icon']">
+                <slot name="end-icon" />
+            </div>
         </div>
 
-        <div class="ml-form-field__end-icon" v-if="$scopedSlots['end-icon']">
-            <slot name="end-icon" />
-        </div>
+        <p class="ml-form-field__error" v-if="isError">
+            {{ $t(formContext.error.value.message, formContext.error.value.params || {}) }}
+        </p>
     </label>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from '@nuxtjs/composition-api';
+import { computed, defineComponent, inject } from '@nuxtjs/composition-api';
 import { FORM_REGISTER, FormRegister } from './ml-form.vue';
 
 export default defineComponent({
@@ -38,14 +44,23 @@ export default defineComponent({
     setup(props) {
         const formRegister = inject<FormRegister<unknown>>(FORM_REGISTER);
         const formContext = formRegister!.register(props.name);
+        const isError = computed(() => formContext.error.value && formContext.touched.value);
 
-        return { formContext };
+        const controlClasses = computed(() => ({
+            'ml-form-field__control--error': isError.value
+        }));
+
+        return { formContext, isError, controlClasses };
     }
 });
 </script>
 
 <style scoped>
 .ml-form-field {
+    display: block;
+}
+
+.ml-form-field__control {
     display: flex;
     border: 1px solid #DBDBDB;
     border-radius: 4px;
@@ -57,6 +72,10 @@ export default defineComponent({
     &:focus-within {
         border-color: #B3B3B3;
     }
+}
+
+.ml-form-field__control--error {
+    border-color: #AE2727 !important;
 }
 
 .ml-form-field__main {
@@ -76,5 +95,12 @@ export default defineComponent({
 .ml-form-field__end-icon {
     display: flex;
     align-items: center;
+}
+
+.ml-form-field__error {
+    padding-top: 5px;
+    margin: 0;
+    color: #AE2727;
+    font-size: 14px;
 }
 </style>

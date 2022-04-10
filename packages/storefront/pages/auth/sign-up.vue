@@ -10,38 +10,42 @@
                 class="ml-margin-bottom--md"
                 placeholder="Type username"
                 label="Username"
-                required
             />
 
             <MlTextField
                 name="email"
                 type="email"
                 class="ml-margin-bottom--md"
-                placeholder="Type e-mail"
-                label="e-mail"
-                required
+                placeholder="Type email"
+                label="Email"
             />
 
             <MlPasswordField
                 class="ml-margin-bottom--md"
                 label="Password"
                 name="password"
-                required
             />
 
             <MlPasswordField
                 label="Confirm password"
                 name="passwordConfirmation"
-                required
             />
         </MlForm>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
-import { useForm, MlForm, MlTextField, MlPasswordField } from '~/components/common/form';
-import { SignUpInfo } from '~/store';
+import { defineComponent, useContext } from '@nuxtjs/composition-api';
+import {
+    useForm,
+    MlForm,
+    MlTextField,
+    MlPasswordField,
+    validateRequired,
+    FormValidator,
+    validateEmail
+} from '~/components/common/form';
+import { SignInCredentials, SignUpInfo } from '~/store';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
@@ -58,11 +62,42 @@ export default defineComponent({
     },
 
     setup() {
+        const nuxt = useContext();
+
+        function getRequiredMessage(field: string): string {
+            return nuxt.app.i18n.t('validations.required', { field }) as string;
+        }
+
+        const confirmationValidator: FormValidator<unknown, SignUpForm> = (_, form) => {
+            if (form.password === form.passwordConfirmation) return null;
+
+            return { message: 'validations.passwordConfirmation' };
+        };
+
         const authForm = useForm<SignUpForm>({
-            username: '',
-            email: '',
-            password: '',
-            passwordConfirmation: ''
+            username: {
+                value: '',
+                validators: [validateRequired<SignUpForm>(getRequiredMessage('Username'))]
+            },
+            email: {
+                value: '',
+                validators: [
+                    validateRequired<SignUpForm>(getRequiredMessage('Email')),
+                    validateEmail<SignUpForm>()
+                ]
+            },
+            password: {
+                value: '',
+                affects: ['passwordConfirmation'],
+                validators: [validateRequired<SignUpForm>(getRequiredMessage('Email'))]
+            },
+            passwordConfirmation: {
+                value: '',
+                validators: [
+                    validateRequired<SignUpForm>(getRequiredMessage('Confirmation')),
+                    confirmationValidator
+                ]
+            }
         });
 
         return { authForm };

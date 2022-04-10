@@ -4,7 +4,6 @@
         :value="value"
         :placeholder="placeholder"
         :type="type"
-        :required="required"
         @input="$emit('input', $event.target.value)"
     >
 </template>
@@ -36,12 +35,6 @@ export default defineComponent({
         placeholder: {
             type: String,
             required: true
-        },
-
-        required: {
-            type: Boolean,
-            required: false,
-            default: false
         }
     },
 

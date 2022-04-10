@@ -17,7 +17,6 @@
                 class="ml-margin-bottom--md"
                 name="email"
                 type="email"
-                required
                 :label="$t('auth.form.email.label')"
                 :placeholder="$t('auth.form.email.placeholder')"
             />
@@ -25,7 +24,6 @@
             <MlPasswordField
                 class="ml-margin-bottom--xlg"
                 name="password"
-                required
                 :label="$t('auth.form.password.label')"
             />
 
@@ -42,7 +40,7 @@
 
 <script lang="ts">
 import { defineComponent, useContext, useRouter } from '@nuxtjs/composition-api';
-import { MlForm, useForm, MlTextField, MlPasswordField } from '~/components/common/form';
+import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
 import { useUserStore, SignInCredentials } from '~/store';
 
@@ -65,8 +63,17 @@ export default defineComponent({
         const nuxt = useContext();
 
         const authForm = useForm<SignInCredentials>({
-            email: '',
-            password: ''
+            email: {
+                value: '',
+                validators: [
+                    validateRequired<SignInCredentials>('validations.required', { field: 'Email' }),
+                    validateEmail<SignInCredentials>()
+                ]
+            },
+            password: {
+                value: '',
+                validators: [validateRequired<SignInCredentials>('validations.required', { field: 'Password' })]
+            }
         });
 
         const userStore = useUserStore();

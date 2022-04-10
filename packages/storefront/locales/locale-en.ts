@@ -13,8 +13,8 @@ export default {
         },
         form: {
             email: {
-                label: 'e-mail',
-                placeholder: 'Type e-mail'
+                label: 'Email',
+                placeholder: 'Type email'
             },
             password: {
                 label: 'Password'
@@ -23,5 +23,11 @@ export default {
         errors: {
             badCredentials: 'Invalid email or password'
         }
+    },
+
+    validations: {
+        required: '{field} can\'t be empty',
+        email: 'Invalid email format',
+        passwordConfirmation: 'Passwords should match'
     }
 };
