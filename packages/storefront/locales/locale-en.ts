@@ -16,6 +16,9 @@ export default {
             password: {
                 label: 'Password'
             }
+        },
+        errors: {
+            badCredentials: 'Invalid email or password'
         }
     }
 };

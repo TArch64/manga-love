@@ -41,10 +41,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useRouter } from '@nuxtjs/composition-api';
+import { defineComponent, useContext, useRouter } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField } from '~/components/common/form';
 import { MlButton } from '~/components/common';
-import { useUserStore, SignInCredentials } from '~/store/user-store';
+import { useUserStore, SignInCredentials } from '~/store';
 
 export default defineComponent({
     name: 'SignIn',
@@ -62,6 +62,8 @@ export default defineComponent({
     },
 
     setup() {
+        const nuxt = useContext();
+
         const authForm = useForm<SignInCredentials>({
             email: '',
             password: ''
@@ -72,11 +74,13 @@ export default defineComponent({
         async function signIn(): Promise<void> {
             try {
                 await userStore.signIn(authForm.data);
-                useRouter().push('/');
+                const router = useRouter();
+                router.push(nuxt.localePath('/'));
             } catch (error: unknown) {
                 authForm.update({ password: '' });
-                const message = (error as Error).message;
-                alert(message);
+
+                const message = nuxt.app.i18n.t('auth.errors.badCredentials');
+                nuxt.$toast.show(message as string);
             }
         }
 

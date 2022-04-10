@@ -44,7 +44,8 @@ export default {
 
     modules: [
         '@nuxtjs/apollo',
-        '@nuxtjs/i18n'
+        '@nuxtjs/i18n',
+        ['@nuxtjs/toast', { duration: 5000 }]
     ],
 
     css: [

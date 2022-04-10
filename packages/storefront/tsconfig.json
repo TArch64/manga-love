@@ -29,7 +29,8 @@
             "@types/node",
             "vue-apollo/types",
             "@nuxtjs/i18n",
-            "@pinia/nuxt"
+            "@pinia/nuxt",
+            "@nuxtjs/toast"
         ]
     },
     "exclude": [
