@@ -17,6 +17,7 @@
                 class="ml-margin-bottom--md"
                 name="email"
                 type="email"
+                required
                 :label="$t('auth.form.email.label')"
                 :placeholder="$t('auth.form.email.placeholder')"
             />
@@ -24,6 +25,7 @@
             <MlPasswordField
                 class="ml-margin-bottom--xlg"
                 name="password"
+                required
                 :label="$t('auth.form.password.label')"
             />
 
@@ -39,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent, useRouter } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField } from '~/components/common/form';
 import { MlButton } from '~/components/common';
 import { useUserStore, SignInCredentials } from '~/store/user-store';
@@ -67,8 +69,15 @@ export default defineComponent({
 
         const userStore = useUserStore();
 
-        function signIn(): void {
-            userStore.signIn(authForm.data);
+        async function signIn(): Promise<void> {
+            try {
+                await userStore.signIn(authForm.data);
+                useRouter().push('/');
+            } catch (error: unknown) {
+                authForm.update({ password: '' });
+                const message = (error as Error).message;
+                alert(message);
+            }
         }
 
         return { authForm, signIn };

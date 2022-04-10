@@ -5,6 +5,7 @@
                 placeholder="**************"
                 :type="inputType"
                 :value="value"
+                :required="required"
                 @input="setValue"
             />
         </template>
@@ -40,7 +41,8 @@ export default defineComponent({
 
     props: {
         name: MlFormField.props!.name,
-        label: MlFormField.props!.label
+        label: MlFormField.props!.label,
+        required: MlInput.props!.required
     },
 
     setup() {

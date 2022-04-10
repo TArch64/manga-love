@@ -20,7 +20,7 @@ export interface FormRegister<T> {
 
 export interface FormAccessor<T> {
     data: UnwrapRef<T>;
-    update(changed: T): void;
+    update(changed: Partial<T>): void;
 }
 
 export function useForm<T extends {}>(initial: T): FormAccessor<T> {
@@ -28,7 +28,7 @@ export function useForm<T extends {}>(initial: T): FormAccessor<T> {
 
     return {
         data,
-        update: (changed: T) => Object.assign(data, changed)
+        update: (changed: Partial<T>) => Object.assign(data, changed)
     };
 }
 

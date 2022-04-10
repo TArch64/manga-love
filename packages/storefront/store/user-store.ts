@@ -39,7 +39,6 @@ export const useUserStore = defineStore<string, State, {}, Actions>('user', {
         async signIn(credentials: SignInCredentials) {
             await useBrowserFetch('/api/auth/sign-in', credentials);
             await this.loadCurrentUser();
-            this.$nuxt.redirect('/');
         }
     }
 });
