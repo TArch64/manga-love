@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
 import {
     useForm,
     MlForm,
@@ -45,11 +45,17 @@ import {
     FormValidator,
     validateEmail
 } from '~/components/common/form';
-import { SignInCredentials, SignUpInfo } from '~/store';
+import { SignUpInfo } from '~/store';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
 }
+
+const confirmationValidator: FormValidator<unknown, SignUpForm> = (_, form) => {
+    if (form.password === form.passwordConfirmation) return null;
+
+    return { message: 'validations.passwordConfirmation' };
+};
 
 export default defineComponent({
     name: 'SignUp',
@@ -62,39 +68,27 @@ export default defineComponent({
     },
 
     setup() {
-        const nuxt = useContext();
-
-        function getRequiredMessage(field: string): string {
-            return nuxt.app.i18n.t('validations.required', { field }) as string;
-        }
-
-        const confirmationValidator: FormValidator<unknown, SignUpForm> = (_, form) => {
-            if (form.password === form.passwordConfirmation) return null;
-
-            return { message: 'validations.passwordConfirmation' };
-        };
-
         const authForm = useForm<SignUpForm>({
             username: {
                 value: '',
-                validators: [validateRequired<SignUpForm>(getRequiredMessage('Username'))]
+                validators: [validateRequired<SignUpForm>('validations.required', { field: 'Username' })]
             },
             email: {
                 value: '',
                 validators: [
-                    validateRequired<SignUpForm>(getRequiredMessage('Email')),
+                    validateRequired<SignUpForm>('validations.required', { field: 'Email' }),
                     validateEmail<SignUpForm>()
                 ]
             },
             password: {
                 value: '',
                 affects: ['passwordConfirmation'],
-                validators: [validateRequired<SignUpForm>(getRequiredMessage('Email'))]
+                validators: [validateRequired<SignUpForm>('validations.required', { field: 'Password' })]
             },
             passwordConfirmation: {
                 value: '',
                 validators: [
-                    validateRequired<SignUpForm>(getRequiredMessage('Confirmation')),
+                    validateRequired<SignUpForm>('validations.required', { field: 'Confirmation' }),
                     confirmationValidator
                 ]
             }
