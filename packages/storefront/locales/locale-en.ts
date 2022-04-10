@@ -5,11 +5,14 @@ export default {
         signIn: {
             greetingHello: 'Hello!',
             greeting: 'Welcome back',
-            submit: 'Log In',
-            toSignUp: 'Sign Up'
+            submit: 'Sign in',
+            toSignUp: 'Sign up'
         },
         signUp: {
-            greeting: 'Welcome'
+            greeting: 'Welcome',
+            submit: 'Sign up',
+            toSignInQuestion: 'Already have account?',
+            toSignIn: 'Sign in'
         },
         form: {
             email: {

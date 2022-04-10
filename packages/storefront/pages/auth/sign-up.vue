@@ -27,9 +27,19 @@
             />
 
             <MlPasswordField
-                label="Confirm password"
                 name="passwordConfirmation"
+                label="Confirm password"
+                class="ml-margin-bottom--lg"
             />
+
+            <MlButton class="ml-width--full ml-margin-bottom--xlg" type="submit" skin="primary" size="lg">
+                {{ $t('auth.signUp.submit') }}
+            </MlButton>
+
+            <MlButton class="ml-width--full ml-text--uppercase" link="/auth/sign-in" skin="flat" size="lg">
+                <span class="ml-sign-up__to-sign-in-question">{{ $t('auth.signUp.toSignInQuestion') }}</span>
+                <span class="ml-sign-up__to-sign-in-link">{{ $t('auth.signUp.toSignIn') }}</span>
+            </MlButton>
         </MlForm>
     </div>
 </template>
@@ -46,6 +56,7 @@ import {
     validateEmail
 } from '~/components/common/form';
 import { SignUpInfo } from '~/store';
+import { MlButton } from '~/components/common';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
@@ -62,6 +73,7 @@ export default defineComponent({
     layout: 'auth',
 
     components: {
+        MlButton,
         MlForm,
         MlTextField,
         MlPasswordField
@@ -110,5 +122,20 @@ export default defineComponent({
     color: #303030;
     margin-top: 0;
     margin-bottom: 30px;
+}
+
+.ml-sign-up__to-sign-in-question,
+.ml-sign-up__to-sign-in-link {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.ml-sign-up__to-sign-in-question {
+    color: #808080;
+}
+
+.ml-sign-up__to-sign-in-link {
+    text-transform: uppercase;
+    margin-left: 5px;
 }
 </style>
