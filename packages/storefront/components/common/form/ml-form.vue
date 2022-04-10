@@ -40,24 +40,28 @@ export default defineComponent({
 
         function registerField(fieldId: string): FormControlContext<unknown> {
             const options = props.form._options[fieldId];
+            const data = computed(() => props.form.data[fieldId]);
+            const error = ref<Validation | null>(null);
+            const touched = ref(false);
+
+            function validate(): boolean {
+                for (const validate of options.validators || []) {
+                    error.value = validate(data.value as string, props.form.data);
+                    if (error.value) return false;
+                }
+                return true;
+            }
 
             fields[fieldId] = {
-                data: computed(() => props.form.data[fieldId]),
-                error: ref<Validation | null>(null),
-                touched: ref(false),
+                data,
+                error,
+                touched,
                 disabled: toRef(props, 'disabled'),
-
-                validate(): boolean {
-                    for (const validate of options.validators || []) {
-                        this.error.value = validate(this.data.value as string, props.form.data);
-                        if (this.error.value) return false;
-                    }
-                    return true;
-                },
+                validate,
 
                 setValue(value: string): void {
                     props.form.update({ [fieldId]: value });
-                    this.validate();
+                    validate();
 
                     for (const fieldId of options.affects || []) {
                         fields[fieldId].validate();
@@ -65,7 +69,7 @@ export default defineComponent({
                 },
 
                 makeTouched(): void {
-                    this.touched.value = true;
+                    touched.value = true;
                 }
             };
 
