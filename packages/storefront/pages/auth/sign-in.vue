@@ -12,7 +12,7 @@
             </span>
         </h1>
 
-        <MlForm :form="authForm" @submit="signIn">
+        <MlForm :form="authForm" :disabled="isProcessing" @submit="signIn">
             <MlTextField
                 class="ml-margin-bottom--md"
                 name="email"
@@ -27,7 +27,7 @@
                 :label="$t('auth.form.password.label')"
             />
 
-            <MlButton class="ml-width--full ml-margin-bottom--md" type="submit" skin="primary" size="lg">
+            <MlButton class="ml-width--full ml-margin-bottom--md" type="submit" skin="primary" size="lg" :loading="isProcessing">
                 {{ $t('auth.signIn.submit') }}
             </MlButton>
 
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, useRouter } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useContext, useRouter } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
 import { useUserStore, SignInCredentials } from '~/store';
@@ -60,7 +60,9 @@ export default defineComponent({
     },
 
     setup() {
+        const userStore = useUserStore();
         const nuxt = useContext();
+        const isProcessing = ref(false);
 
         const authForm = useForm<SignInCredentials>({
             email: {
@@ -76,22 +78,24 @@ export default defineComponent({
             }
         });
 
-        const userStore = useUserStore();
-
         async function signIn(): Promise<void> {
+            if (!authForm.validate()) return;
+
+            isProcessing.value = true;
+
             try {
                 await userStore.signIn(authForm.data);
-                const router = useRouter();
-                router.push(nuxt.localePath('/'));
+                useRouter().push(nuxt.localePath('/'));
             } catch (error: unknown) {
                 authForm.update({ password: '' });
+                isProcessing.value = false;
 
                 const message = nuxt.app.i18n.t('auth.errors.badCredentials');
                 nuxt.$toast.show(message as string);
             }
         }
 
-        return { authForm, signIn };
+        return { authForm, signIn, isProcessing };
     }
 });
 </script>

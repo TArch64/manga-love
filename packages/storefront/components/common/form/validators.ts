@@ -7,10 +7,10 @@ export function validateRequired<F>(message: string, params: Record<string, stri
     };
 }
 
-export function validateEmail<F>(message: string = 'validations.email', params: Record<string, string> = {}): FormValidator<string, F> {
+export function validateEmail<F>(): FormValidator<string, F> {
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     return (value: string): Validation | null => {
-        return regex.test(String(value).toLowerCase()) ? null : { message, params };
+        return regex.test(String(value).toLowerCase()) ? null : { message: 'validations.email' };
     };
 }

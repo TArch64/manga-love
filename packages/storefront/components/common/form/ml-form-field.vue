@@ -47,7 +47,8 @@ export default defineComponent({
         const isError = computed(() => formContext.error.value && formContext.touched.value);
 
         const controlClasses = computed(() => ({
-            'ml-form-field__control--error': isError.value
+            'ml-form-field__control--error': isError.value,
+            'ml-form-field__control--disabled': formContext.disabled.value
         }));
 
         return { formContext, isError, controlClasses };
@@ -67,6 +68,9 @@ export default defineComponent({
     padding: 10px 15px;
     transition: border-color 0.1s ease-out;
     will-change: border-color;
+}
+
+.ml-form-field__control:not(.ml-form-field__control--disabled) {
 
     &:hover,
     &:focus-within {
@@ -74,7 +78,11 @@ export default defineComponent({
     }
 }
 
-.ml-form-field__control--error {
+.ml-form-field__control--disabled {
+    opacity: 0.5;
+}
+
+.ml-form-field__control--error:not(.ml-form-field__control--disabled) {
     border-color: #AE2727 !important;
 }
 
