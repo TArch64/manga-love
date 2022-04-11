@@ -1,5 +1,10 @@
 export default {
-    hello: 'Hello',
+    errors: {
+        badCredentials: 'Invalid email or password',
+        somethingWentWrong: 'Something went wrong',
+        unique: '{field} already exists',
+        invalidEmail: 'No account with with email found'
+    },
 
     auth: {
         signIn: {
@@ -34,11 +39,6 @@ export default {
             passwordConfirmation: {
                 label: 'Confirm password'
             }
-        },
-        errors: {
-            badCredentials: 'Invalid email or password',
-            somethingWentWrong: 'Something went wrong',
-            unique: '{field} already exists'
         }
     },
 

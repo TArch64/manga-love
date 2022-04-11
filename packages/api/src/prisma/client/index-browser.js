@@ -83,6 +83,14 @@ exports.Prisma.DatabaseUserScalarFieldEnum = makeEnum({
   password: 'password'
 });
 
+exports.Prisma.DatabasePasswordResetScalarFieldEnum = makeEnum({
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  createdAt: 'createdAt',
+  userId: 'userId'
+});
+
 exports.Prisma.DatabaseMangaScalarFieldEnum = makeEnum({
   id: 'id',
   source: 'source',
@@ -124,6 +132,7 @@ exports.DatabaseMangaType = makeEnum({
 
 exports.Prisma.ModelName = makeEnum({
   DatabaseUser: 'DatabaseUser',
+  DatabasePasswordReset: 'DatabasePasswordReset',
   DatabaseManga: 'DatabaseManga',
   DatabaseImage: 'DatabaseImage'
 });

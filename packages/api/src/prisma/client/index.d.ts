@@ -24,6 +24,18 @@ export type DatabaseUser = {
 }
 
 /**
+ * Model DatabasePasswordReset
+ * 
+ */
+export type DatabasePasswordReset = {
+  id: string
+  email: string
+  code: string
+  createdAt: Date
+  userId: string
+}
+
+/**
  * Model DatabaseManga
  * 
  */
@@ -224,6 +236,16 @@ export class PrismaClient<
     * ```
     */
   get databaseUser(): Prisma.DatabaseUserDelegate<GlobalReject>;
+
+  /**
+   * `prisma.databasePasswordReset`: Exposes CRUD operations for the **DatabasePasswordReset** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DatabasePasswordResets
+    * const databasePasswordResets = await prisma.databasePasswordReset.findMany()
+    * ```
+    */
+  get databasePasswordReset(): Prisma.DatabasePasswordResetDelegate<GlobalReject>;
 
   /**
    * `prisma.databaseManga`: Exposes CRUD operations for the **DatabaseManga** model.
@@ -659,6 +681,7 @@ export namespace Prisma {
 
   export const ModelName: {
     DatabaseUser: 'DatabaseUser',
+    DatabasePasswordReset: 'DatabasePasswordReset',
     DatabaseManga: 'DatabaseManga',
     DatabaseImage: 'DatabaseImage'
   };
@@ -814,6 +837,55 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type DatabaseUserCountOutputType
+   */
+
+
+  export type DatabaseUserCountOutputType = {
+    passwordResets: number
+  }
+
+  export type DatabaseUserCountOutputTypeSelect = {
+    passwordResets?: boolean
+  }
+
+  export type DatabaseUserCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | DatabaseUserCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? DatabaseUserCountOutputType
+    : S extends undefined
+    ? never
+    : S extends DatabaseUserCountOutputTypeArgs
+    ?'include' extends U
+    ? DatabaseUserCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof DatabaseUserCountOutputType ? DatabaseUserCountOutputType[P] : never
+  } 
+    : DatabaseUserCountOutputType
+  : DatabaseUserCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * DatabaseUserCountOutputType without action
+   */
+  export type DatabaseUserCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the DatabaseUserCountOutputType
+     * 
+    **/
+    select?: DatabaseUserCountOutputTypeSelect | null
+  }
+
 
 
   /**
@@ -1032,6 +1104,13 @@ export namespace Prisma {
     username?: boolean
     email?: boolean
     password?: boolean
+    passwordResets?: boolean | DatabasePasswordResetFindManyArgs
+    _count?: boolean | DatabaseUserCountOutputTypeArgs
+  }
+
+  export type DatabaseUserInclude = {
+    passwordResets?: boolean | DatabasePasswordResetFindManyArgs
+    _count?: boolean | DatabaseUserCountOutputTypeArgs
   }
 
   export type DatabaseUserGetPayload<
@@ -1043,11 +1122,16 @@ export namespace Prisma {
     ? never
     : S extends DatabaseUserArgs | DatabaseUserFindManyArgs
     ?'include' extends U
-    ? DatabaseUser 
+    ? DatabaseUser  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'passwordResets' ? Array < DatabasePasswordResetGetPayload<S['include'][P]>>  :
+        P extends '_count' ? DatabaseUserCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof DatabaseUser ? DatabaseUser[P] : never
+        P extends 'passwordResets' ? Array < DatabasePasswordResetGetPayload<S['select'][P]>>  :
+        P extends '_count' ? DatabaseUserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof DatabaseUser ? DatabaseUser[P] : never
   } 
     : DatabaseUser
   : DatabaseUser
@@ -1387,6 +1471,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    passwordResets<T extends DatabasePasswordResetFindManyArgs = {}>(args?: Subset<T, DatabasePasswordResetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<DatabasePasswordReset>>, PrismaPromise<Array<DatabasePasswordResetGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -1423,6 +1508,11 @@ export namespace Prisma {
     **/
     select?: DatabaseUserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
+    /**
      * Throw an Error if a DatabaseUser can't be found
      * 
     **/
@@ -1444,6 +1534,11 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseUserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
     /**
      * Throw an Error if a DatabaseUser can't be found
      * 
@@ -1502,6 +1597,11 @@ export namespace Prisma {
     **/
     select?: DatabaseUserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
+    /**
      * Filter, which DatabaseUsers to fetch.
      * 
     **/
@@ -1548,6 +1648,11 @@ export namespace Prisma {
     **/
     select?: DatabaseUserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
+    /**
      * The data needed to create a DatabaseUser.
      * 
     **/
@@ -1577,6 +1682,11 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseUserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
     /**
      * The data needed to update a DatabaseUser.
      * 
@@ -1617,6 +1727,11 @@ export namespace Prisma {
     **/
     select?: DatabaseUserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
+    /**
      * The filter to search for the DatabaseUser to update in case it exists.
      * 
     **/
@@ -1643,6 +1758,11 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseUserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
     /**
      * Filter which DatabaseUser to delete.
      * 
@@ -1672,6 +1792,875 @@ export namespace Prisma {
      * 
     **/
     select?: DatabaseUserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabaseUserInclude | null
+  }
+
+
+
+  /**
+   * Model DatabasePasswordReset
+   */
+
+
+  export type AggregateDatabasePasswordReset = {
+    _count: DatabasePasswordResetCountAggregateOutputType | null
+    _min: DatabasePasswordResetMinAggregateOutputType | null
+    _max: DatabasePasswordResetMaxAggregateOutputType | null
+  }
+
+  export type DatabasePasswordResetMinAggregateOutputType = {
+    id: string | null
+    email: string | null
+    code: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type DatabasePasswordResetMaxAggregateOutputType = {
+    id: string | null
+    email: string | null
+    code: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type DatabasePasswordResetCountAggregateOutputType = {
+    id: number
+    email: number
+    code: number
+    createdAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type DatabasePasswordResetMinAggregateInputType = {
+    id?: true
+    email?: true
+    code?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type DatabasePasswordResetMaxAggregateInputType = {
+    id?: true
+    email?: true
+    code?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type DatabasePasswordResetCountAggregateInputType = {
+    id?: true
+    email?: true
+    code?: true
+    createdAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type DatabasePasswordResetAggregateArgs = {
+    /**
+     * Filter which DatabasePasswordReset to aggregate.
+     * 
+    **/
+    where?: DatabasePasswordResetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabasePasswordResets to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabasePasswordResetOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: DatabasePasswordResetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabasePasswordResets from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabasePasswordResets.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DatabasePasswordResets
+    **/
+    _count?: true | DatabasePasswordResetCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DatabasePasswordResetMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DatabasePasswordResetMaxAggregateInputType
+  }
+
+  export type GetDatabasePasswordResetAggregateType<T extends DatabasePasswordResetAggregateArgs> = {
+        [P in keyof T & keyof AggregateDatabasePasswordReset]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDatabasePasswordReset[P]>
+      : GetScalarType<T[P], AggregateDatabasePasswordReset[P]>
+  }
+
+
+
+
+  export type DatabasePasswordResetGroupByArgs = {
+    where?: DatabasePasswordResetWhereInput
+    orderBy?: Enumerable<DatabasePasswordResetOrderByWithAggregationInput>
+    by: Array<DatabasePasswordResetScalarFieldEnum>
+    having?: DatabasePasswordResetScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DatabasePasswordResetCountAggregateInputType | true
+    _min?: DatabasePasswordResetMinAggregateInputType
+    _max?: DatabasePasswordResetMaxAggregateInputType
+  }
+
+
+  export type DatabasePasswordResetGroupByOutputType = {
+    id: string
+    email: string
+    code: string
+    createdAt: Date
+    userId: string
+    _count: DatabasePasswordResetCountAggregateOutputType | null
+    _min: DatabasePasswordResetMinAggregateOutputType | null
+    _max: DatabasePasswordResetMaxAggregateOutputType | null
+  }
+
+  type GetDatabasePasswordResetGroupByPayload<T extends DatabasePasswordResetGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<DatabasePasswordResetGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DatabasePasswordResetGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DatabasePasswordResetGroupByOutputType[P]>
+            : GetScalarType<T[P], DatabasePasswordResetGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DatabasePasswordResetSelect = {
+    id?: boolean
+    email?: boolean
+    code?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | DatabaseUserArgs
+  }
+
+  export type DatabasePasswordResetInclude = {
+    user?: boolean | DatabaseUserArgs
+  }
+
+  export type DatabasePasswordResetGetPayload<
+    S extends boolean | null | undefined | DatabasePasswordResetArgs,
+    U = keyof S
+      > = S extends true
+        ? DatabasePasswordReset
+    : S extends undefined
+    ? never
+    : S extends DatabasePasswordResetArgs | DatabasePasswordResetFindManyArgs
+    ?'include' extends U
+    ? DatabasePasswordReset  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? DatabaseUserGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? DatabaseUserGetPayload<S['select'][P]> :  P extends keyof DatabasePasswordReset ? DatabasePasswordReset[P] : never
+  } 
+    : DatabasePasswordReset
+  : DatabasePasswordReset
+
+
+  type DatabasePasswordResetCountArgs = Merge<
+    Omit<DatabasePasswordResetFindManyArgs, 'select' | 'include'> & {
+      select?: DatabasePasswordResetCountAggregateInputType | true
+    }
+  >
+
+  export interface DatabasePasswordResetDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one DatabasePasswordReset that matches the filter.
+     * @param {DatabasePasswordResetFindUniqueArgs} args - Arguments to find a DatabasePasswordReset
+     * @example
+     * // Get one DatabasePasswordReset
+     * const databasePasswordReset = await prisma.databasePasswordReset.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends DatabasePasswordResetFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, DatabasePasswordResetFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'DatabasePasswordReset'> extends True ? CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>> : CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset | null >, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T> | null >>
+
+    /**
+     * Find the first DatabasePasswordReset that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePasswordResetFindFirstArgs} args - Arguments to find a DatabasePasswordReset
+     * @example
+     * // Get one DatabasePasswordReset
+     * const databasePasswordReset = await prisma.databasePasswordReset.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends DatabasePasswordResetFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, DatabasePasswordResetFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'DatabasePasswordReset'> extends True ? CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>> : CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset | null >, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T> | null >>
+
+    /**
+     * Find zero or more DatabasePasswordResets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePasswordResetFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DatabasePasswordResets
+     * const databasePasswordResets = await prisma.databasePasswordReset.findMany()
+     * 
+     * // Get first 10 DatabasePasswordResets
+     * const databasePasswordResets = await prisma.databasePasswordReset.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const databasePasswordResetWithIdOnly = await prisma.databasePasswordReset.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends DatabasePasswordResetFindManyArgs>(
+      args?: SelectSubset<T, DatabasePasswordResetFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<DatabasePasswordReset>>, PrismaPromise<Array<DatabasePasswordResetGetPayload<T>>>>
+
+    /**
+     * Create a DatabasePasswordReset.
+     * @param {DatabasePasswordResetCreateArgs} args - Arguments to create a DatabasePasswordReset.
+     * @example
+     * // Create one DatabasePasswordReset
+     * const DatabasePasswordReset = await prisma.databasePasswordReset.create({
+     *   data: {
+     *     // ... data to create a DatabasePasswordReset
+     *   }
+     * })
+     * 
+    **/
+    create<T extends DatabasePasswordResetCreateArgs>(
+      args: SelectSubset<T, DatabasePasswordResetCreateArgs>
+    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+
+    /**
+     * Create many DatabasePasswordResets.
+     *     @param {DatabasePasswordResetCreateManyArgs} args - Arguments to create many DatabasePasswordResets.
+     *     @example
+     *     // Create many DatabasePasswordResets
+     *     const databasePasswordReset = await prisma.databasePasswordReset.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends DatabasePasswordResetCreateManyArgs>(
+      args?: SelectSubset<T, DatabasePasswordResetCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a DatabasePasswordReset.
+     * @param {DatabasePasswordResetDeleteArgs} args - Arguments to delete one DatabasePasswordReset.
+     * @example
+     * // Delete one DatabasePasswordReset
+     * const DatabasePasswordReset = await prisma.databasePasswordReset.delete({
+     *   where: {
+     *     // ... filter to delete one DatabasePasswordReset
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends DatabasePasswordResetDeleteArgs>(
+      args: SelectSubset<T, DatabasePasswordResetDeleteArgs>
+    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+
+    /**
+     * Update one DatabasePasswordReset.
+     * @param {DatabasePasswordResetUpdateArgs} args - Arguments to update one DatabasePasswordReset.
+     * @example
+     * // Update one DatabasePasswordReset
+     * const databasePasswordReset = await prisma.databasePasswordReset.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends DatabasePasswordResetUpdateArgs>(
+      args: SelectSubset<T, DatabasePasswordResetUpdateArgs>
+    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+
+    /**
+     * Delete zero or more DatabasePasswordResets.
+     * @param {DatabasePasswordResetDeleteManyArgs} args - Arguments to filter DatabasePasswordResets to delete.
+     * @example
+     * // Delete a few DatabasePasswordResets
+     * const { count } = await prisma.databasePasswordReset.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends DatabasePasswordResetDeleteManyArgs>(
+      args?: SelectSubset<T, DatabasePasswordResetDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DatabasePasswordResets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePasswordResetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DatabasePasswordResets
+     * const databasePasswordReset = await prisma.databasePasswordReset.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends DatabasePasswordResetUpdateManyArgs>(
+      args: SelectSubset<T, DatabasePasswordResetUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DatabasePasswordReset.
+     * @param {DatabasePasswordResetUpsertArgs} args - Arguments to update or create a DatabasePasswordReset.
+     * @example
+     * // Update or create a DatabasePasswordReset
+     * const databasePasswordReset = await prisma.databasePasswordReset.upsert({
+     *   create: {
+     *     // ... data to create a DatabasePasswordReset
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DatabasePasswordReset we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends DatabasePasswordResetUpsertArgs>(
+      args: SelectSubset<T, DatabasePasswordResetUpsertArgs>
+    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+
+    /**
+     * Count the number of DatabasePasswordResets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePasswordResetCountArgs} args - Arguments to filter DatabasePasswordResets to count.
+     * @example
+     * // Count the number of DatabasePasswordResets
+     * const count = await prisma.databasePasswordReset.count({
+     *   where: {
+     *     // ... the filter for the DatabasePasswordResets we want to count
+     *   }
+     * })
+    **/
+    count<T extends DatabasePasswordResetCountArgs>(
+      args?: Subset<T, DatabasePasswordResetCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DatabasePasswordResetCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DatabasePasswordReset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePasswordResetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DatabasePasswordResetAggregateArgs>(args: Subset<T, DatabasePasswordResetAggregateArgs>): PrismaPromise<GetDatabasePasswordResetAggregateType<T>>
+
+    /**
+     * Group by DatabasePasswordReset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabasePasswordResetGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DatabasePasswordResetGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DatabasePasswordResetGroupByArgs['orderBy'] }
+        : { orderBy?: DatabasePasswordResetGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DatabasePasswordResetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDatabasePasswordResetGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DatabasePasswordReset.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__DatabasePasswordResetClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends DatabaseUserArgs = {}>(args?: Subset<T, DatabaseUserArgs>): CheckSelect<T, Prisma__DatabaseUserClient<DatabaseUser | null >, Prisma__DatabaseUserClient<DatabaseUserGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * DatabasePasswordReset findUnique
+   */
+  export type DatabasePasswordResetFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
+    /**
+     * Throw an Error if a DatabasePasswordReset can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which DatabasePasswordReset to fetch.
+     * 
+    **/
+    where: DatabasePasswordResetWhereUniqueInput
+  }
+
+
+  /**
+   * DatabasePasswordReset findFirst
+   */
+  export type DatabasePasswordResetFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
+    /**
+     * Throw an Error if a DatabasePasswordReset can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which DatabasePasswordReset to fetch.
+     * 
+    **/
+    where?: DatabasePasswordResetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabasePasswordResets to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabasePasswordResetOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DatabasePasswordResets.
+     * 
+    **/
+    cursor?: DatabasePasswordResetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabasePasswordResets from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabasePasswordResets.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DatabasePasswordResets.
+     * 
+    **/
+    distinct?: Enumerable<DatabasePasswordResetScalarFieldEnum>
+  }
+
+
+  /**
+   * DatabasePasswordReset findMany
+   */
+  export type DatabasePasswordResetFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
+    /**
+     * Filter, which DatabasePasswordResets to fetch.
+     * 
+    **/
+    where?: DatabasePasswordResetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DatabasePasswordResets to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<DatabasePasswordResetOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DatabasePasswordResets.
+     * 
+    **/
+    cursor?: DatabasePasswordResetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DatabasePasswordResets from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DatabasePasswordResets.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<DatabasePasswordResetScalarFieldEnum>
+  }
+
+
+  /**
+   * DatabasePasswordReset create
+   */
+  export type DatabasePasswordResetCreateArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
+    /**
+     * The data needed to create a DatabasePasswordReset.
+     * 
+    **/
+    data: XOR<DatabasePasswordResetCreateInput, DatabasePasswordResetUncheckedCreateInput>
+  }
+
+
+  /**
+   * DatabasePasswordReset createMany
+   */
+  export type DatabasePasswordResetCreateManyArgs = {
+    /**
+     * The data used to create many DatabasePasswordResets.
+     * 
+    **/
+    data: Enumerable<DatabasePasswordResetCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * DatabasePasswordReset update
+   */
+  export type DatabasePasswordResetUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
+    /**
+     * The data needed to update a DatabasePasswordReset.
+     * 
+    **/
+    data: XOR<DatabasePasswordResetUpdateInput, DatabasePasswordResetUncheckedUpdateInput>
+    /**
+     * Choose, which DatabasePasswordReset to update.
+     * 
+    **/
+    where: DatabasePasswordResetWhereUniqueInput
+  }
+
+
+  /**
+   * DatabasePasswordReset updateMany
+   */
+  export type DatabasePasswordResetUpdateManyArgs = {
+    /**
+     * The data used to update DatabasePasswordResets.
+     * 
+    **/
+    data: XOR<DatabasePasswordResetUpdateManyMutationInput, DatabasePasswordResetUncheckedUpdateManyInput>
+    /**
+     * Filter which DatabasePasswordResets to update
+     * 
+    **/
+    where?: DatabasePasswordResetWhereInput
+  }
+
+
+  /**
+   * DatabasePasswordReset upsert
+   */
+  export type DatabasePasswordResetUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
+    /**
+     * The filter to search for the DatabasePasswordReset to update in case it exists.
+     * 
+    **/
+    where: DatabasePasswordResetWhereUniqueInput
+    /**
+     * In case the DatabasePasswordReset found by the `where` argument doesn't exist, create a new DatabasePasswordReset with this data.
+     * 
+    **/
+    create: XOR<DatabasePasswordResetCreateInput, DatabasePasswordResetUncheckedCreateInput>
+    /**
+     * In case the DatabasePasswordReset was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<DatabasePasswordResetUpdateInput, DatabasePasswordResetUncheckedUpdateInput>
+  }
+
+
+  /**
+   * DatabasePasswordReset delete
+   */
+  export type DatabasePasswordResetDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
+    /**
+     * Filter which DatabasePasswordReset to delete.
+     * 
+    **/
+    where: DatabasePasswordResetWhereUniqueInput
+  }
+
+
+  /**
+   * DatabasePasswordReset deleteMany
+   */
+  export type DatabasePasswordResetDeleteManyArgs = {
+    /**
+     * Filter which DatabasePasswordResets to delete
+     * 
+    **/
+    where?: DatabasePasswordResetWhereInput
+  }
+
+
+  /**
+   * DatabasePasswordReset without action
+   */
+  export type DatabasePasswordResetArgs = {
+    /**
+     * Select specific fields to fetch from the DatabasePasswordReset
+     * 
+    **/
+    select?: DatabasePasswordResetSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: DatabasePasswordResetInclude | null
   }
 
 
@@ -3491,6 +4480,17 @@ export namespace Prisma {
   export type DatabaseUserScalarFieldEnum = (typeof DatabaseUserScalarFieldEnum)[keyof typeof DatabaseUserScalarFieldEnum]
 
 
+  export const DatabasePasswordResetScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    code: 'code',
+    createdAt: 'createdAt',
+    userId: 'userId'
+  };
+
+  export type DatabasePasswordResetScalarFieldEnum = (typeof DatabasePasswordResetScalarFieldEnum)[keyof typeof DatabasePasswordResetScalarFieldEnum]
+
+
   export const DatabaseMangaScalarFieldEnum: {
     id: 'id',
     source: 'source',
@@ -3546,6 +4546,7 @@ export namespace Prisma {
     username?: StringFilter | string
     email?: StringFilter | string
     password?: StringFilter | string
+    passwordResets?: DatabasePasswordResetListRelationFilter
   }
 
   export type DatabaseUserOrderByWithRelationInput = {
@@ -3553,6 +4554,7 @@ export namespace Prisma {
     username?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    passwordResets?: DatabasePasswordResetOrderByRelationAggregateInput
   }
 
   export type DatabaseUserWhereUniqueInput = {
@@ -3579,6 +4581,54 @@ export namespace Prisma {
     username?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
     password?: StringWithAggregatesFilter | string
+  }
+
+  export type DatabasePasswordResetWhereInput = {
+    AND?: Enumerable<DatabasePasswordResetWhereInput>
+    OR?: Enumerable<DatabasePasswordResetWhereInput>
+    NOT?: Enumerable<DatabasePasswordResetWhereInput>
+    id?: StringFilter | string
+    email?: StringFilter | string
+    code?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    userId?: StringFilter | string
+    user?: XOR<DatabaseUserRelationFilter, DatabaseUserWhereInput>
+  }
+
+  export type DatabasePasswordResetOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    user?: DatabaseUserOrderByWithRelationInput
+  }
+
+  export type DatabasePasswordResetWhereUniqueInput = {
+    id?: string
+    code?: string
+  }
+
+  export type DatabasePasswordResetOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    _count?: DatabasePasswordResetCountOrderByAggregateInput
+    _max?: DatabasePasswordResetMaxOrderByAggregateInput
+    _min?: DatabasePasswordResetMinOrderByAggregateInput
+  }
+
+  export type DatabasePasswordResetScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<DatabasePasswordResetScalarWhereWithAggregatesInput>
+    OR?: Enumerable<DatabasePasswordResetScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<DatabasePasswordResetScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    email?: StringWithAggregatesFilter | string
+    code?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    userId?: StringWithAggregatesFilter | string
   }
 
   export type DatabaseMangaWhereInput = {
@@ -3699,6 +4749,7 @@ export namespace Prisma {
     username: string
     email: string
     password: string
+    passwordResets?: DatabasePasswordResetCreateNestedManyWithoutUserInput
   }
 
   export type DatabaseUserUncheckedCreateInput = {
@@ -3706,6 +4757,7 @@ export namespace Prisma {
     username: string
     email: string
     password: string
+    passwordResets?: DatabasePasswordResetUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type DatabaseUserUpdateInput = {
@@ -3713,6 +4765,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    passwordResets?: DatabasePasswordResetUpdateManyWithoutUserInput
   }
 
   export type DatabaseUserUncheckedUpdateInput = {
@@ -3720,6 +4773,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    passwordResets?: DatabasePasswordResetUncheckedUpdateManyWithoutUserInput
   }
 
   export type DatabaseUserCreateManyInput = {
@@ -3741,6 +4795,61 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DatabasePasswordResetCreateInput = {
+    id?: string
+    email: string
+    code: string
+    createdAt?: Date | string
+    user: DatabaseUserCreateNestedOneWithoutPasswordResetsInput
+  }
+
+  export type DatabasePasswordResetUncheckedCreateInput = {
+    id?: string
+    email: string
+    code: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type DatabasePasswordResetUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: DatabaseUserUpdateOneRequiredWithoutPasswordResetsInput
+  }
+
+  export type DatabasePasswordResetUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DatabasePasswordResetCreateManyInput = {
+    id?: string
+    email: string
+    code: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type DatabasePasswordResetUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DatabasePasswordResetUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type DatabaseMangaCreateInput = {
@@ -3901,6 +5010,16 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
+  export type DatabasePasswordResetListRelationFilter = {
+    every?: DatabasePasswordResetWhereInput
+    some?: DatabasePasswordResetWhereInput
+    none?: DatabasePasswordResetWhereInput
+  }
+
+  export type DatabasePasswordResetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type DatabaseUserCountOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
@@ -3940,13 +5059,6 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
-  export type EnumDatabaseMangaSourceFilter = {
-    equals?: DatabaseMangaSource
-    in?: Enumerable<DatabaseMangaSource>
-    notIn?: Enumerable<DatabaseMangaSource>
-    not?: NestedEnumDatabaseMangaSourceFilter | DatabaseMangaSource
-  }
-
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -3956,6 +5068,56 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type DatabaseUserRelationFilter = {
+    is?: DatabaseUserWhereInput
+    isNot?: DatabaseUserWhereInput
+  }
+
+  export type DatabasePasswordResetCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type DatabasePasswordResetMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type DatabasePasswordResetMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type EnumDatabaseMangaSourceFilter = {
+    equals?: DatabaseMangaSource
+    in?: Enumerable<DatabaseMangaSource>
+    notIn?: Enumerable<DatabaseMangaSource>
+    not?: NestedEnumDatabaseMangaSourceFilter | DatabaseMangaSource
   }
 
   export type StringNullableFilter = {
@@ -4053,20 +5215,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumDatabaseMangaSourceFilter
     _max?: NestedEnumDatabaseMangaSourceFilter
-  }
-
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
   }
 
   export type StringNullableWithAggregatesFilter = {
@@ -4172,8 +5320,68 @@ export namespace Prisma {
     _max?: NestedFloatFilter
   }
 
+  export type DatabasePasswordResetCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
+    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
+    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+  }
+
+  export type DatabasePasswordResetUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
+    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
+    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type DatabasePasswordResetUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<DatabasePasswordResetUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
+    set?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    disconnect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    delete?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    update?: Enumerable<DatabasePasswordResetUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<DatabasePasswordResetUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<DatabasePasswordResetScalarWhereInput>
+  }
+
+  export type DatabasePasswordResetUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<DatabasePasswordResetUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
+    set?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    disconnect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    delete?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+    update?: Enumerable<DatabasePasswordResetUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<DatabasePasswordResetUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<DatabasePasswordResetScalarWhereInput>
+  }
+
+  export type DatabaseUserCreateNestedOneWithoutPasswordResetsInput = {
+    create?: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
+    connectOrCreate?: DatabaseUserCreateOrConnectWithoutPasswordResetsInput
+    connect?: DatabaseUserWhereUniqueInput
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type DatabaseUserUpdateOneRequiredWithoutPasswordResetsInput = {
+    create?: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
+    connectOrCreate?: DatabaseUserCreateOrConnectWithoutPasswordResetsInput
+    upsert?: DatabaseUserUpsertWithoutPasswordResetsInput
+    connect?: DatabaseUserWhereUniqueInput
+    update?: XOR<DatabaseUserUpdateWithoutPasswordResetsInput, DatabaseUserUncheckedUpdateWithoutPasswordResetsInput>
   }
 
   export type DatabaseImageCreateNestedManyWithoutTargetMangaInput = {
@@ -4192,10 +5400,6 @@ export namespace Prisma {
 
   export type EnumDatabaseMangaSourceFieldUpdateOperationsInput = {
     set?: DatabaseMangaSource
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -4304,13 +5508,6 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
-  export type NestedEnumDatabaseMangaSourceFilter = {
-    equals?: DatabaseMangaSource
-    in?: Enumerable<DatabaseMangaSource>
-    notIn?: Enumerable<DatabaseMangaSource>
-    not?: NestedEnumDatabaseMangaSourceFilter | DatabaseMangaSource
-  }
-
   export type NestedDateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -4320,6 +5517,27 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type NestedEnumDatabaseMangaSourceFilter = {
+    equals?: DatabaseMangaSource
+    in?: Enumerable<DatabaseMangaSource>
+    notIn?: Enumerable<DatabaseMangaSource>
+    not?: NestedEnumDatabaseMangaSourceFilter | DatabaseMangaSource
   }
 
   export type NestedStringNullableFilter = {
@@ -4362,20 +5580,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumDatabaseMangaSourceFilter
     _max?: NestedEnumDatabaseMangaSourceFilter
-  }
-
-  export type NestedDateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
   }
 
   export type NestedStringNullableWithAggregatesFilter = {
@@ -4455,6 +5659,95 @@ export namespace Prisma {
     _sum?: NestedFloatFilter
     _min?: NestedFloatFilter
     _max?: NestedFloatFilter
+  }
+
+  export type DatabasePasswordResetCreateWithoutUserInput = {
+    id?: string
+    email: string
+    code: string
+    createdAt?: Date | string
+  }
+
+  export type DatabasePasswordResetUncheckedCreateWithoutUserInput = {
+    id?: string
+    email: string
+    code: string
+    createdAt?: Date | string
+  }
+
+  export type DatabasePasswordResetCreateOrConnectWithoutUserInput = {
+    where: DatabasePasswordResetWhereUniqueInput
+    create: XOR<DatabasePasswordResetCreateWithoutUserInput, DatabasePasswordResetUncheckedCreateWithoutUserInput>
+  }
+
+  export type DatabasePasswordResetCreateManyUserInputEnvelope = {
+    data: Enumerable<DatabasePasswordResetCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type DatabasePasswordResetUpsertWithWhereUniqueWithoutUserInput = {
+    where: DatabasePasswordResetWhereUniqueInput
+    update: XOR<DatabasePasswordResetUpdateWithoutUserInput, DatabasePasswordResetUncheckedUpdateWithoutUserInput>
+    create: XOR<DatabasePasswordResetCreateWithoutUserInput, DatabasePasswordResetUncheckedCreateWithoutUserInput>
+  }
+
+  export type DatabasePasswordResetUpdateWithWhereUniqueWithoutUserInput = {
+    where: DatabasePasswordResetWhereUniqueInput
+    data: XOR<DatabasePasswordResetUpdateWithoutUserInput, DatabasePasswordResetUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DatabasePasswordResetUpdateManyWithWhereWithoutUserInput = {
+    where: DatabasePasswordResetScalarWhereInput
+    data: XOR<DatabasePasswordResetUpdateManyMutationInput, DatabasePasswordResetUncheckedUpdateManyWithoutPasswordResetsInput>
+  }
+
+  export type DatabasePasswordResetScalarWhereInput = {
+    AND?: Enumerable<DatabasePasswordResetScalarWhereInput>
+    OR?: Enumerable<DatabasePasswordResetScalarWhereInput>
+    NOT?: Enumerable<DatabasePasswordResetScalarWhereInput>
+    id?: StringFilter | string
+    email?: StringFilter | string
+    code?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    userId?: StringFilter | string
+  }
+
+  export type DatabaseUserCreateWithoutPasswordResetsInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+  }
+
+  export type DatabaseUserUncheckedCreateWithoutPasswordResetsInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+  }
+
+  export type DatabaseUserCreateOrConnectWithoutPasswordResetsInput = {
+    where: DatabaseUserWhereUniqueInput
+    create: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
+  }
+
+  export type DatabaseUserUpsertWithoutPasswordResetsInput = {
+    update: XOR<DatabaseUserUpdateWithoutPasswordResetsInput, DatabaseUserUncheckedUpdateWithoutPasswordResetsInput>
+    create: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
+  }
+
+  export type DatabaseUserUpdateWithoutPasswordResetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DatabaseUserUncheckedUpdateWithoutPasswordResetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type DatabaseImageCreateWithoutTargetMangaInput = {
@@ -4565,6 +5858,34 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
     releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DatabasePasswordResetCreateManyUserInput = {
+    id?: string
+    email: string
+    code: string
+    createdAt?: Date | string
+  }
+
+  export type DatabasePasswordResetUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DatabasePasswordResetUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DatabasePasswordResetUncheckedUpdateManyWithoutPasswordResetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DatabaseImageCreateManyTargetMangaInput = {

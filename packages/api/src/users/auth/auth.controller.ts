@@ -90,6 +90,7 @@ export class AuthController {
 
     @Post('ask-reset-password')
     public async askResetPassword(@Body() body: AskResetPasswordBody): Promise<SuccessResponse> {
+        await this.authService.askResetPassword(body.email);
         return { success: true };
     }
 }

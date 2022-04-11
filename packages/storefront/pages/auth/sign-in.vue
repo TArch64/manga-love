@@ -86,9 +86,9 @@ export default defineComponent({
 
         function getErrorMessage(error: unknown): string {
             if (isBrowserHttpError(error, 'bad-credentials')) {
-                return 'auth.errors.badCredentials';
+                return 'errors.badCredentials';
             }
-            return 'auth.errors.somethingWentWrong';
+            return 'errors.somethingWentWrong';
         }
 
         async function signIn(): Promise<void> {

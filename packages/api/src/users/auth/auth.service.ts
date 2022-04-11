@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { UsersRepository } from '../repository';
-import { CurrentUser } from './current-user.decorator';
-import { TypedError } from "../../core";
-import {DatabaseUser, isUniqueConstrain} from '../../prisma'
+import { v4 as generateUUID } from 'uuid';
+import { PasswordResetsRepository, UsersRepository } from '../repository';
+import { TypedError } from '../../core';
+import { DatabaseUser, isUniqueConstrain } from '../../prisma';
 
 export type TokenPayload = { userId: string };
 
@@ -12,6 +12,7 @@ export type TokenPayload = { userId: string };
 export class AuthService {
     constructor(
         private readonly usersRepository: UsersRepository,
+        private readonly passwordResetsRepository: PasswordResetsRepository,
         private readonly jwtService: JwtService
     ) {}
 
@@ -35,18 +36,6 @@ export class AuthService {
         return this.jwtService.sign({ userId: user.id });
     }
 
-    public async decodeToken(token: string): Promise<CurrentUser | null> {
-        if (!token) return null;
-
-        try {
-            const payload = this.jwtService.decode(token) as TokenPayload;
-            const { password, ...user } = await this.usersRepository.getUserById(payload.userId);
-            return user;
-        } catch (error) {
-            return null;
-        }
-    }
-
     public async signUp(user: Omit<DatabaseUser, 'id'>): Promise<string> {
         if (!user.email || !user.password || !user.username) {
             throw new TypedError('invalid-request');
@@ -61,5 +50,15 @@ export class AuthService {
             const [column] = error.meta.target;
             throw new TypedError(`${column}-already-taken`);
         }
+    }
+
+    public async askResetPassword(email: string): Promise<void> {
+        const user = await this.usersRepository.getUserByEmail(email);
+
+        if (!user) {
+            throw new TypedError('invalid-email');
+        }
+
+        await this.passwordResetsRepository.create(user, generateUUID());
     }
 }

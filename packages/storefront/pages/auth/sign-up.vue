@@ -114,12 +114,12 @@ export default defineComponent({
 
         function getErrorMessage(error: unknown): [string, Record<string, string>] {
             if (isBrowserHttpError(error, 'email-already-taken')) {
-                return ['auth.errors.unique', { field: 'User with this email' }];
+                return ['errors.unique', { field: 'User with this email' }];
             }
             if (isBrowserHttpError(error, 'username-already-taken')) {
-                return ['auth.errors.unique', { field: 'User with this name' }];
+                return ['errors.unique', { field: 'User with this name' }];
             }
-            return ['auth.errors.somethingWentWrong', {}];
+            return ['errors.somethingWentWrong', {}];
         }
 
         async function signUp(): Promise<void> {

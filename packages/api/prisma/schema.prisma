@@ -9,10 +9,20 @@ datasource db {
 }
 
 model DatabaseUser {
-    id          String @id @default(uuid())
-    username    String @db.VarChar(200) @unique
-    email       String @db.VarChar(200) @unique
-    password    String @db.VarChar(200)
+    id             String @id @default(uuid())
+    username       String @db.VarChar(200) @unique
+    email          String @db.VarChar(200) @unique
+    password       String @db.VarChar(200)
+    passwordResets DatabasePasswordReset[]
+}
+
+model DatabasePasswordReset {
+    id        String       @id @default(uuid())
+    email     String       @db.VarChar(200)
+    code      String       @db.VarChar(200) @unique
+    createdAt DateTime     @default(now())
+    userId    String
+    user      DatabaseUser @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model DatabaseManga {
