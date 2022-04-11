@@ -19,12 +19,19 @@ export default {
             heading: 'Restore password'
         },
         form: {
+            username: {
+                placeholder: 'Type username',
+                label: 'Username'
+            },
             email: {
                 label: 'Email',
                 placeholder: 'Type email'
             },
             password: {
                 label: 'Password'
+            },
+            passwordConfirmation: {
+                label: 'Confirm password'
             }
         },
         errors: {

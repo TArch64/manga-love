@@ -8,28 +8,28 @@
             <MlTextField
                 name="username"
                 class="ml-margin-bottom--md"
-                placeholder="Type username"
-                label="Username"
+                :label="$t('auth.form.username.label')"
+                :placeholder="$t('auth.form.username.placeholder')"
             />
 
             <MlTextField
                 name="email"
                 type="email"
                 class="ml-margin-bottom--md"
-                placeholder="Type email"
-                label="Email"
+                :label="$t('auth.form.email.label')"
+                :placeholder="$t('auth.form.email.placeholder')"
             />
 
             <MlPasswordField
                 class="ml-margin-bottom--md"
-                label="Password"
                 name="password"
+                :label="$t('auth.form.password.label')"
             />
 
             <MlPasswordField
                 name="passwordConfirmation"
-                label="Confirm password"
                 class="ml-margin-bottom--lg"
+                :label="$t('auth.form.passwordConfirmation.label')"
             />
 
             <MlButton class="ml-width--full ml-sign-up__submit" type="submit" skin="primary" size="lg">

@@ -16,6 +16,10 @@ export interface SignUpInfo extends SignInCredentials {
     username: string;
 }
 
+export interface ForgotInfo {
+    email: string;
+}
+
 interface State {
     currentUser: User | null;
 }
