@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useContext, useRouter } from '@nuxtjs/composition-api';
 import {
     useForm,
     MlForm,
@@ -55,7 +55,7 @@ import {
     FormValidator,
     validateEmail
 } from '~/components/common/form';
-import { SignUpInfo } from '~/store';
+import { SignUpInfo, useUserStore } from '~/store';
 import { MlButton } from '~/components/common';
 
 interface SignUpForm extends SignUpInfo {
@@ -80,6 +80,10 @@ export default defineComponent({
     },
 
     setup() {
+        const userStore = useUserStore();
+        const nuxt = useContext();
+        const isProcessing = ref(false);
+
         const authForm = useForm<SignUpForm>({
             username: {
                 value: '',
@@ -106,8 +110,15 @@ export default defineComponent({
             }
         });
 
-        function signUp(): void {
-            console.log(authForm.data);
+        async function signUp(): Promise<void> {
+            isProcessing.value = true;
+
+            try {
+                await userStore.signUp(authForm.data);
+                useRouter().push(nuxt.localePath('/'));
+            } catch (error: unknown) {
+                isProcessing.value = false;
+            }
         }
 
         return { authForm, signUp };

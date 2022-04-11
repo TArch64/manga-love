@@ -42,10 +42,20 @@ export const useUserStore = defineStore<string, State, {}, Actions>('user', {
         },
 
         async signIn(credentials) {
-            await useBrowserFetch('/api/auth/sign-in', credentials);
+            await useBrowserFetch<SignInCredentials>('/api/auth/sign-in', {
+                email: credentials.email,
+                password: credentials.password
+            });
             await this.loadCurrentUser();
         },
 
-        async signUp() {}
+        async signUp(info: SignUpInfo) {
+            await useBrowserFetch<SignUpInfo>('/api/auth/sign-up', {
+                username: info.username,
+                email: info.email,
+                password: info.password
+            });
+            await this.loadCurrentUser();
+        }
     }
 });
