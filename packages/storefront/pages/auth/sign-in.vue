@@ -27,6 +27,10 @@
                 :label="$t('auth.form.password.label')"
             />
 
+            <MlButton class="ml-width--full ml-margin-bottom--md" link="/auth/forgot" skin="flat" size="lg">
+                {{ $t('auth.signIn.toForgot') }}
+            </MlButton>
+
             <MlButton class="ml-width--full ml-margin-bottom--md" type="submit" skin="primary" size="lg" :loading="isProcessing">
                 {{ $t('auth.signIn.submit') }}
             </MlButton>

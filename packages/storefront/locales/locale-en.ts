@@ -6,6 +6,7 @@ export default {
             greetingHello: 'Hello!',
             greeting: 'Welcome back',
             submit: 'Sign in',
+            toForgot: 'Forgot Password',
             toSignUp: 'Sign up'
         },
         signUp: {
@@ -13,6 +14,9 @@ export default {
             submit: 'Sign up',
             toSignInQuestion: 'Already have account?',
             toSignIn: 'Sign in'
+        },
+        forgot: {
+            heading: 'Restore password'
         },
         form: {
             email: {
