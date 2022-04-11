@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useContext, useRouter } from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 import {
     useForm,
     MlForm,
@@ -57,7 +57,7 @@ import {
 } from '~/components/common/form';
 import { SignUpInfo, useUserStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isBrowserHttpError } from '~/composables';
+import { isBrowserHttpError, useRouter, useToaster } from '~/composables';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
@@ -82,8 +82,8 @@ export default defineComponent({
 
     setup() {
         const userStore = useUserStore();
-        const nuxt = useContext();
         const router = useRouter();
+        const toaster = useToaster();
         const isProcessing = ref(false);
 
         const authForm = useForm<SignUpForm>({
@@ -112,14 +112,14 @@ export default defineComponent({
             }
         });
 
-        function getErrorMessage(error: unknown): string {
+        function getErrorMessage(error: unknown): [string, Record<string, string>] {
             if (isBrowserHttpError(error, 'email-already-taken')) {
-                return nuxt.app.i18n.t('auth.errors.unique', { field: 'User with this email' }) as string;
+                return ['auth.errors.unique', { field: 'User with this email' }];
             }
             if (isBrowserHttpError(error, 'username-already-taken')) {
-                return nuxt.app.i18n.t('auth.errors.unique', { field: 'User with this name' }) as string;
+                return ['auth.errors.unique', { field: 'User with this name' }];
             }
-            return nuxt.app.i18n.t('auth.errors.somethingWentWrong') as string;
+            return ['auth.errors.somethingWentWrong', {}];
         }
 
         async function signUp(): Promise<void> {
@@ -127,10 +127,10 @@ export default defineComponent({
 
             try {
                 await userStore.signUp(authForm.data);
-                router.push(nuxt.localePath('/'));
+                router.push('/');
             } catch (error: unknown) {
                 isProcessing.value = false;
-                nuxt.$toast.show(getErrorMessage(error));
+                toaster.show(...getErrorMessage(error));
             }
         }
 
