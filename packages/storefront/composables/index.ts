@@ -1,2 +1,2 @@
 export * from './apollo';
-export { useBrowserFetch } from './use-browser-fetch';
+export { useBrowserFetch, isBrowserHttpError } from './use-browser-fetch';

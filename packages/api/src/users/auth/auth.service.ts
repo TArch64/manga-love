@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { UsersRepository } from '../repository';
 import { CurrentUser } from './current-user.decorator';
+import {TypedError} from "../../core";
 
 export type TokenPayload = { userId: string };
 
@@ -26,10 +27,7 @@ export class AuthService {
     }
 
     private throwUnauthorizedException(): never {
-        const error = new UnauthorizedException();
-
-        error.message = 'Bad Credentials';
-        throw error;
+        throw new TypedError('bad-credentials', 401);
     }
 
     public async decodeToken(token: string): Promise<CurrentUser | null> {

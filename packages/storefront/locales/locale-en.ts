@@ -24,7 +24,8 @@ export default {
             }
         },
         errors: {
-            badCredentials: 'Invalid email or password'
+            badCredentials: 'Invalid email or password',
+            somethingWentWrong: 'Something went wrong'
         }
     },
 

@@ -43,6 +43,7 @@ import { defineComponent, ref, useContext, useRouter } from '@nuxtjs/composition
 import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
 import { useUserStore, SignInCredentials } from '~/store';
+import { isBrowserHttpError } from '~/composables';
 
 export default defineComponent({
     name: 'SignIn',
@@ -78,6 +79,13 @@ export default defineComponent({
             }
         });
 
+        function getErrorMessage(error: unknown): string {
+            if (isBrowserHttpError(error, 'bad-credentials')) {
+                return nuxt.app.i18n.t('auth.errors.badCredentials') as string;
+            }
+            return nuxt.app.i18n.t('auth.errors.somethingWentWrong') as string;
+        }
+
         async function signIn(): Promise<void> {
             isProcessing.value = true;
 
@@ -87,9 +95,7 @@ export default defineComponent({
             } catch (error: unknown) {
                 authForm.update({ password: '' });
                 isProcessing.value = false;
-
-                const message = nuxt.app.i18n.t('auth.errors.badCredentials');
-                nuxt.$toast.show(message as string);
+                nuxt.$toast.show(getErrorMessage(error));
             }
         }
 
