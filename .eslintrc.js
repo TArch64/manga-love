@@ -26,10 +26,6 @@ module.exports = {
                 '@typescript-eslint'
             ],
             parser: "@typescript-eslint/parser",
-            parserOptions: {
-                project: ['tsconfig.eslint.json'],
-                createDefaultProgram: true
-            },
             extends: ['plugin:@typescript-eslint/recommended'],
             rules: {
                 'no-extra-bind': 'error',
@@ -171,7 +167,7 @@ module.exports = {
                     }
                 ],
                 'dot-notation': 'off',
-                '@typescript-eslint/dot-notation': 'error',
+                '@typescript-eslint/dot-notation': 'off',
                 'import/default': 'error',
                 'import/namespace': 'error',
                 'import/no-absolute-path': 'error',
