@@ -25,7 +25,8 @@ export default {
         },
         errors: {
             badCredentials: 'Invalid email or password',
-            somethingWentWrong: 'Something went wrong'
+            somethingWentWrong: 'Something went wrong',
+            unique: '{field} already exists'
         }
     },
 

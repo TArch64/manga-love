@@ -63,6 +63,7 @@ export default defineComponent({
     setup() {
         const userStore = useUserStore();
         const nuxt = useContext();
+        const router = useRouter();
         const isProcessing = ref(false);
 
         const authForm = useForm<SignInCredentials>({
@@ -91,7 +92,7 @@ export default defineComponent({
 
             try {
                 await userStore.signIn(authForm.data);
-                useRouter().push(nuxt.localePath('/'));
+                router.push(nuxt.localePath('/'));
             } catch (error: unknown) {
                 authForm.update({ password: '' });
                 isProcessing.value = false;

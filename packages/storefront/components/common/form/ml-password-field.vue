@@ -11,6 +11,7 @@
 
         <template #end-icon>
             <MlButton
+                tabindex="-1"
                 class="ml-form-password-field__visibility"
                 :class="visibilityButtonClasses"
                 @click="togglePasswordVisibility"

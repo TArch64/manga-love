@@ -57,6 +57,7 @@ import {
 } from '~/components/common/form';
 import { SignUpInfo, useUserStore } from '~/store';
 import { MlButton } from '~/components/common';
+import { isBrowserHttpError } from '~/composables';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
@@ -82,6 +83,7 @@ export default defineComponent({
     setup() {
         const userStore = useUserStore();
         const nuxt = useContext();
+        const router = useRouter();
         const isProcessing = ref(false);
 
         const authForm = useForm<SignUpForm>({
@@ -110,14 +112,25 @@ export default defineComponent({
             }
         });
 
+        function getErrorMessage(error: unknown): string {
+            if (isBrowserHttpError(error, 'email-already-taken')) {
+                return nuxt.app.i18n.t('auth.errors.unique', { field: 'User with this email' }) as string;
+            }
+            if (isBrowserHttpError(error, 'username-already-taken')) {
+                return nuxt.app.i18n.t('auth.errors.unique', { field: 'User with this name' }) as string;
+            }
+            return nuxt.app.i18n.t('auth.errors.somethingWentWrong') as string;
+        }
+
         async function signUp(): Promise<void> {
             isProcessing.value = true;
 
             try {
                 await userStore.signUp(authForm.data);
-                useRouter().push(nuxt.localePath('/'));
+                router.push(nuxt.localePath('/'));
             } catch (error: unknown) {
                 isProcessing.value = false;
+                nuxt.$toast.show(getErrorMessage(error));
             }
         }
 

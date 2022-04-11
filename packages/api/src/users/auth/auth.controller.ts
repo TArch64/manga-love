@@ -19,6 +19,10 @@ interface SignUpBody {
     password: string;
 }
 
+interface SuccessResponse {
+    success: true
+}
+
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -71,8 +75,12 @@ export class AuthController {
     }
 
     @Post('sign-up')
-    public async signUp(@Body() body: SignUpBody, @Res({ passthrough: true }) res: Response): Promise<void> {
+    public async signUp(
+        @Body() body: SignUpBody,
+        @Res({ passthrough: true }
+    ) res: Response): Promise<SuccessResponse> {
         const token = await this.authService.signUp(body);
         this.writeAuthCookie(res, token);
+        return { success: true };
     }
 }
