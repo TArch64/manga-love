@@ -19,8 +19,12 @@ interface SignUpBody {
     password: string;
 }
 
+interface AskResetPasswordBody {
+    email: string;
+}
+
 interface SuccessResponse {
-    success: true
+    success: true;
 }
 
 @Controller('auth')
@@ -77,10 +81,15 @@ export class AuthController {
     @Post('sign-up')
     public async signUp(
         @Body() body: SignUpBody,
-        @Res({ passthrough: true }
-    ) res: Response): Promise<SuccessResponse> {
+        @Res({ passthrough: true }) res: Response
+    ): Promise<SuccessResponse> {
         const token = await this.authService.signUp(body);
         this.writeAuthCookie(res, token);
+        return { success: true };
+    }
+
+    @Post('ask-reset-password')
+    public async askResetPassword(@Body() body: AskResetPasswordBody): Promise<SuccessResponse> {
         return { success: true };
     }
 }

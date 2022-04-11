@@ -28,6 +28,7 @@ interface Actions {
     loadCurrentUser(): Promise<void>;
     signIn(credentials: SignInCredentials): Promise<void>;
     signUp(info: SignUpInfo): Promise<void>;
+    askResetPassword(info: ForgotInfo): Promise<void>;
 }
 
 export const useUserStore = defineStore<string, State, {}, Actions>('user', {
@@ -60,6 +61,12 @@ export const useUserStore = defineStore<string, State, {}, Actions>('user', {
                 password: info.password
             });
             await this.loadCurrentUser();
+        },
+
+        async askResetPassword(info: ForgotInfo) {
+            await useBrowserFetch<ForgotInfo>('/api/auth/ask-reset-password', {
+                email: info.email
+            });
         }
     }
 });

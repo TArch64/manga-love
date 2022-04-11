@@ -4,7 +4,7 @@
             {{ $t('auth.forgot.heading') }}
         </h1>
 
-        <MlForm :form="form">
+        <MlForm :form="form" @submit="askResetPassword">
             <MlTextField
                 name="email"
                 type="email"
@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent, useContext } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, validateRequired, validateEmail } from '~/components/common/form';
-import { ForgotInfo } from '~/store';
+import { ForgotInfo, useUserStore } from '~/store';
 import { MlButton } from '~/components/common';
 
 export default defineComponent({
@@ -37,6 +37,9 @@ export default defineComponent({
     },
 
     setup() {
+        const nuxt = useContext();
+        const userStore = useUserStore();
+
         const form = useForm<ForgotInfo>({
             email: {
                 value: '',
@@ -47,7 +50,18 @@ export default defineComponent({
             }
         });
 
-        return { form };
+        async function askResetPassword(): Promise<void> {
+            try {
+                await userStore.askResetPassword(form.data);
+                const message = nuxt.app.i18n.t('auth.forgot.resetAsked') as string;
+                nuxt.$toast.show(message);
+            } catch (error) {
+                const message = nuxt.app.i18n.t('auth.errors.somethingWentWrong') as string;
+                nuxt.$toast.show(message);
+            }
+        }
+
+        return { form, askResetPassword };
     }
 });
 </script>

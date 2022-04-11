@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
         <fieldset class="ml-form__fieldset" :disabled="disabled">
             <slot />
         </fieldset>
