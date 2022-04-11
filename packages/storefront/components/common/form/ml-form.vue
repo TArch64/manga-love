@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="$emit('submit')">
+    <form @submit.prevent="submit">
         <fieldset class="ml-form__fieldset" :disabled="disabled">
             <slot />
         </fieldset>
@@ -35,7 +35,7 @@ export default defineComponent({
 
     emits: ['submit'],
 
-    setup(props) {
+    setup(props, context) {
         const fields = props.form._fields;
 
         function registerField(fieldId: string): FormControlContext<unknown> {
@@ -79,6 +79,14 @@ export default defineComponent({
         provide<FormRegister<unknown>>(FORM_REGISTER, {
             register: registerField
         });
+
+        function submit(): void {
+            if (props.form.validate()) {
+                context.emit('submit');
+            }
+        }
+
+        return { submit };
     }
 });
 </script>

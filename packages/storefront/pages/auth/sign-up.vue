@@ -4,7 +4,7 @@
             {{ $t('auth.signUp.greeting') }}
         </h1>
 
-        <MlForm :form="authForm">
+        <MlForm :form="authForm" @submit="signUp">
             <MlTextField
                 name="username"
                 class="ml-margin-bottom--md"
@@ -32,7 +32,7 @@
                 class="ml-margin-bottom--lg"
             />
 
-            <MlButton class="ml-width--full ml-margin-bottom--xlg" type="submit" skin="primary" size="lg">
+            <MlButton class="ml-width--full ml-sign-up__submit" type="submit" skin="primary" size="lg">
                 {{ $t('auth.signUp.submit') }}
             </MlButton>
 
@@ -106,7 +106,11 @@ export default defineComponent({
             }
         });
 
-        return { authForm };
+        function signUp(): void {
+            console.log(authForm.data);
+        }
+
+        return { authForm, signUp };
     }
 });
 </script>
@@ -122,6 +126,10 @@ export default defineComponent({
     color: #303030;
     margin-top: 0;
     margin-bottom: 30px;
+}
+
+.ml-sign-up__submit {
+    margin-bottom: 60px;
 }
 
 .ml-sign-up__to-sign-in-question,

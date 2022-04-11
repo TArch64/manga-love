@@ -79,8 +79,6 @@ export default defineComponent({
         });
 
         async function signIn(): Promise<void> {
-            if (!authForm.validate()) return;
-
             isProcessing.value = true;
 
             try {
