@@ -16,4 +16,14 @@ export class UsersRepository {
             where: { email }
         });
     }
+
+    public async getUserByName(username: string): Promise<DatabaseUser | undefined> {
+        return this.prisma.databaseUser.findUnique({
+            where: { username }
+        });
+    }
+
+    public async create(data: Omit<DatabaseUser, 'id'>): Promise<DatabaseUser> {
+        return this.prisma.databaseUser.create({ data });
+    }
 }

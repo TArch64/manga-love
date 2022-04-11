@@ -9,9 +9,10 @@ datasource db {
 }
 
 model DatabaseUser {
-    id       String @id @default(uuid())
-    email    String @db.VarChar(200) @unique
-    password String @db.VarChar(200)
+    id          String @id @default(uuid())
+    username    String @db.VarChar(200) @unique
+    email       String @db.VarChar(200) @unique
+    password    String @db.VarChar(200)
 }
 
 model DatabaseManga {

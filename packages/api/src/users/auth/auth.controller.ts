@@ -3,15 +3,21 @@ import { Response } from 'express';
 import { PublicUrlService } from '../../core';
 import { AuthService } from './auth.service';
 
-type SignInBody = {
+interface SignInBody {
     email: string;
     password: string;
-};
+}
 
-type SignInRender = {
+interface SignInRender {
     actionPath: string;
     error?: string;
-};
+}
+
+interface SignUpBody {
+    username: string;
+    email: string;
+    password: string;
+}
 
 @Controller('auth')
 export class AuthController {
@@ -42,12 +48,7 @@ export class AuthController {
     ): Promise<void> {
         try {
             const token = await this.authService.signIn(body.email, body.password);
-
-            res.cookie('auth', token, {
-                signed: true,
-                secure: true,
-                httpOnly: true
-            });
+            this.writeAuthCookie(res, token);
 
             returnUrl ? res.redirect(returnUrl) : res.json({ success: true });
         } catch (error) {
@@ -59,5 +60,19 @@ export class AuthController {
             });
             res.redirect(url);
         }
+    }
+
+    private writeAuthCookie(response: Response, token: string): void {
+        response.cookie('auth', token, {
+            signed: true,
+            secure: true,
+            httpOnly: true
+        });
+    }
+
+    @Post('sign-up')
+    public async signUp(@Body() body: SignUpBody, @Res({ passthrough: true }) res: Response): Promise<void> {
+        const token = await this.authService.signUp(body);
+        this.writeAuthCookie(res, token);
     }
 }

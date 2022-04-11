@@ -1,4 +1,4 @@
-import { client } from '../client-provider';
+import { client, DatabaseMangaSource } from '../client-provider';
 import { KitsuMangaMigrationFactory, KitsuManga } from '../../kitsu';
 import * as kitsuSnapshot from './mangas-kitsu-snapshot.json';
 
@@ -8,7 +8,12 @@ export async function seedMangas(): Promise<void> {
 
     for (const manga of mangas) {
         await client.databaseManga.upsert({
-            where: { id: manga.id },
+            where: {
+                sourceIdentifier: {
+                    source: DatabaseMangaSource.KITSU,
+                    sourceId: manga.sourceId
+                }
+            },
             update: {},
             create: manga
         });

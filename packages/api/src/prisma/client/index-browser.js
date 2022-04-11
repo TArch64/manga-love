@@ -78,6 +78,7 @@ function makeEnum(x) { return x; }
 
 exports.Prisma.DatabaseUserScalarFieldEnum = makeEnum({
   id: 'id',
+  username: 'username',
   email: 'email',
   password: 'password'
 });

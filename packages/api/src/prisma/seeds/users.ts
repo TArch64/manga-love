@@ -10,6 +10,7 @@ async function buildUser(user: Omit<DatabaseUser, 'id'>): Promise<void> {
 
 export async function seedUsers(): Promise<void> {
     await buildUser({
+        username: 'Test',
         email: 'test@mail.com',
         password: '$2b$10$.UBN3T0r90OeA6n5GG2gfOiTby2/AkViDEjN/I0vqiOzFZOSlw0me'
     });

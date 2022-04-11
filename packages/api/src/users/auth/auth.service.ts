@@ -3,7 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { UsersRepository } from '../repository';
 import { CurrentUser } from './current-user.decorator';
-import {TypedError} from "../../core";
+import { TypedError } from "../../core";
+import {DatabaseUser, isUniqueConstrain} from '../../prisma'
 
 export type TokenPayload = { userId: string };
 
@@ -23,11 +24,15 @@ export class AuthService {
             this.throwUnauthorizedException();
         }
 
-        return this.jwtService.sign({ userId: user.id });
+        return this.encodeToken(user);
     }
 
     private throwUnauthorizedException(): never {
         throw new TypedError('bad-credentials', 401);
+    }
+
+    private encodeToken(user: DatabaseUser): string {
+        return this.jwtService.sign({ userId: user.id });
     }
 
     public async decodeToken(token: string): Promise<CurrentUser | null> {
@@ -39,6 +44,22 @@ export class AuthService {
             return user;
         } catch (error) {
             return null;
+        }
+    }
+
+    public async signUp(user: Omit<DatabaseUser, 'id'>): Promise<string> {
+        if (!user.email || !user.password || !user.username) {
+            throw new TypedError('invalid-request');
+        }
+
+        try {
+            return this.encodeToken(await this.usersRepository.create(user));
+        } catch (error: unknown) {
+            if (!isUniqueConstrain(error)) {
+                throw error;
+            }
+            const [column] = error.meta.target;
+            throw new TypedError(`${column}-already-taken`);
         }
     }
 }

@@ -18,6 +18,7 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
  */
 export type DatabaseUser = {
   id: string
+  username: string
   email: string
   password: string
 }
@@ -881,18 +882,21 @@ export namespace Prisma {
 
   export type DatabaseUserMinAggregateOutputType = {
     id: string | null
+    username: string | null
     email: string | null
     password: string | null
   }
 
   export type DatabaseUserMaxAggregateOutputType = {
     id: string | null
+    username: string | null
     email: string | null
     password: string | null
   }
 
   export type DatabaseUserCountAggregateOutputType = {
     id: number
+    username: number
     email: number
     password: number
     _all: number
@@ -901,18 +905,21 @@ export namespace Prisma {
 
   export type DatabaseUserMinAggregateInputType = {
     id?: true
+    username?: true
     email?: true
     password?: true
   }
 
   export type DatabaseUserMaxAggregateInputType = {
     id?: true
+    username?: true
     email?: true
     password?: true
   }
 
   export type DatabaseUserCountAggregateInputType = {
     id?: true
+    username?: true
     email?: true
     password?: true
     _all?: true
@@ -998,6 +1005,7 @@ export namespace Prisma {
 
   export type DatabaseUserGroupByOutputType = {
     id: string
+    username: string
     email: string
     password: string
     _count: DatabaseUserCountAggregateOutputType | null
@@ -1021,6 +1029,7 @@ export namespace Prisma {
 
   export type DatabaseUserSelect = {
     id?: boolean
+    username?: boolean
     email?: boolean
     password?: boolean
   }
@@ -3474,6 +3483,7 @@ export namespace Prisma {
 
   export const DatabaseUserScalarFieldEnum: {
     id: 'id',
+    username: 'username',
     email: 'email',
     password: 'password'
   };
@@ -3533,23 +3543,27 @@ export namespace Prisma {
     OR?: Enumerable<DatabaseUserWhereInput>
     NOT?: Enumerable<DatabaseUserWhereInput>
     id?: StringFilter | string
+    username?: StringFilter | string
     email?: StringFilter | string
     password?: StringFilter | string
   }
 
   export type DatabaseUserOrderByWithRelationInput = {
     id?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
   }
 
   export type DatabaseUserWhereUniqueInput = {
     id?: string
+    username?: string
     email?: string
   }
 
   export type DatabaseUserOrderByWithAggregationInput = {
     id?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
     _count?: DatabaseUserCountOrderByAggregateInput
@@ -3562,6 +3576,7 @@ export namespace Prisma {
     OR?: Enumerable<DatabaseUserScalarWhereWithAggregatesInput>
     NOT?: Enumerable<DatabaseUserScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
+    username?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
     password?: StringWithAggregatesFilter | string
   }
@@ -3681,42 +3696,49 @@ export namespace Prisma {
 
   export type DatabaseUserCreateInput = {
     id?: string
+    username: string
     email: string
     password: string
   }
 
   export type DatabaseUserUncheckedCreateInput = {
     id?: string
+    username: string
     email: string
     password: string
   }
 
   export type DatabaseUserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
   }
 
   export type DatabaseUserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
   }
 
   export type DatabaseUserCreateManyInput = {
     id?: string
+    username: string
     email: string
     password: string
   }
 
   export type DatabaseUserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
   }
 
   export type DatabaseUserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
   }
@@ -3881,18 +3903,21 @@ export namespace Prisma {
 
   export type DatabaseUserCountOrderByAggregateInput = {
     id?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
   }
 
   export type DatabaseUserMaxOrderByAggregateInput = {
     id?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
   }
 
   export type DatabaseUserMinOrderByAggregateInput = {
     id?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
   }

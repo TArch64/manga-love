@@ -1,2 +1,3 @@
 export * from './client';
-export { PrismaService } from './prisma.service';
+export { PrismaService, UniqueConstrainError } from './prisma.service';
+export { isUniqueConstrain } from './helpers/isUniqueConstrain';
