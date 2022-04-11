@@ -4,7 +4,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './users';
 import { MangasModule } from './mangas';
-import { KitsuModule } from './kitsu';
 
 @Module({
     imports: [
@@ -20,8 +19,7 @@ import { KitsuModule } from './kitsu';
             autoSchemaFile: join(process.cwd(), './schema.graphql')
         }),
         UsersModule,
-        MangasModule,
-        KitsuModule
+        MangasModule
     ]
 })
 export class AppModule {}

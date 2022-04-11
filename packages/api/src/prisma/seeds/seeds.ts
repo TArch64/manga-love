@@ -1,10 +1,8 @@
 import { client } from '../client-provider';
 import { seedUsers } from './users';
-import { seedMangas } from './mangas';
 
 const seeds = [
-    seedUsers,
-    seedMangas
+    seedUsers
 ];
 
 (async (): Promise<void> => {
