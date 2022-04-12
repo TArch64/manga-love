@@ -8,10 +8,14 @@
             <MlTextField
                 name="email"
                 type="email"
-                class="ml-margin-bottom--xlg"
+                class="ml-margin-bottom--md"
                 :label="$t('auth.form.email.label')"
                 :placeholder="$t('auth.form.email.placeholder')"
             />
+
+            <p class="ml-forgot__note ml-margin-top--none ml-margin-bottom--lg">
+                Note: We will send reset password link to your email
+            </p>
 
             <MlButton class="ml-width--full ml-margin-bottom--lg" skin="primary" type="submit" size="lg">
                 Reset
@@ -86,5 +90,12 @@ export default defineComponent({
     letter-spacing: 1.5px;
     margin-top: 0;
     margin-bottom: 40px;
+}
+
+.ml-forgot__note {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #808080;
 }
 </style>
