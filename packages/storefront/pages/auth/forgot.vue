@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, validateRequired, validateEmail } from '~/components/common/form';
-import { ForgotInfo, useUserStore } from '~/store';
+import { ForgotInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isBrowserHttpError, useToaster, ToastrMessage } from '~/composables';
+import { isApiError, useToaster, ToastrMessage } from '~/composables';
 
 export default defineComponent({
     name: 'Forgot',
@@ -46,9 +46,8 @@ export default defineComponent({
     },
 
     setup() {
-        const nuxt = useContext();
         const toaster = useToaster();
-        const userStore = useUserStore();
+        const authStore = useAuthStore();
 
         const form = useForm<ForgotInfo>({
             email: {
@@ -60,19 +59,19 @@ export default defineComponent({
             }
         });
 
-        function getErrorMessage(error: unknown): ToastrMessage {
-            if (isBrowserHttpError(error, 'invalid-email')) {
-                return { path: 'errors.invalidEmail' };
+        function getApiError(error: unknown): ToastrMessage {
+            if (isApiError(error, 'invalid-email')) {
+                return { path: 'auth.forgot.errors.invalidEmail' };
             }
             return { path: 'errors.somethingWentWrong' };
         }
 
         async function askResetPassword(): Promise<void> {
             try {
-                await userStore.askResetPassword(form.data);
+                await authStore.askResetPassword(form.data);
                 toaster.show({ path: 'auth.forgot.resetAsked' });
             } catch (error) {
-                toaster.show(getErrorMessage(error));
+                toaster.show(getApiError(error));
             }
         }
 

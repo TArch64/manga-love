@@ -55,9 +55,9 @@ import {
     validatePasswordConfirmation,
     validateEmail
 } from '~/components/common/form';
-import { SignUpInfo, useUserStore } from '~/store';
+import { SignUpInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isBrowserHttpError, useRouter, useToaster, ToastrMessage } from '~/composables';
+import { isApiError, useRouter, useToaster, ToastrMessage } from '~/composables';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
@@ -75,7 +75,7 @@ export default defineComponent({
     },
 
     setup() {
-        const userStore = useUserStore();
+        const authStore = useAuthStore();
         const router = useRouter();
         const toaster = useToaster();
         const isProcessing = ref(false);
@@ -106,11 +106,11 @@ export default defineComponent({
             }
         });
 
-        function getErrorMessage(error: unknown): ToastrMessage {
-            if (isBrowserHttpError(error, 'email-already-taken')) {
+        function getApiError(error: unknown): ToastrMessage {
+            if (isApiError(error, 'email-already-taken')) {
                 return { path: 'errors.unique', data: { field: 'User with this email' } };
             }
-            if (isBrowserHttpError(error, 'username-already-taken')) {
+            if (isApiError(error, 'username-already-taken')) {
                 return { path: 'errors.unique', data: { field: 'User with this name' } };
             }
             return { path: 'errors.somethingWentWrong' };
@@ -120,11 +120,11 @@ export default defineComponent({
             isProcessing.value = true;
 
             try {
-                await userStore.signUp(authForm.data);
+                await authStore.signUp(authForm.data);
                 router.push('/');
             } catch (error: unknown) {
                 isProcessing.value = false;
-                toaster.show(getErrorMessage(error));
+                toaster.show(getApiError(error));
             }
         }
 

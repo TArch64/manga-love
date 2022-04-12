@@ -46,8 +46,8 @@
 import { defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
-import { useUserStore, SignInCredentials } from '~/store';
-import { isBrowserHttpError, useToaster, ToastrMessage, useRouter } from '~/composables';
+import { useAuthStore, SignInCredentials } from '~/store';
+import { isApiError, useToaster, ToastrMessage, useRouter } from '~/composables';
 
 export default defineComponent({
     name: 'SignIn',
@@ -65,7 +65,7 @@ export default defineComponent({
     },
 
     setup() {
-        const userStore = useUserStore();
+        const authStore = useAuthStore();
         const router = useRouter();
         const toaster = useToaster();
         const isProcessing = ref(false);
@@ -84,9 +84,9 @@ export default defineComponent({
             }
         });
 
-        function getErrorMessage(error: unknown): ToastrMessage {
-            if (isBrowserHttpError(error, 'bad-credentials')) {
-                return { path: 'errors.badCredentials' };
+        function getApiError(error: unknown): ToastrMessage {
+            if (isApiError(error, 'bad-credentials')) {
+                return { path: 'auth.signIn.errors.badCredentials' };
             }
             return { path: 'errors.somethingWentWrong' };
         }
@@ -95,12 +95,12 @@ export default defineComponent({
             isProcessing.value = true;
 
             try {
-                await userStore.signIn(authForm.data);
+                await authStore.signIn(authForm.data);
                 router.push('/');
             } catch (error: unknown) {
                 authForm.update({ password: '' });
                 isProcessing.value = false;
-                toaster.show(getErrorMessage(error));
+                toaster.show(getApiError(error));
             }
         }
 

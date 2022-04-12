@@ -1,3 +1,1 @@
-export default {
-    hello: 'Привіт'
-};
+export default {};

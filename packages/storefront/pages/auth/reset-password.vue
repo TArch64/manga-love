@@ -33,8 +33,9 @@ import {
     validateRequired,
     validatePasswordConfirmation
 } from '~/components/common/form';
-import { ResetPasswordInfo } from '~/store';
+import { ResetPasswordInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
+import { useRouter, useToaster } from '~/composables';
 
 interface ResetPasswordForm extends ResetPasswordInfo {
     passwordConfirmation: string;
@@ -51,6 +52,10 @@ export default defineComponent({
     },
 
     setup() {
+        const authStore = useAuthStore();
+        const toaster = useToaster();
+        const router = useRouter();
+
         const form = useForm<ResetPasswordForm>({
             password: {
                 value: '',
@@ -68,8 +73,13 @@ export default defineComponent({
             }
         });
 
-        function resetPassword(): void {
-            console.log(form.data);
+        async function resetPassword(): Promise<void> {
+            try {
+                await authStore.resetPassword(form.data);
+                router.push('/');
+            } catch (error) {
+                toaster.show({ path: 'errors.somethingWentWrong' });
+            }
         }
 
         return { form, resetPassword };

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useQuery, useBrowserFetch } from '~/composables';
+import { useQuery, useApiHttp } from '~/composables';
 import { currentUserQuery } from '~/graphql/user';
 
 export interface User {
@@ -33,9 +33,12 @@ interface Actions {
     signIn(credentials: SignInCredentials): Promise<void>;
     signUp(info: SignUpInfo): Promise<void>;
     askResetPassword(info: ForgotInfo): Promise<void>;
+    resetPassword(info: ResetPasswordInfo): Promise<void>;
 }
 
-export const useUserStore = defineStore<string, State, {}, Actions>('user', {
+const apiHttp = useApiHttp();
+
+export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
     state: () => ({
         currentUser: null
     }),
@@ -51,25 +54,29 @@ export const useUserStore = defineStore<string, State, {}, Actions>('user', {
         },
 
         async signIn(credentials) {
-            await useBrowserFetch<SignInCredentials>('/api/auth/sign-in', {
+            await apiHttp.post<SignInCredentials>('auth/sign-in', {
                 email: credentials.email,
                 password: credentials.password
             });
-            await this.loadCurrentUser();
         },
 
         async signUp(info: SignUpInfo) {
-            await useBrowserFetch<SignUpInfo>('/api/auth/sign-up', {
+            await apiHttp.post<SignUpInfo>('auth/sign-up', {
                 username: info.username,
                 email: info.email,
                 password: info.password
             });
-            await this.loadCurrentUser();
         },
 
         async askResetPassword(info: ForgotInfo) {
-            await useBrowserFetch<ForgotInfo>('/api/auth/ask-reset-password', {
+            await apiHttp.post<ForgotInfo>('auth/ask-reset-password', {
                 email: info.email
+            });
+        },
+
+        async resetPassword(info: ResetPasswordInfo) {
+            await apiHttp.post<ResetPasswordInfo>('auth/reset-password', {
+                password: info.password
             });
         }
     }

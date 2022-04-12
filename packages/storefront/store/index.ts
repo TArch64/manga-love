@@ -1,2 +1,2 @@
-export { useUserStore } from './user-store';
-export type { SignInCredentials, SignUpInfo, ForgotInfo, ResetPasswordInfo } from './user-store';
+export { useAuthStore } from './auth-store';
+export type { SignInCredentials, SignUpInfo, ForgotInfo, ResetPasswordInfo } from './auth-store';

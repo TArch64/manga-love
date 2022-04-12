@@ -1,9 +1,13 @@
 export default {
     errors: {
-        badCredentials: 'Invalid email or password',
         somethingWentWrong: 'Something went wrong',
-        unique: '{field} already exists',
-        invalidEmail: 'No account with with email found'
+        unique: '{field} already exists'
+    },
+
+    validations: {
+        required: '{field} can\'t be empty',
+        email: 'Invalid email format',
+        passwordConfirmation: 'Passwords should match'
     },
 
     auth: {
@@ -12,7 +16,11 @@ export default {
             greeting: 'Welcome back',
             submit: 'Sign in',
             toForgot: 'Forgot Password',
-            toSignUp: 'Sign up'
+            toSignUp: 'Sign up',
+
+            errors: {
+                badCredentials: 'Invalid email or password'
+            }
         },
         signUp: {
             greeting: 'Welcome',
@@ -25,7 +33,11 @@ export default {
             note: 'Note: We will send reset password link to your email',
             submit: 'Reset',
             resetAsked: 'We\'ve sent reset link to your email',
-            toSignIn: 'Sign in'
+            toSignIn: 'Sign in',
+
+            errors: {
+                invalidEmail: 'No account with with email found'
+            }
         },
         resetPassword: {
             heading: 'Reset password',
@@ -47,11 +59,5 @@ export default {
                 label: 'Confirm password'
             }
         }
-    },
-
-    validations: {
-        required: '{field} can\'t be empty',
-        email: 'Invalid email format',
-        passwordConfirmation: 'Passwords should match'
     }
 };
