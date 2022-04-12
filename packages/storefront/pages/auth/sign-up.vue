@@ -57,7 +57,7 @@ import {
 } from '~/components/common/form';
 import { SignUpInfo, useUserStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isBrowserHttpError, useRouter, useToaster } from '~/composables';
+import { isBrowserHttpError, useRouter, useToaster, ToastrMessage } from '~/composables';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
@@ -112,14 +112,14 @@ export default defineComponent({
             }
         });
 
-        function getErrorMessage(error: unknown): [string, Record<string, string>] {
+        function getErrorMessage(error: unknown): ToastrMessage {
             if (isBrowserHttpError(error, 'email-already-taken')) {
-                return ['errors.unique', { field: 'User with this email' }];
+                return { path: 'errors.unique', data: { field: 'User with this email' } };
             }
             if (isBrowserHttpError(error, 'username-already-taken')) {
-                return ['errors.unique', { field: 'User with this name' }];
+                return { path: 'errors.unique', data: { field: 'User with this name' } };
             }
-            return ['errors.somethingWentWrong', {}];
+            return { path: 'errors.somethingWentWrong' };
         }
 
         async function signUp(): Promise<void> {
@@ -130,7 +130,7 @@ export default defineComponent({
                 router.push('/');
             } catch (error: unknown) {
                 isProcessing.value = false;
-                toaster.show(...getErrorMessage(error));
+                toaster.show(getErrorMessage(error));
             }
         }
 

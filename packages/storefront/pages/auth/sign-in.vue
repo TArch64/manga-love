@@ -47,7 +47,7 @@ import { defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
 import { useUserStore, SignInCredentials } from '~/store';
-import { isBrowserHttpError, useToaster, useRouter } from '~/composables';
+import { isBrowserHttpError, useToaster, ToastrMessage, useRouter } from '~/composables';
 
 export default defineComponent({
     name: 'SignIn',
@@ -84,11 +84,11 @@ export default defineComponent({
             }
         });
 
-        function getErrorMessage(error: unknown): string {
+        function getErrorMessage(error: unknown): ToastrMessage {
             if (isBrowserHttpError(error, 'bad-credentials')) {
-                return 'errors.badCredentials';
+                return { path: 'errors.badCredentials' };
             }
-            return 'errors.somethingWentWrong';
+            return { path: 'errors.somethingWentWrong' };
         }
 
         async function signIn(): Promise<void> {

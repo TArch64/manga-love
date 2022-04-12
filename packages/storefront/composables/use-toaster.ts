@@ -1,8 +1,13 @@
 import { useContext } from '@nuxtjs/composition-api';
 import { useTranslate } from './use-translate';
 
+export interface ToastrMessage {
+    path: string;
+    data?: Record<string, string>;
+}
+
 interface Toaster {
-    show(message: string, data?: Record<string, string>): void;
+    show(message: ToastrMessage): void;
 }
 
 export function useToaster(): Toaster {
@@ -10,8 +15,8 @@ export function useToaster(): Toaster {
     const context = useContext();
 
     return {
-        show(message: string, data?: Record<string, string>): void {
-            context.$toast.show(translate.get(message, data));
+        show(message: ToastrMessage): void {
+            context.$toast.show(translate.get(message.path, message.data));
         }
     };
 }

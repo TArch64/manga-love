@@ -25,7 +25,7 @@ import { defineComponent, useContext } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, validateRequired, validateEmail } from '~/components/common/form';
 import { ForgotInfo, useUserStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isBrowserHttpError, useToaster } from '~/composables';
+import { isBrowserHttpError, useToaster, ToastrMessage } from '~/composables';
 
 export default defineComponent({
     name: 'Forgot',
@@ -52,17 +52,17 @@ export default defineComponent({
             }
         });
 
-        function getErrorMessage(error: unknown): string {
+        function getErrorMessage(error: unknown): ToastrMessage {
             if (isBrowserHttpError(error, 'invalid-email')) {
-                return 'errors.invalidEmail';
+                return { path: 'errors.invalidEmail' };
             }
-            return 'errors.somethingWentWrong';
+            return { path: 'errors.somethingWentWrong' };
         }
 
         async function askResetPassword(): Promise<void> {
             try {
                 await userStore.askResetPassword(form.data);
-                toaster.show('auth.forgot.resetAsked');
+                toaster.show({ path: 'auth.forgot.resetAsked' });
             } catch (error) {
                 toaster.show(getErrorMessage(error));
             }
