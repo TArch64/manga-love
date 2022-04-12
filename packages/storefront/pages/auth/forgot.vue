@@ -13,8 +13,12 @@
                 :placeholder="$t('auth.form.email.placeholder')"
             />
 
-            <MlButton class="ml-width--full" skin="primary" type="submit" size="lg">
+            <MlButton class="ml-width--full ml-margin-bottom--lg" skin="primary" type="submit" size="lg">
                 Reset
+            </MlButton>
+
+            <MlButton class="ml-width--full ml-text--uppercase" link="/auth/sign-in" skin="flat" size="lg">
+                {{ $t('auth.forgot.toSignIn') }}
             </MlButton>
         </MlForm>
     </div>
