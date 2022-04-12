@@ -14,11 +14,11 @@
             />
 
             <p class="ml-forgot__note ml-margin-top--none ml-margin-bottom--lg">
-                Note: We will send reset password link to your email
+                {{ $t('auth.forgot.note') }}
             </p>
 
             <MlButton class="ml-width--full ml-margin-bottom--lg" skin="primary" type="submit" size="lg">
-                Reset
+                {{ $t('auth.forgot.submit') }}
             </MlButton>
 
             <MlButton class="ml-width--full ml-text--uppercase" link="/auth/sign-in" skin="flat" size="lg">

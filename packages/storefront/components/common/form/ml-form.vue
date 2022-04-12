@@ -40,6 +40,11 @@ export default defineComponent({
 
         function registerField(fieldId: string): FormControlContext<unknown> {
             const options = props.form._options[fieldId];
+
+            if (!options) {
+                throw new Error(`Unknown controls with name "${fieldId}"`);
+            }
+
             const data = computed(() => props.form.data[fieldId]);
             const error = ref<Validation | null>(null);
             const touched = ref(false);

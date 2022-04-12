@@ -14,3 +14,11 @@ export function validateEmail<F>(): FormValidator<string, F> {
         return regex.test(String(value).toLowerCase()) ? null : { message: 'validations.email' };
     };
 }
+
+export function validatePasswordConfirmation<F extends { password: string, passwordConfirmation: string }>(): FormValidator<string, F> {
+    return (value: string, form: F): Validation | null => {
+        if (form.password === form.passwordConfirmation) return null;
+
+        return { message: 'validations.passwordConfirmation' };
+    };
+}

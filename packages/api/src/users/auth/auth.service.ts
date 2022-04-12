@@ -69,7 +69,7 @@ export class AuthService {
     }
 
     private async sendResetPasswordEmail(passwordReset: DatabasePasswordReset): Promise<void> {
-        const resetUrl = this.storefrontUrl.resolve(['auth/change-password'], { code: passwordReset.code });
+        const resetUrl = this.storefrontUrl.resolve(['auth/reset-password'], { code: passwordReset.code });
         const mail = new ResetPasswordMail(passwordReset.email, resetUrl);
 
         await this.mailerService.send(mail);

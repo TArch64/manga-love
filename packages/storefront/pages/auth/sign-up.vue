@@ -52,7 +52,7 @@ import {
     MlTextField,
     MlPasswordField,
     validateRequired,
-    FormValidator,
+    validatePasswordConfirmation,
     validateEmail
 } from '~/components/common/form';
 import { SignUpInfo, useUserStore } from '~/store';
@@ -62,12 +62,6 @@ import { isBrowserHttpError, useRouter, useToaster, ToastrMessage } from '~/comp
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;
 }
-
-const confirmationValidator: FormValidator<unknown, SignUpForm> = (_, form) => {
-    if (form.password === form.passwordConfirmation) return null;
-
-    return { message: 'validations.passwordConfirmation' };
-};
 
 export default defineComponent({
     name: 'SignUp',
@@ -107,7 +101,7 @@ export default defineComponent({
                 value: '',
                 validators: [
                     validateRequired<SignUpForm>('validations.required', { field: 'Confirmation' }),
-                    confirmationValidator
+                    validatePasswordConfirmation<SignUpForm>()
                 ]
             }
         });

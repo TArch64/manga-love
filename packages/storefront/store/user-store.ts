@@ -20,6 +20,10 @@ export interface ForgotInfo {
     email: string;
 }
 
+export interface ResetPasswordInfo {
+    password: string;
+}
+
 interface State {
     currentUser: User | null;
 }

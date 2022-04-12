@@ -43,7 +43,12 @@ export default defineComponent({
 
     setup(props) {
         const formRegister = inject<FormRegister<unknown>>(FORM_REGISTER);
-        const formContext = formRegister!.register(props.name);
+
+        if (!formRegister) {
+            throw new Error('MlFormField should be used inside MlForm component');
+        }
+
+        const formContext = formRegister.register(props.name);
         const isError = computed(() => formContext.error.value && formContext.touched.value);
 
         const controlClasses = computed(() => ({

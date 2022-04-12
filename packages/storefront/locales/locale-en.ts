@@ -21,9 +21,15 @@ export default {
             toSignIn: 'Sign in'
         },
         forgot: {
-            heading: 'Restore password',
+            heading: 'Reset password',
+            note: 'Note: We will send reset password link to your email',
+            submit: 'Reset',
             resetAsked: 'We\'ve sent reset link to your email',
             toSignIn: 'Sign in'
+        },
+        resetPassword: {
+            heading: 'Reset password',
+            submit: 'Reset'
         },
         form: {
             username: {
