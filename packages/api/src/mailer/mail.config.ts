@@ -4,7 +4,6 @@ export interface TemplateConfig {
 }
 
 export abstract class MailConfig {
-    public from = `MangaLove <${this.email}>`;
     public abstract subject: string;
     public abstract template: TemplateConfig;
 

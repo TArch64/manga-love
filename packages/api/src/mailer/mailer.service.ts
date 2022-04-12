@@ -14,12 +14,10 @@ export class MailerService {
     ) {}
 
     public async send(config: MailConfig): Promise<void> {
-        console.log(config);
-
         const html = await this.templateRender.render(config.template.name, config.template.data);
 
         await this.transporter.sendMail({
-            from: config.from,
+            from: `MangaLove <${process.env.API_MAILER_USER}>`,
             to: config.email,
             subject: config.subject,
             html

@@ -16,7 +16,6 @@ export class TemplateRenderService {
         if (this.templateCache.has(name)) {
             return this.templateCache.get(name);
         }
-        console.log(this.buildTemplatePath(name));
         return readFile(this.buildTemplatePath(name), 'utf8');
     }
 
