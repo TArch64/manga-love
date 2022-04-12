@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Render, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { PublicUrlService } from '../../core';
 import { AuthService } from './auth.service';
@@ -31,7 +31,8 @@ interface SuccessResponse {
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
-        private readonly publicUrl: PublicUrlService
+        @Inject(PublicUrlService.API)
+        private readonly apiUrl: PublicUrlService
     ) {}
 
     @Get('sign-in')
@@ -41,8 +42,8 @@ export class AuthController {
         @Query('error') error?: string
     ): SignInRender {
         return {
-            actionPath: this.publicUrl.resolve('auth/sign-in', {
-                return: returnUrl ?? this.publicUrl.resolve('graphql')
+            actionPath: this.apiUrl.resolve('auth/sign-in', {
+                return: returnUrl ?? this.apiUrl.resolve('graphql')
             }),
             error
         };
@@ -62,7 +63,7 @@ export class AuthController {
         } catch (error) {
             if (!returnUrl) throw error;
 
-            const url = this.publicUrl.resolve('auth/sign-in', {
+            const url = this.apiUrl.resolve('auth/sign-in', {
                 return: returnUrl,
                 error: error.message
             });

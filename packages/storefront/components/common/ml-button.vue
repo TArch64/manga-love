@@ -91,6 +91,7 @@ export default defineComponent({
     padding: 0;
     display: inline-flex;
     justify-content: center;
+    cursor: pointer;
 
     &:hover,
     &:focus {

@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { v4 as generateUUID } from 'uuid';
 import { PasswordResetsRepository, UsersRepository } from '../repository';
-import { TypedError } from '../../core';
-import { DatabaseUser, isUniqueConstrain } from '../../prisma';
+import { PublicUrlService, TypedError } from '../../core';
+import { DatabasePasswordReset, DatabaseUser, isUniqueConstrain } from '../../prisma';
+import { MailerService } from '../../mailer';
+import { ResetPasswordMail } from './emails';
 
 export type TokenPayload = { userId: string };
 
@@ -13,7 +15,10 @@ export class AuthService {
     constructor(
         private readonly usersRepository: UsersRepository,
         private readonly passwordResetsRepository: PasswordResetsRepository,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly mailerService: MailerService,
+        @Inject(PublicUrlService.STOREFRONT)
+        private readonly storefrontUrl: PublicUrlService
     ) {}
 
     public async signIn(email: string, password: string): Promise<string>  {
@@ -59,6 +64,14 @@ export class AuthService {
             throw new TypedError('invalid-email');
         }
 
-        await this.passwordResetsRepository.create(user, generateUUID());
+        const passwordReset = await this.passwordResetsRepository.create(user, generateUUID());
+        await this.sendResetPasswordEmail(passwordReset);
+    }
+
+    private async sendResetPasswordEmail(passwordReset: DatabasePasswordReset): Promise<void> {
+        const resetUrl = this.storefrontUrl.resolve(['auth/change-password'], { code: passwordReset.code });
+        const mail = new ResetPasswordMail(passwordReset.email, resetUrl);
+
+        await this.mailerService.send(mail);
     }
 }
