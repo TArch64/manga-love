@@ -47,7 +47,7 @@ import {
     validateRequired,
     validatePasswordConfirmation
 } from '~/components/common/form';
-import { ResetPasswordInfo, useAuthStore } from '~/store';
+import { ResetPasswordInfo, ResetPasswordState, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
 import { useRouter, useToaster } from '~/composables';
 
@@ -70,10 +70,10 @@ export default defineComponent({
         const toaster = useToaster();
         const router = useRouter();
 
-        const passwordReset = useAsync<{ isValid: boolean }>(async () => {
+        const passwordReset = useAsync<ResetPasswordState>(async () => {
             const code = router.activatedRoute.value.query.code as string;
-            await authStore.loadResetPasswordValidity(code);
-            return { isValid: authStore.isResetCodeValid };
+            await authStore.loadResetPasswordState(code);
+            return authStore.resetPasswordState!;
         });
 
         const form = useForm<ResetPasswordForm>({

@@ -24,9 +24,13 @@ export interface ResetPasswordInfo {
     password: string;
 }
 
+export interface ResetPasswordState {
+    isValid: boolean;
+}
+
 interface State {
     currentUser: User | null;
-    isResetCodeValid: boolean;
+    resetPasswordState: ResetPasswordState | null;
 }
 
 interface Actions {
@@ -34,7 +38,7 @@ interface Actions {
     signIn(credentials: SignInCredentials): Promise<void>;
     signUp(info: SignUpInfo): Promise<void>;
     askResetPassword(info: ForgotInfo): Promise<void>;
-    loadResetPasswordValidity(code: string): Promise<void>;
+    loadResetPasswordState(code: string): Promise<void>;
     resetPassword(info: ResetPasswordInfo): Promise<void>;
 }
 
@@ -43,7 +47,7 @@ const apiHttp = useApiHttp();
 export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
     state: () => ({
         currentUser: null,
-        isResetCodeValid: false
+        resetPasswordState: null
     }),
 
     actions: {
@@ -77,9 +81,8 @@ export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
             });
         },
 
-        async loadResetPasswordValidity(code: string) {
-            const response = await apiHttp.get<{ isValid: boolean }>('auth/reset-password', { code });
-            this.isResetCodeValid = response.isValid;
+        async loadResetPasswordState(code: string) {
+            this.resetPasswordState = await apiHttp.get<ResetPasswordState>('auth/reset-password', { code });
         },
 
         async resetPassword(info: ResetPasswordInfo) {
