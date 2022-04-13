@@ -14,4 +14,11 @@ export class PasswordResetsRepository {
             }
         });
     }
+
+    public async getByCode(code: string): Promise<DatabasePasswordReset | null> {
+        const passwordReset = await this.prisma.databasePasswordReset.findUnique({
+            where: { code }
+        });
+        return passwordReset || null;
+    }
 }

@@ -10,6 +10,10 @@ import { ResetPasswordMail } from './emails';
 
 export type TokenPayload = { userId: string };
 
+export interface ResetPasswordState {
+    isValid: boolean;
+}
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -73,5 +77,10 @@ export class AuthService {
         const mail = new ResetPasswordMail(passwordReset.email, resetUrl);
 
         await this.mailerService.send(mail);
+    }
+
+    public async getResetPasswordState(code: string): Promise<ResetPasswordState> {
+        const passwordReset = await this.passwordResetsRepository.getByCode(code);
+        return { isValid: !!passwordReset };
     }
 }

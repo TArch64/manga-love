@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { PublicUrlService } from '../../core';
-import { AuthService } from './auth.service';
+import { AuthService, ResetPasswordState } from './auth.service';
 
 interface SignInBody {
     email: string;
@@ -93,5 +93,10 @@ export class AuthController {
     public async askResetPassword(@Body() body: AskResetPasswordBody): Promise<SuccessResponse> {
         await this.authService.askResetPassword(body.email);
         return { success: true };
+    }
+
+    @Get('reset-password')
+    public resetPasswordState(@Query('code') code: string): Promise<ResetPasswordState> {
+        return this.authService.getResetPasswordState(code);
     }
 }

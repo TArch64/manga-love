@@ -54,7 +54,8 @@ export default {
     ],
 
     env: proxyEnvs([
-        'STOREFRONT_BROWSER_GRAPHQL_URL'
+        'STOREFRONT_BROWSER_GRAPHQL_URL',
+        'STOREFRONT_BROWSER_API_URL'
     ]),
 
     apollo: {

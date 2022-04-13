@@ -22,12 +22,14 @@ export default {
                 badCredentials: 'Invalid email or password'
             }
         },
+
         signUp: {
             greeting: 'Welcome',
             submit: 'Sign up',
             toSignInQuestion: 'Already have account?',
             toSignIn: 'Sign in'
         },
+
         forgot: {
             heading: 'Reset password',
             note: 'Note: We will send reset password link to your email',
@@ -39,10 +41,17 @@ export default {
                 invalidEmail: 'No account with with email found'
             }
         },
+
         resetPassword: {
             heading: 'Reset password',
-            submit: 'Reset'
+            submit: 'Reset',
+            toForgot: 'Try again',
+
+            errors: {
+                invalidCode: 'Sorry but seems like this link is not valid'
+            }
         },
+
         form: {
             username: {
                 placeholder: 'Type username',

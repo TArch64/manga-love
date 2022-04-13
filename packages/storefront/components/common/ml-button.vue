@@ -4,7 +4,7 @@
         :class="buttonClasses"
         :disabled="loading"
         v-bind="buttonAttrs"
-        @click="$emit('click')"
+        @click="emitClick"
     >
         <slot />
     </button>
@@ -64,7 +64,7 @@ export default defineComponent({
 
     emits: ['click'],
 
-    setup(props) {
+    setup(props, context) {
         const buttonClasses = computed(() => ({
             [`ml-button--${props.skin}`]: !!props.skin,
             [`ml-button--${props.size}`]: !!props.size,
@@ -79,7 +79,15 @@ export default defineComponent({
             return { type: props.type };
         });
 
-        return { buttonClasses, buttonAttrs };
+        function emitClick(event: MouseEvent): void {
+            context.emit('click', event);
+        }
+
+        return {
+            buttonClasses,
+            buttonAttrs,
+            emitClick
+        };
     }
 });
 </script>
@@ -100,7 +108,6 @@ export default defineComponent({
 }
 
 .ml-button--link {
-    color: inherit;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
 
@@ -123,7 +130,12 @@ export default defineComponent({
     transition: opacity 0.1s ease-out, box-shadow 0.1s ease-out;
     will-change: opacity, box-shadow;
 
-    &:disabled {
+    &:active,
+    &:visited {
+        color: #FFF;
+    }
+
+    &:not(.ml-button--loading):disabled {
         background-color: #DBDBDB;
         box-shadow: none
     }
@@ -133,7 +145,41 @@ export default defineComponent({
         opacity: 0.8;
     }
 
-    &.ml-button--loading::before {
+    &.ml-button--loading::after {
+        --loader-color: #FFF;
+    }
+}
+
+.ml-button--flat {
+    color: inherit;
+    border-radius: 8px;
+    transition: background-color 0.1s ease-out;
+    will-change: background-color;
+
+    &:active,
+    &:visited {
+        color: inherit;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+    }
+
+    &:not(:disabled):hover,
+    &:not(:disabled):focus {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.ml-button--lg {
+    padding: 12px;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.ml-button--loading {
+
+    &::before {
         content: "";
         position: absolute;
         border-radius: inherit;
@@ -144,7 +190,7 @@ export default defineComponent({
         height: 100%;
     }
 
-    &.ml-button--loading::after {
+    &::after {
         content: "";
         position: absolute;
         top: calc(50% - 15px);
@@ -152,7 +198,7 @@ export default defineComponent({
         height: 30px;
         width: 30px;
         border-radius: 50%;
-        border: 2px solid #8B8B8B;
+        border: 2px solid var(--loader-color);
         border-top-color: transparent;
         animation: spin-loader 1s infinite linear;
     }
@@ -161,22 +207,5 @@ export default defineComponent({
 @keyframes spin-loader {
     from { transform: rotate(0deg) }
     to { transform: rotate(360deg) }
-}
-
-.ml-button--flat {
-    border-radius: 8px;
-    transition: background-color 0.1s ease-out;
-    will-change: background-color;
-
-    &:hover,
-    &:focus {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-}
-
-.ml-button--lg {
-    padding: 12px;
-    font-size: 18px;
-    line-height: 25px;
 }
 </style>

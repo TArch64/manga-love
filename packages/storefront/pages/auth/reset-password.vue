@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="isResetCodeValid">
         <h1 class="ml-reset-password__heading">
             {{ $t('auth.resetPassword.heading') }}
         </h1>
@@ -22,10 +22,24 @@
             </MlButton>
         </MlForm>
     </div>
+
+    <div v-else>
+        <h1 class="ml-reset-password__heading">
+            {{ $t('auth.resetPassword.heading') }}
+        </h1>
+
+        <p class="ml-margin-bottom--lg">
+            {{ $t('auth.resetPassword.errors.invalidCode') }}
+        </p>
+
+        <MlButton class="ml-width--full ml-margin-bottom--md" link="/auth/forgot" skin="primary" size="lg">
+            {{ $t('auth.resetPassword.toForgot') }}
+        </MlButton>
+    </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent, onBeforeMount, ref, ssrPromise, toRef, useAsync } from '@nuxtjs/composition-api';
 import {
     useForm,
     MlForm,
@@ -56,6 +70,12 @@ export default defineComponent({
         const toaster = useToaster();
         const router = useRouter();
 
+        const isResetCodeValid = useAsync<boolean>(async () => {
+            const code = router.activatedRoute.value.query.code as string;
+            await authStore.loadResetPasswordValidity(code);
+            return authStore.isResetCodeValid;
+        });
+
         const form = useForm<ResetPasswordForm>({
             password: {
                 value: '',
@@ -82,7 +102,11 @@ export default defineComponent({
             }
         }
 
-        return { form, resetPassword };
+        return {
+            form,
+            resetPassword,
+            isResetCodeValid
+        };
     }
 });
 </script>
@@ -95,6 +119,6 @@ export default defineComponent({
     font-weight: 400;
     letter-spacing: 1.5px;
     margin-top: 0;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 </style>
