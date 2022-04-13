@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isResetCodeValid">
+    <div v-if="passwordReset.isValid">
         <h1 class="ml-reset-password__heading">
             {{ $t('auth.resetPassword.heading') }}
         </h1>
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref, ssrPromise, toRef, useAsync } from '@nuxtjs/composition-api';
+import { defineComponent, useAsync } from '@nuxtjs/composition-api';
 import {
     useForm,
     MlForm,
@@ -70,10 +70,10 @@ export default defineComponent({
         const toaster = useToaster();
         const router = useRouter();
 
-        const isResetCodeValid = useAsync<boolean>(async () => {
+        const passwordReset = useAsync<{ isValid: boolean }>(async () => {
             const code = router.activatedRoute.value.query.code as string;
             await authStore.loadResetPasswordValidity(code);
-            return authStore.isResetCodeValid;
+            return { isValid: authStore.isResetCodeValid };
         });
 
         const form = useForm<ResetPasswordForm>({
@@ -105,7 +105,7 @@ export default defineComponent({
         return {
             form,
             resetPassword,
-            isResetCodeValid
+            passwordReset
         };
     }
 });
