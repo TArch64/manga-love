@@ -4,7 +4,7 @@
             {{ $t('auth.forgot.heading') }}
         </h1>
 
-        <MlForm :form="form" @submit="askResetPassword">
+        <MlForm :form="form" :loading="isProcessing" @submit="askResetPassword">
             <MlTextField
                 name="email"
                 type="email"
@@ -17,7 +17,7 @@
                 {{ $t('auth.forgot.note') }}
             </p>
 
-            <MlButton class="ml-width--full ml-margin-bottom--lg" skin="primary" type="submit" size="lg">
+            <MlButton class="ml-width--full ml-margin-bottom--lg" skin="primary" type="submit" size="lg" :loading="isProcessing">
                 {{ $t('auth.forgot.submit') }}
             </MlButton>
 
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, validateRequired, validateEmail } from '~/components/common/form';
 import { ForgotInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
@@ -48,6 +48,7 @@ export default defineComponent({
     setup() {
         const toaster = useToaster();
         const authStore = useAuthStore();
+        const isProcessing = ref(false);
 
         const form = useForm<ForgotInfo>({
             email: {
@@ -68,14 +69,16 @@ export default defineComponent({
 
         async function askResetPassword(): Promise<void> {
             try {
+                isProcessing.value = true;
                 await authStore.askResetPassword(form.data);
                 toaster.show({ path: 'auth.forgot.resetAsked' });
             } catch (error) {
                 toaster.show(getApiError(error));
+                isProcessing.value = false;
             }
         }
 
-        return { form, askResetPassword };
+        return { form, askResetPassword, isProcessing };
     }
 });
 </script>

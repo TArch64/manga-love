@@ -26,4 +26,11 @@ export class UsersRepository {
     public async create(data: Omit<DatabaseUser, 'id'>): Promise<DatabaseUser> {
         return this.prisma.databaseUser.create({ data });
     }
+
+    public async update(id: string, data: Partial<DatabaseUser>): Promise<DatabaseUser> {
+        return this.prisma.databaseUser.update({
+            where: { id },
+            data
+        });
+    }
 }

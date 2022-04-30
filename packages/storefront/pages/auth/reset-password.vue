@@ -4,7 +4,7 @@
             {{ $t('auth.resetPassword.heading') }}
         </h1>
 
-        <MlForm :form="form" @submit="resetPassword">
+        <MlForm :form="form" :loading="isProcessing" @submit="resetPassword">
             <MlPasswordField
                 name="password"
                 class="ml-margin-bottom--md"
@@ -17,7 +17,7 @@
                 :label="$t('auth.form.passwordConfirmation.label')"
             />
 
-            <MlButton class="ml-width--full" skin="primary" type="submit" size="lg">
+            <MlButton class="ml-width--full" skin="primary" type="submit" size="lg" :loading="isProcessing">
                 {{ $t('auth.resetPassword.submit') }}
             </MlButton>
         </MlForm>
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useAsync } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useAsync } from '@nuxtjs/composition-api';
 import {
     useForm,
     MlForm,
@@ -69,6 +69,7 @@ export default defineComponent({
         const authStore = useAuthStore();
         const toaster = useToaster();
         const router = useRouter();
+        const isProcessing = ref(false);
 
         const passwordReset = useAsync<ResetPasswordState>(async () => {
             const code = router.activatedRoute.value.query.code as string;
@@ -95,17 +96,20 @@ export default defineComponent({
 
         async function resetPassword(): Promise<void> {
             try {
+                isProcessing.value = true;
                 await authStore.resetPassword(form.data);
                 router.push('/');
             } catch (error) {
                 toaster.show({ path: 'errors.somethingWentWrong' });
+                isProcessing.value = false;
             }
         }
 
         return {
             form,
             resetPassword,
-            passwordReset
+            passwordReset,
+            isProcessing
         };
     }
 });

@@ -4,7 +4,7 @@
             {{ $t('auth.signUp.greeting') }}
         </h1>
 
-        <MlForm :form="authForm" @submit="signUp">
+        <MlForm :form="authForm" :loading="isProcessing" @submit="signUp">
             <MlTextField
                 name="username"
                 class="ml-margin-bottom--md"
@@ -32,7 +32,7 @@
                 :label="$t('auth.form.passwordConfirmation.label')"
             />
 
-            <MlButton class="ml-width--full ml-sign-up__submit" type="submit" skin="primary" size="lg">
+            <MlButton class="ml-width--full ml-sign-up__submit" type="submit" skin="primary" size="lg" :loading="isProcessing">
                 {{ $t('auth.signUp.submit') }}
             </MlButton>
 
@@ -128,7 +128,7 @@ export default defineComponent({
             }
         }
 
-        return { authForm, signUp };
+        return { authForm, signUp, isProcessing };
     }
 });
 </script>

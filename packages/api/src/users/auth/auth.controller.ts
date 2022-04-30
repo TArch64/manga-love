@@ -23,6 +23,11 @@ interface AskResetPasswordBody {
     email: string;
 }
 
+interface ResetPasswordBody {
+    password: string;
+    code: string;
+}
+
 interface SuccessResponse {
     success: true;
 }
@@ -98,5 +103,15 @@ export class AuthController {
     @Get('reset-password')
     public resetPasswordState(@Query('code') code: string): Promise<ResetPasswordState> {
         return this.authService.getResetPasswordState(code);
+    }
+
+    @Post('reset-password')
+    public async resetPassword(
+        @Body() body: ResetPasswordBody,
+        @Res({ passthrough: true }) res: Response
+    ): Promise<SuccessResponse> {
+        const token = await this.authService.resetPassword(body.code, body.password);
+        this.writeAuthCookie(res, token);
+        return { success: true };
     }
 }

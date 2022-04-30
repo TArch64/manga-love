@@ -24,8 +24,13 @@ export interface ResetPasswordInfo {
     password: string;
 }
 
+interface ResetPasswordRequest extends ResetPasswordInfo {
+    code: string;
+}
+
 export interface ResetPasswordState {
     isValid: boolean;
+    code: string;
 }
 
 interface State {
@@ -83,11 +88,13 @@ export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
 
         async loadResetPasswordState(code: string) {
             this.resetPasswordState = await apiHttp.get<ResetPasswordState>('auth/reset-password', { code });
+            this.resetPasswordState.code = code;
         },
 
         async resetPassword(info: ResetPasswordInfo) {
-            await apiHttp.post<ResetPasswordInfo>('auth/reset-password', {
-                password: info.password
+            await apiHttp.post<ResetPasswordRequest>('auth/reset-password', {
+                password: info.password,
+                code: this.resetPasswordState?.code || ''
             });
         }
     }

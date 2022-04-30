@@ -4,7 +4,7 @@ import { compare } from 'bcrypt';
 import { v4 as generateUUID } from 'uuid';
 import { PasswordResetsRepository, UsersRepository } from '../repository';
 import { PublicUrlService, TypedError } from '../../core';
-import { DatabasePasswordReset, DatabaseUser, isUniqueConstrain } from '../../prisma';
+import { DatabasePasswordReset, DatabaseUser, handleUniqueConstrain } from '../../prisma';
 import { MailerService } from '../../mailer';
 import { ResetPasswordMail } from './emails';
 
@@ -12,6 +12,7 @@ export type TokenPayload = { userId: string };
 
 export interface ResetPasswordState {
     isValid: boolean;
+    email: string | null;
 }
 
 @Injectable()
@@ -53,11 +54,7 @@ export class AuthService {
         try {
             return this.encodeToken(await this.usersRepository.create(user));
         } catch (error: unknown) {
-            if (!isUniqueConstrain(error)) {
-                throw error;
-            }
-            const [column] = error.meta.target;
-            throw new TypedError(`${column}-already-taken`);
+            handleUniqueConstrain(error);
         }
     }
 
@@ -81,6 +78,22 @@ export class AuthService {
 
     public async getResetPasswordState(code: string): Promise<ResetPasswordState> {
         const passwordReset = await this.passwordResetsRepository.getByCode(code);
-        return { isValid: !!passwordReset };
+
+        return {
+            isValid: !!passwordReset,
+            email: passwordReset?.email || null
+        };
+    }
+
+    public async resetPassword(code: string, password: string): Promise<string> {
+        const passwordReset = await this.passwordResetsRepository.getByCode(code);
+
+        if (!passwordReset || !password) {
+            throw new TypedError('unknown');
+        }
+
+        const user = await this.usersRepository.getUserByEmail(passwordReset.email);
+        await this.usersRepository.update(user.id, { password });
+        return this.encodeToken(user);
     }
 }
