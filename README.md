@@ -6,7 +6,13 @@
 2. Install linter dependencies `npm install`
 3. Create `.env` file. Check `.env.example`
 4. Build project `docker compose build`
-5. Up project `docker compose up`
+5. Prepare database
+```shell
+docker compose run --rm api npm run prisma:migrate;
+docker compose run --rm api npm run prisma:seeds;
+docker compose run --rm api npm run prisma:generate;
+```
+6. Up project `docker compose up`
 
 ## Change API Schema
 
@@ -17,7 +23,7 @@ docker compose run --rm api npm run prisma:generate
 ```
 3. Generate migration
 ```shell
-docker compose run --rm api npm run prisma:migrate "migration name here"
+docker compose run --rm api npm run prisma:new-migration "migration name here"
 ```
 4. Add seeds and execute them
 ```shell

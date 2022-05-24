@@ -72,20 +72,20 @@ export default defineComponent({
     margin-right: -5px;
     position: relative;
     transition: opacity 0.1s ease-out;
+    -webkit-tap-highlight-color: transparent;
     --icon-foreground: #242424;
 
     &::before {
         content: "";
         position: absolute;
-        width: 58%;
+        width: 80%;
         height: 55%;
         left: 20%;
         top: 20%;
-        background-image: linear-gradient(to top right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) calc(50% - 0.8px), rgba(0,0,0,1) 50%, rgba(0,0,0,0) calc(50% + 0.8px), rgba(0,0,0,0) 100%),
-            linear-gradient(to top right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) calc(50% - 0.8px), rgba(0,0,0,1) 50%, rgba(0,0,0,0) calc(50% + 0.8px), rgba(0,0,0,0) 100%);
+        border-bottom: 2px solid #242424;
         transform-origin: 0 0;
-        transform: scale(0);
-        transition: transform 0.1s ease-out;
+        transform: rotate(45deg) translate(0, -16px);
+        transition: width 0.1s ease-out;
     }
 
     &:hover,
@@ -95,6 +95,6 @@ export default defineComponent({
 }
 
 .ml-form-password-field__visibility--visible::before {
-    transform: none;
+    width: 0;
 }
 </style>

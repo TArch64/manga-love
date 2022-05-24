@@ -79,7 +79,7 @@ export default defineComponent({
 
     &:hover,
     &:focus-within {
-        border-color: #B3B3B3;
+        border-color: #242424;
     }
 }
 
