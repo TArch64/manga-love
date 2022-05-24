@@ -2,6 +2,7 @@ import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs
 import { Response } from 'express';
 import { PublicUrlService } from '../../core';
 import { AuthService, ResetPasswordState } from './auth.service';
+import { AuthStrategy } from './auth.strategy';
 
 interface SignInBody {
     email: string;
@@ -77,7 +78,7 @@ export class AuthController {
     }
 
     private writeAuthCookie(response: Response, token: string): void {
-        response.cookie('auth', token, {
+        response.cookie(AuthStrategy.COOKIE, token, {
             signed: true,
             secure: true,
             httpOnly: true

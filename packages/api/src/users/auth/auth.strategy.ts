@@ -8,10 +8,12 @@ import { CurrentUser } from './current-user.decorator';
 
 @Injectable()
 export class AuthStrategy extends PassportStrategy(Strategy, 'jwt') {
+    public static readonly COOKIE = 'ml.auth';
+
     constructor(private readonly usersRepository: UsersRepository) {
         super({
             jwtFromRequest(request: Request): string {
-                return request.signedCookies.auth;
+                return request.signedCookies[AuthStrategy.COOKIE];
             },
             ignoreExpiration: false,
             secretOrKey: process.env.API_SECRET
