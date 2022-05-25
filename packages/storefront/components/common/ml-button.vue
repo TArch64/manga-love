@@ -1,17 +1,19 @@
 <template>
-    <button
+    <MlButtonWrapper
         class="ml-button"
         :class="buttonClasses"
         :disabled="loading"
-        v-bind="buttonAttrs"
+        :type="type"
+        :link="buttonLink"
         @click="emitClick"
     >
         <slot />
-    </button>
+    </MlButtonWrapper>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from '@nuxtjs/composition-api';
+import MlButtonWrapper from './ml-button-wrapper.vue';
 
 export enum ButtonType {
     BUTTON = 'button',
@@ -30,6 +32,10 @@ export enum ButtonSize {
 export default defineComponent({
     name: 'MlButton',
 
+    components: {
+        MlButtonWrapper
+    },
+
     props: {
         type: {
             type: String as PropType<ButtonType>,
@@ -38,7 +44,7 @@ export default defineComponent({
         },
 
         link: {
-            type: String as PropType<ButtonType>,
+            type: [String, Array] as PropType<string | [string, Record<string, string>]>,
             required: false,
             default: ''
         },
@@ -72,11 +78,13 @@ export default defineComponent({
             'ml-button--loading': props.loading
         }));
 
-        const buttonAttrs = computed(() => {
-            if (props.link) {
-                return { is: 'NuxtLink', to: props.link, role: 'button' };
-            }
-            return { type: props.type };
+        const buttonLink = computed(() => {
+            if (typeof props.link === 'string') return props.link;
+
+            const [path, params] = props.link;
+            const urlParams = new URLSearchParams(params || {}).toString();
+
+            return urlParams ? `${path}?${urlParams}` : path;
         });
 
         function emitClick(event: MouseEvent): void {
@@ -85,7 +93,7 @@ export default defineComponent({
 
         return {
             buttonClasses,
-            buttonAttrs,
+            buttonLink,
             emitClick
         };
     }

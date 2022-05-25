@@ -33,7 +33,7 @@ import { defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, validateRequired, validateEmail } from '~/components/common/form';
 import { ForgotInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isApiError, useToaster, ToastrMessage } from '~/composables';
+import { isApiError, useToaster, ToastrMessage, useRouter } from '~/composables';
 
 export default defineComponent({
     name: 'Forgot',
@@ -47,12 +47,13 @@ export default defineComponent({
 
     setup() {
         const toaster = useToaster();
+        const router = useRouter();
         const authStore = useAuthStore();
         const isProcessing = ref(false);
 
         const form = useForm<ForgotInfo>({
             email: {
-                value: '',
+                value: router.activatedRoute.value.query.email as string || '',
                 validators: [
                     validateRequired({ field: 'Email' }),
                     validateEmail()

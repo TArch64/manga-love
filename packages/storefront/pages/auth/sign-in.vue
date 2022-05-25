@@ -27,7 +27,7 @@
                 :label="$t('auth.form.password.label')"
             />
 
-            <MlButton class="ml-width--full ml-margin-bottom--md" link="/auth/forgot" skin="flat" size="lg">
+            <MlButton class="ml-width--full ml-margin-bottom--md" :link="forgotLink" skin="flat" size="lg">
                 {{ $t('auth.signIn.toForgot') }}
             </MlButton>
 
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
 import { useAuthStore, SignInCredentials } from '~/store';
@@ -86,6 +86,13 @@ export default defineComponent({
             }
         });
 
+        const forgotLink = computed(() => {
+            const email = authForm.data.email;
+            const params = email ? { email } : null;
+
+            return ['/auth/forgot', params];
+        });
+
         function getApiError(error: unknown): ToastrMessage {
             if (isApiError(error, 'bad-credentials')) {
                 return { path: 'auth.signIn.errors.badCredentials' };
@@ -106,7 +113,12 @@ export default defineComponent({
             }
         }
 
-        return { authForm, signIn, isProcessing };
+        return {
+            authForm,
+            isProcessing,
+            signIn,
+            forgotLink
+        };
     }
 });
 </script>
