@@ -53,7 +53,8 @@ import {
     MlPasswordField,
     validateRequired,
     validatePasswordConfirmation,
-    validateEmail
+    validateEmail,
+    validatePassword
 } from '~/components/common/form';
 import { SignUpInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
@@ -83,25 +84,30 @@ export default defineComponent({
         const authForm = useForm<SignUpForm>({
             username: {
                 value: '',
-                validators: [validateRequired<SignUpForm>('validations.required', { field: 'Username' })]
+                validators: [
+                    validateRequired({ field: 'Username' })
+                ]
             },
             email: {
                 value: '',
                 validators: [
-                    validateRequired<SignUpForm>('validations.required', { field: 'Email' }),
-                    validateEmail<SignUpForm>()
+                    validateRequired({ field: 'Email' }),
+                    validateEmail()
                 ]
             },
             password: {
                 value: '',
-                affects: ['passwordConfirmation'],
-                validators: [validateRequired<SignUpForm>('validations.required', { field: 'Password' })]
+                validators: [
+                    validateRequired({ field: 'Password' }),
+                    validatePassword()
+                ]
             },
             passwordConfirmation: {
                 value: '',
+                dependsOn: ['password'],
                 validators: [
-                    validateRequired<SignUpForm>('validations.required', { field: 'Confirmation' }),
-                    validatePasswordConfirmation<SignUpForm>()
+                    validateRequired({ field: 'Confirmation' }),
+                    validatePasswordConfirmation()
                 ]
             }
         });

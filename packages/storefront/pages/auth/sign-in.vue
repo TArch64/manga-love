@@ -74,13 +74,15 @@ export default defineComponent({
             email: {
                 value: '',
                 validators: [
-                    validateRequired<SignInCredentials>('validations.required', { field: 'Email' }),
-                    validateEmail<SignInCredentials>()
+                    validateRequired({ field: 'Email' }),
+                    validateEmail()
                 ]
             },
             password: {
                 value: '',
-                validators: [validateRequired<SignInCredentials>('validations.required', { field: 'Password' })]
+                validators: [
+                    validateRequired({ field: 'Password' })
+                ]
             }
         });
 

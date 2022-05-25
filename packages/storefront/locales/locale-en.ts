@@ -7,6 +7,7 @@ export default {
     validations: {
         required: '{field} can\'t be empty',
         email: 'Invalid email format',
+        password: 'Password should has at least 8 symbols, one uppercase, lowercase and digit ',
         passwordConfirmation: 'Passwords should match'
     },
 

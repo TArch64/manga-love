@@ -4,7 +4,7 @@ import { FormValidator, Validation } from './validators';
 export interface FormControlOptions<T, F> {
     value: T;
     validators?: FormValidator<T, F>[];
-    affects?: Array<keyof F>;
+    dependsOn?: Array<keyof F>;
 }
 
 export type FormOptions<T = Record<string, unknown>> = {
@@ -16,6 +16,7 @@ export interface FormControlContext<T> {
     error: Ref<Validation | null>;
     touched: Ref<boolean>;
     disabled: Ref<boolean>;
+    dependsOn: string[];
     setValue(value: T): void;
     makeTouched(): void;
     validate(): boolean;

@@ -9,7 +9,7 @@ export default {
         title: '',
 
         titleTemplate(title: string): string {
-            return title ? `MangeLove ~ ${title}` : 'MangaLove';
+            return title ? `MangaLove ~ ${title}` : 'MangaLove';
         },
 
         htmlAttrs: {

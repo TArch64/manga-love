@@ -54,8 +54,8 @@ export default defineComponent({
             email: {
                 value: '',
                 validators: [
-                    validateRequired<ForgotInfo>('validations.required', { field: 'Email' }),
-                    validateEmail<ForgotInfo>()
+                    validateRequired({ field: 'Email' }),
+                    validateEmail()
                 ]
             }
         });

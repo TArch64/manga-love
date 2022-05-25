@@ -57,20 +57,34 @@ export default defineComponent({
                 return true;
             }
 
+            function validateDepends(id: string = fieldId): void {
+                for (const fieldId of Object.keys(fields)) {
+                    const options = (fields[fieldId] as FormControlContext<unknown>);
+
+                    options.validate();
+
+                    if (options.dependsOn.includes(id)) {
+                        validateDepends(fieldId);
+                    }
+                }
+
+                for (const fieldId of options.affects || []) {
+                    fields[fieldId].validate();
+                }
+            }
+
             fields[fieldId] = {
                 data,
                 error,
                 touched,
+                dependsOn: options.dependsOn || [],
                 disabled: toRef(props, 'disabled'),
                 validate,
 
                 setValue(value: string): void {
                     props.form.update({ [fieldId]: value });
                     validate();
-
-                    for (const fieldId of options.affects || []) {
-                        fields[fieldId].validate();
-                    }
+                    validateDepends();
                 },
 
                 makeTouched(): void {

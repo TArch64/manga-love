@@ -80,16 +80,16 @@ export default defineComponent({
         const form = useForm<ResetPasswordForm>({
             password: {
                 value: '',
-                affects: ['passwordConfirmation'],
                 validators: [
-                    validateRequired<ResetPasswordForm>('validations.required', { field: 'Password' })
+                    validateRequired({ field: 'Password' })
                 ]
             },
             passwordConfirmation: {
                 value: '',
+                dependsOn: ['password'],
                 validators: [
-                    validateRequired<ResetPasswordForm>('validations.required', { field: 'Confirmation' }),
-                    validatePasswordConfirmation<ResetPasswordForm>()
+                    validateRequired({ field: 'Confirmation' }),
+                    validatePasswordConfirmation()
                 ]
             }
         });

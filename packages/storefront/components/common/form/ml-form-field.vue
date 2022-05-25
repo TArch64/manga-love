@@ -17,7 +17,7 @@
         </div>
 
         <transition name="ml-form-field__error-container-" duration="150" @enter="onBeforeErrorEnter">
-            <div class="ml-form-field__error-container" v-if="isError">
+            <div class="ml-form-field__error-container" v-if="isError" ref="errorContainerRef">
                 <p class="ml-form-field__error">
                     {{ $t(formContext.error.value.message, formContext.error.value.params || {}) }}
                 </p>
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject } from '@nuxtjs/composition-api';
+import { computed, defineComponent, inject, nextTick, ref, watch } from '@nuxtjs/composition-api';
 import { FORM_REGISTER, FormRegister } from './ml-form.vue';
 
 export default defineComponent({
@@ -54,20 +54,31 @@ export default defineComponent({
 
         const formContext = formRegister.register(props.name);
         const isError = computed(() => formContext.error.value && formContext.touched.value);
+        const errorContainerRef = ref(null);
 
         const controlClasses = computed(() => ({
             'ml-form-field__control--error': isError.value,
             'ml-form-field__control--disabled': formContext.disabled.value
         }));
 
+        watch(formContext.error, async () => {
+            if (errorContainerRef.value) {
+                await nextTick();
+                onBeforeErrorEnter(errorContainerRef.value);
+            }
+        });
+
         function onBeforeErrorEnter(el: HTMLElement): void {
-            el.style.maxHeight = `${el.scrollHeight}px`;
+            const errorEl = el.firstElementChild!;
+
+            el.style.height = `${errorEl.scrollHeight}px`;
         }
 
         return {
             formContext,
-            isError,
             controlClasses,
+            isError,
+            errorContainerRef,
             onBeforeErrorEnter
         };
     }
@@ -132,20 +143,21 @@ export default defineComponent({
 
 .ml-form-field__error-container {
     overflow: hidden;
-    will-change: max-height, opacity;
+    will-change: height, opacity;
+    transition: height 100ms ease-out;
 }
 
 .ml-form-field__error-container--enter-active {
-    transition: max-height 200ms ease-out, opacity 100ms 100ms ease-out;
+    transition: height 200ms ease-out, opacity 100ms 100ms ease-out;
 }
 
 .ml-form-field__error-container--leave-active {
-    transition: max-height 200ms ease-out, opacity 150ms ease-out;
+    transition: height 200ms ease-out, opacity 150ms ease-out;
 }
 
 .ml-form-field__error-container--enter,
 .ml-form-field__error-container--leave-to {
-    max-height: 0 !important;
+    height: 0 !important;
     opacity: 0;
 }
 </style>
