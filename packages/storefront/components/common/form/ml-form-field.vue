@@ -16,9 +16,13 @@
             </div>
         </div>
 
-        <p class="ml-form-field__error" v-if="isError">
-            {{ $t(formContext.error.value.message, formContext.error.value.params || {}) }}
-        </p>
+        <transition name="ml-form-field__error-container-" duration="150" @enter="onBeforeErrorEnter">
+            <div class="ml-form-field__error-container" v-if="isError">
+                <p class="ml-form-field__error">
+                    {{ $t(formContext.error.value.message, formContext.error.value.params || {}) }}
+                </p>
+            </div>
+        </transition>
     </label>
 </template>
 
@@ -56,7 +60,16 @@ export default defineComponent({
             'ml-form-field__control--disabled': formContext.disabled.value
         }));
 
-        return { formContext, isError, controlClasses };
+        function onBeforeErrorEnter(el: HTMLElement): void {
+            el.style.maxHeight = `${el.scrollHeight}px`;
+        }
+
+        return {
+            formContext,
+            isError,
+            controlClasses,
+            onBeforeErrorEnter
+        };
     }
 });
 </script>
@@ -115,5 +128,24 @@ export default defineComponent({
     margin: 0;
     color: #AE2727;
     font-size: 14px;
+}
+
+.ml-form-field__error-container {
+    overflow: hidden;
+    will-change: max-height, opacity;
+}
+
+.ml-form-field__error-container--enter-active {
+    transition: max-height 200ms ease-out, opacity 100ms 100ms ease-out;
+}
+
+.ml-form-field__error-container--leave-active {
+    transition: max-height 200ms ease-out, opacity 150ms ease-out;
+}
+
+.ml-form-field__error-container--enter,
+.ml-form-field__error-container--leave-to {
+    max-height: 0 !important;
+    opacity: 0;
 }
 </style>
