@@ -7,6 +7,7 @@ import { MailerModule } from '../../mailer';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { AuthStrategy } from './auth.strategy';
+import { AuthPasswordService } from './auth-password.service';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { AuthStrategy } from './auth.strategy';
     ],
     providers: [
         AuthService,
+        AuthPasswordService,
         PublicUrlService.provide(PublicUrlService.API, process.env.API_PUBLIC_URL),
         PublicUrlService.provide(PublicUrlService.STOREFRONT, process.env.API_STOREFRONT_URL),
         AuthStrategy

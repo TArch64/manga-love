@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
 import { v4 as generateUUID } from 'uuid';
 import { PasswordResetsRepository, UsersRepository } from '../repository';
 import { PublicUrlService, TypedError } from '../../core';
 import { DatabasePasswordReset, DatabaseUser, handleUniqueConstrain } from '../../prisma';
 import { MailerService } from '../../mailer';
 import { ResetPasswordMail } from './emails';
+import { AuthPasswordService } from './auth-password.service';
 
 export type TokenPayload = { userId: string };
 
@@ -23,17 +23,17 @@ export class AuthService {
         private readonly jwtService: JwtService,
         private readonly mailerService: MailerService,
         @Inject(PublicUrlService.STOREFRONT)
-        private readonly storefrontUrl: PublicUrlService
+        private readonly storefrontUrl: PublicUrlService,
+        private readonly passwordService: AuthPasswordService
     ) {}
 
     public async signIn(email: string, password: string): Promise<string>  {
         if (!email || !password) this.throwUnauthorizedException();
 
         const user = await this.usersRepository.getUserByEmail(email);
+        const isMatchPassword = user && await this.passwordService.compare(password, user.password);
 
-        if (!user || !(await compare(password, user.password))) {
-            this.throwUnauthorizedException();
-        }
+        if (!isMatchPassword) this.throwUnauthorizedException();
 
         return this.encodeToken(user);
     }
@@ -51,8 +51,11 @@ export class AuthService {
             throw new TypedError('invalid-request');
         }
 
+        user.password = await this.passwordService.encrypt(user.password);
+        const created = await this.usersRepository.create(user);
+
         try {
-            return this.encodeToken(await this.usersRepository.create(user));
+            return this.encodeToken(created);
         } catch (error: unknown) {
             handleUniqueConstrain(error);
         }
