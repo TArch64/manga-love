@@ -33,7 +33,7 @@ export default {
 
         forgot: {
             heading: 'Reset password',
-            note: 'Note: We will send reset password link to your email',
+            note: 'Please, enter your email address so that we can send you a confirmation letter',
             submit: 'Reset',
             resetAsked: 'We\'ve sent reset link to your email',
             toSignIn: 'Sign in',

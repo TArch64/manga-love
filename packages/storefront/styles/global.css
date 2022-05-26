@@ -26,6 +26,22 @@ body {
     width: 100%;
 }
 
+.ml-height--full {
+    height: 100%;
+}
+
+.ml-flex {
+    display: flex;
+}
+
+.ml-flex--column {
+    flex-direction: column;
+}
+
+.ml-flex--grow {
+    flex-grow: 1;
+}
+
 .ml-text--uppercase {
     text-transform: uppercase;
 }

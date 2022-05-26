@@ -8,6 +8,7 @@ xlg = 40
  */
 
 .ml-margin-top--none { margin-top: 0 }
+.ml-margin-top--auto { margin-top: auto }
 
 .ml-margin-bottom--md { margin-bottom: 20px }
 .ml-margin-bottom--lg { margin-bottom: 30px }

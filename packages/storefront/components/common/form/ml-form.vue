@@ -115,5 +115,8 @@ export default defineComponent({
     border: none;
     padding: 0;
     margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 </style>

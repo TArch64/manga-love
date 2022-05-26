@@ -12,7 +12,7 @@
             </span>
         </h1>
 
-        <MlForm :form="authForm" :disabled="isProcessing" @submit="signIn">
+        <MlForm class="ml-flex--grow" :form="authForm" :disabled="isProcessing" @submit="signIn">
             <MlTextField
                 class="ml-margin-bottom--md"
                 name="email"
@@ -27,7 +27,7 @@
                 :label="$t('auth.form.password.label')"
             />
 
-            <MlButton class="ml-width--full ml-margin-bottom--md" :link="forgotLink" skin="flat" size="lg">
+            <MlButton class="ml-width--full ml-margin-top--auto ml-margin-bottom--md" :link="forgotLink" skin="flat" size="lg">
                 {{ $t('auth.signIn.toForgot') }}
             </MlButton>
 

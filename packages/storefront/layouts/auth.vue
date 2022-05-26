@@ -5,7 +5,7 @@
         </div>
 
         <div class="ml-auth-layout__content">
-            <Nuxt />
+            <Nuxt class="ml-height--full" />
         </div>
     </div>
 </template>

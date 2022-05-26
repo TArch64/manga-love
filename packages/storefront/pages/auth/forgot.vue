@@ -1,10 +1,14 @@
 <template>
-    <div>
+    <div class="ml-flex ml-flex--column">
         <h1 class="ml-forgot__heading">
             {{ $t('auth.forgot.heading') }}
         </h1>
 
-        <MlForm :form="form" :loading="isProcessing" @submit="askResetPassword">
+        <p class="ml-forgot__note">
+            {{ $t('auth.forgot.note') }}
+        </p>
+
+        <MlForm class="ml-flex--grow" :form="form" :loading="isProcessing" @submit="askResetPassword">
             <MlTextField
                 name="email"
                 type="email"
@@ -13,11 +17,7 @@
                 :placeholder="$t('auth.form.email.placeholder')"
             />
 
-            <p class="ml-forgot__note ml-margin-top--none ml-margin-bottom--lg">
-                {{ $t('auth.forgot.note') }}
-            </p>
-
-            <MlButton class="ml-width--full ml-margin-bottom--lg" skin="primary" type="submit" size="lg" :loading="isProcessing">
+            <MlButton class="ml-width--full ml-margin-top--auto ml-margin-bottom--lg" skin="primary" type="submit" size="lg" :loading="isProcessing">
                 {{ $t('auth.forgot.submit') }}
             </MlButton>
 
@@ -87,18 +87,23 @@ export default defineComponent({
 <style scoped>
 .ml-forgot__heading {
     font-family: var(--font-serif);
-    font-size: 30px;
-    line-height: 45px;
-    font-weight: 400;
-    letter-spacing: 1.5px;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding-top: 50px;
     margin-top: 0;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    color: #303030;
 }
 
 .ml-forgot__note {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
     color: #808080;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 </style>

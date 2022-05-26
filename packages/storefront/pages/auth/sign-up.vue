@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="ml-flex ml-flex--column">
         <h1 class="ml-sign-up__greeting">
             {{ $t('auth.signUp.greeting') }}
         </h1>
 
-        <MlForm :form="authForm" :loading="isProcessing" @submit="signUp">
+        <MlForm class="ml-flex--grow" :form="authForm" :loading="isProcessing" @submit="signUp">
             <MlTextField
                 name="username"
                 class="ml-margin-bottom--md"
@@ -32,7 +32,7 @@
                 :label="$t('auth.form.passwordConfirmation.label')"
             />
 
-            <MlButton class="ml-width--full ml-sign-up__submit" type="submit" skin="primary" size="lg" :loading="isProcessing">
+            <MlButton class="ml-width--full ml-sign-up__submit ml-margin-top--auto" type="submit" skin="primary" size="lg" :loading="isProcessing">
                 {{ $t('auth.signUp.submit') }}
             </MlButton>
 
