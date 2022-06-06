@@ -5,7 +5,7 @@
         :disabled="loading"
         :type="type"
         :link="buttonLink"
-        @click="emitClick"
+        @click="$emit('click', $event)"
     >
         <slot />
     </MlButtonWrapper>
@@ -87,14 +87,9 @@ export default defineComponent({
             return urlParams ? `${path}?${urlParams}` : path;
         });
 
-        function emitClick(event: MouseEvent): void {
-            context.emit('click', event);
-        }
-
         return {
             buttonClasses,
-            buttonLink,
-            emitClick
+            buttonLink
         };
     }
 });

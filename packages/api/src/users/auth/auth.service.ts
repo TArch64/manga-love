@@ -96,7 +96,12 @@ export class AuthService {
         }
 
         const user = await this.usersRepository.getUserByEmail(passwordReset.email);
-        await this.usersRepository.update(user.id, { password });
+        await this.usersRepository.update(user.id, {
+            password: await this.passwordService.encrypt(password)
+        });
+
+        await this.passwordResetsRepository.deleteByUser(user);
+
         return this.encodeToken(user);
     }
 }

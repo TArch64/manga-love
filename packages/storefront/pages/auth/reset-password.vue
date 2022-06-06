@@ -1,75 +1,26 @@
 <template>
-    <div v-if="passwordReset.isValid">
-        <h1 class="ml-reset-password__heading">
-            {{ $t('auth.resetPassword.heading') }}
-        </h1>
-
-        <MlForm :form="form" :loading="isProcessing" @submit="resetPassword">
-            <MlPasswordField
-                name="password"
-                class="ml-margin-bottom--md"
-                :label="$t('auth.form.password.label')"
-            />
-
-            <MlPasswordField
-                name="passwordConfirmation"
-                class="ml-margin-bottom--md"
-                :label="$t('auth.form.passwordConfirmation.label')"
-            />
-
-            <MlButton class="ml-width--full" skin="primary" type="submit" size="lg" :loading="isProcessing">
-                {{ $t('auth.resetPassword.submit') }}
-            </MlButton>
-        </MlForm>
-    </div>
-
-    <div v-else>
-        <h1 class="ml-reset-password__heading">
-            {{ $t('auth.resetPassword.heading') }}
-        </h1>
-
-        <p class="ml-margin-bottom--lg">
-            {{ $t('auth.resetPassword.errors.invalidCode') }}
-        </p>
-
-        <MlButton class="ml-width--full ml-margin-bottom--md" link="/auth/forgot" skin="primary" size="lg">
-            {{ $t('auth.resetPassword.toForgot') }}
-        </MlButton>
-    </div>
+    <ResetPasswordValid v-if="passwordReset.isValid" />
+    <ResetPasswordInvalid v-else />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useAsync } from '@nuxtjs/composition-api';
-import {
-    useForm,
-    MlForm,
-    MlPasswordField,
-    validateRequired,
-    validatePasswordConfirmation
-} from '~/components/common/form';
-import { ResetPasswordInfo, ResetPasswordState, useAuthStore } from '~/store';
-import { MlButton } from '~/components/common';
-import { useRouter, useToaster } from '~/composables';
-
-interface ResetPasswordForm extends ResetPasswordInfo {
-    passwordConfirmation: string;
-}
+import { defineComponent, useAsync } from '@nuxtjs/composition-api';
+import { ResetPasswordValid, ResetPasswordInvalid } from '~/components/reset-password';
+import { ResetPasswordState, useAuthStore } from '~/store';
+import { useRouter } from '~/composables';
 
 export default defineComponent({
     name: 'ResetPassword',
     layout: 'auth',
 
     components: {
-        MlButton,
-        MlForm,
-        MlPasswordField
+        ResetPasswordValid,
+        ResetPasswordInvalid
     },
 
     setup() {
         const authStore = useAuthStore();
-        const toaster = useToaster();
         const router = useRouter();
-        const isProcessing = ref(false);
 
         const passwordReset = useAsync<ResetPasswordState>(async () => {
             const code = router.activatedRoute.value.query.code as string;
@@ -77,45 +28,12 @@ export default defineComponent({
             return authStore.resetPasswordState!;
         });
 
-        const form = useForm<ResetPasswordForm>({
-            password: {
-                value: '',
-                validators: [
-                    validateRequired({ field: 'Password' })
-                ]
-            },
-            passwordConfirmation: {
-                value: '',
-                dependsOn: ['password'],
-                validators: [
-                    validateRequired({ field: 'Confirmation' }),
-                    validatePasswordConfirmation()
-                ]
-            }
-        });
-
-        async function resetPassword(): Promise<void> {
-            try {
-                isProcessing.value = true;
-                await authStore.resetPassword(form.data);
-                router.push('/');
-            } catch (error) {
-                toaster.show({ path: 'errors.somethingWentWrong' });
-                isProcessing.value = false;
-            }
-        }
-
-        return {
-            form,
-            resetPassword,
-            passwordReset,
-            isProcessing
-        };
+        return { passwordReset };
     }
 });
 </script>
 
-<style scoped>
+<style>
 .ml-reset-password__heading {
     font-family: var(--font-serif);
     font-size: 30px;
@@ -123,6 +41,16 @@ export default defineComponent({
     font-weight: 400;
     letter-spacing: 1.5px;
     margin-top: 0;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+}
+
+.ml-reset-password__note {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    color: #808080;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 </style>

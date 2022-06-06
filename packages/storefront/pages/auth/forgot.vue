@@ -1,5 +1,5 @@
 <template>
-    <div class="ml-flex ml-flex--column">
+    <div class="ml-flex ml-flex--column ml-padding-bottom--xlg">
         <h1 class="ml-forgot__heading">
             {{ $t('auth.forgot.heading') }}
         </h1>

@@ -45,8 +45,10 @@ export default {
 
         resetPassword: {
             heading: 'Reset password',
+            note: 'Please, enter the new password',
             submit: 'Reset',
             toForgot: 'Try again',
+            toSignUp: 'Sign up',
 
             errors: {
                 invalidCode: 'Sorry but seems like this link is not valid'
@@ -67,6 +69,12 @@ export default {
             },
             passwordConfirmation: {
                 label: 'Confirm password'
+            },
+            newPassword: {
+                label: 'New Password'
+            },
+            newPasswordConfirmation: {
+                label: 'Confirm new password'
             }
         }
     }

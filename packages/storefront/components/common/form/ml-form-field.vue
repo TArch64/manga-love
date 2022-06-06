@@ -62,8 +62,9 @@ export default defineComponent({
         }));
 
         watch(formContext.error, async () => {
+            await nextTick();
+
             if (errorContainerRef.value) {
-                await nextTick();
                 onBeforeErrorEnter(errorContainerRef.value);
             }
         });

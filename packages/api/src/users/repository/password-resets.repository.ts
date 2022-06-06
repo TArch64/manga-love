@@ -21,4 +21,10 @@ export class PasswordResetsRepository {
         });
         return passwordReset || null;
     }
+
+    public async deleteByUser(user: DatabaseUser): Promise<void> {
+        await this.prisma.databasePasswordReset.deleteMany({
+            where: { userId: user.id }
+        });
+    }
 }

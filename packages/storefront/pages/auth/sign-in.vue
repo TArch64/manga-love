@@ -1,5 +1,5 @@
 <template>
-    <div class="ml-sign-in">
+    <div class="ml-sign-in ml-padding-bottom--xlg">
         <h1 class="ml-sign-in__greeting">
             <span class="ml-sign-in__greeting-hello">
                 {{ $t('auth.signIn.greetingHello') }}
