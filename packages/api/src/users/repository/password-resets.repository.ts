@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DatabasePasswordReset, PrismaService, Prisma, DatabaseUser } from '../../prisma';
+import { DatabasePasswordReset, PrismaService, DatabaseUser } from '../../prisma';
 
 @Injectable()
 export class PasswordResetsRepository {

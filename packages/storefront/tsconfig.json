@@ -30,7 +30,9 @@
             "vue-apollo/types",
             "@nuxtjs/i18n",
             "@pinia/nuxt",
-            "@nuxtjs/toast"
+            "@nuxtjs/toast",
+            "@types/uuid",
+            "@types/jsonwebtoken"
         ]
     },
     "exclude": [

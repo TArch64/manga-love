@@ -26,6 +26,10 @@ export default {
             { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
             { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
             { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito+Sans:wght@400;600&display=swap' }
+        ],
+
+        script: [
+            { src: 'https://accounts.google.com/gsi/client', defer: true, body: true }
         ]
     },
 
@@ -58,7 +62,8 @@ export default {
 
     env: proxyEnvs([
         'STOREFRONT_BROWSER_GRAPHQL_URL',
-        'STOREFRONT_BROWSER_API_URL'
+        'STOREFRONT_BROWSER_API_URL',
+        'STOREFRONT_GOOGLE_ID'
     ]),
 
     apollo: {

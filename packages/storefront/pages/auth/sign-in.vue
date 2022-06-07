@@ -1,6 +1,6 @@
 <template>
     <div class="ml-sign-in ml-padding-bottom--xlg">
-        <h1 class="ml-sign-in__greeting">
+        <h1 class="ml-sign-in__greeting ml-margin-bottom--md">
             <span class="ml-sign-in__greeting-hello">
                 {{ $t('auth.signIn.greetingHello') }}
             </span>
@@ -11,6 +11,10 @@
                 {{ $t('auth.signIn.greeting') }}
             </span>
         </h1>
+
+        <div class="ml-margin-bottom--xlg">
+            <MlGoogleAuth @sign-in="signInByGoogle" />
+        </div>
 
         <MlForm class="ml-flex--grow" :form="authForm" :disabled="isProcessing" @submit="signIn">
             <MlTextField
@@ -46,7 +50,8 @@
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
-import { useAuthStore, SignInCredentials } from '~/store';
+import { MlGoogleAuth } from '~/components/auth';
+import { useAuthStore, SignInCredentials, GoogleUser } from '~/store';
 import { isApiError, useToaster, ToastrMessage, useRouter } from '~/composables';
 
 export default defineComponent({
@@ -57,7 +62,8 @@ export default defineComponent({
         MlButton,
         MlForm,
         MlTextField,
-        MlPasswordField
+        MlPasswordField,
+        MlGoogleAuth
     },
 
     head: {
@@ -113,11 +119,20 @@ export default defineComponent({
             }
         }
 
+        async function signInByGoogle(googleUser: GoogleUser): Promise<void> {
+            isProcessing.value = true;
+
+            const { isNewUser } = await authStore.signInByGoogle(googleUser);
+
+            isProcessing.value = false;
+        }
+
         return {
             authForm,
             isProcessing,
+            forgotLink,
             signIn,
-            forgotLink
+            signInByGoogle
         };
     }
 });
@@ -137,7 +152,6 @@ export default defineComponent({
     font-weight: 400;
     letter-spacing: 1.5px;
     margin-top: 0;
-    margin-bottom: 40px;
 }
 
 .ml-sign-in__greeting-hello {
