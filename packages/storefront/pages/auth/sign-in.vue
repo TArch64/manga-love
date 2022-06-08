@@ -51,7 +51,7 @@ import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, MlPasswordField, validateRequired, validateEmail } from '~/components/common/form';
 import { MlButton } from '~/components/common';
 import { MlGoogleAuth } from '~/components/auth';
-import { useAuthStore, SignInCredentials, GoogleUser } from '~/store';
+import { useAuthStore, SignInCredentials, GoogleCredentials } from '~/store';
 import { isApiError, useToaster, ToastrMessage, useRouter } from '~/composables';
 
 export default defineComponent({
@@ -106,25 +106,26 @@ export default defineComponent({
             return { path: 'errors.somethingWentWrong' };
         }
 
-        async function signIn(): Promise<void> {
+        async function useAuthAction(action: () => Promise<void>): Promise<void> {
             isProcessing.value = true;
 
             try {
-                await authStore.signIn(authForm.data);
-                router.push('/');
+                await action();
+                await router.push('/');
             } catch (error: unknown) {
                 authForm.update({ password: '' });
-                isProcessing.value = false;
                 toaster.show(getApiError(error));
+            } finally {
+                isProcessing.value = false;
             }
         }
 
-        async function signInByGoogle(googleUser: GoogleUser): Promise<void> {
-            isProcessing.value = true;
+        async function signIn(): Promise<void> {
+            await useAuthAction(() => authStore.signIn(authForm.data));
+        }
 
-            const { isNewUser } = await authStore.signInByGoogle(googleUser);
-
-            isProcessing.value = false;
+        async function signInByGoogle(googleUser: GoogleCredentials): Promise<void> {
+            await useAuthAction(() => authStore.signInByGoogle(googleUser));
         }
 
         return {

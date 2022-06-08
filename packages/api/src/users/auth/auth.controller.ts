@@ -9,6 +9,10 @@ interface SignInBody {
     password: string;
 }
 
+interface GoogleCredentialsBody {
+    credential: string;
+}
+
 interface SignInRender {
     actionPath: string;
     error?: string;
@@ -112,6 +116,16 @@ export class AuthController {
         @Res({ passthrough: true }) res: Response
     ): Promise<SuccessResponse> {
         const token = await this.authService.resetPassword(body.code, body.password);
+        this.writeAuthCookie(res, token);
+        return { success: true };
+    }
+
+    @Post('google-sign-in')
+    public async googleSignIn(
+        @Body() body: GoogleCredentialsBody,
+        @Res({ passthrough: true }) res: Response
+    ): Promise<SuccessResponse> {
+        const token = await this.authService.googleSignIn(body.credential);
         this.writeAuthCookie(res, token);
         return { success: true };
     }

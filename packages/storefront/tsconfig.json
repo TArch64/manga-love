@@ -31,8 +31,7 @@
             "@nuxtjs/i18n",
             "@pinia/nuxt",
             "@nuxtjs/toast",
-            "@types/uuid",
-            "@types/jsonwebtoken"
+            "@types/uuid"
         ]
     },
     "exclude": [

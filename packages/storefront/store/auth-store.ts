@@ -7,11 +7,8 @@ export interface User {
     email: string;
 }
 
-export interface GoogleUser {
-    email: string;
-    isEmailVerified: string;
-    name: string;
-    avatarUrl: string;
+export interface GoogleCredentials {
+    credential: string;
 }
 
 export interface GoogleSignInResponse {
@@ -52,7 +49,7 @@ interface State {
 interface Actions {
     loadCurrentUser(): Promise<void>;
     signIn(credentials: SignInCredentials): Promise<void>;
-    signInByGoogle(googleUser: GoogleUser): Promise<GoogleSignInResponse>;
+    signInByGoogle(credentials: GoogleCredentials): Promise<void>;
     signUp(info: SignUpInfo): Promise<void>;
     askResetPassword(info: ForgotInfo): Promise<void>;
     loadResetPasswordState(code: string): Promise<void>;
@@ -84,8 +81,8 @@ export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
             });
         },
 
-        signInByGoogle(googleUser) {
-            return apiHttp.post<GoogleUser, GoogleSignInResponse>('auth/google-sign-in', googleUser);
+        async signInByGoogle(credentials) {
+            await apiHttp.post<GoogleCredentials>('auth/google-sign-in', credentials);
         },
 
         async signUp(info: SignUpInfo) {

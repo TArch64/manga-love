@@ -24,19 +24,7 @@
 <script lang="ts">
 import { defineComponent, ref, useContext } from '@nuxtjs/composition-api';
 import { v4 as generateId } from 'uuid';
-import { decode as decodeJwt } from 'jsonwebtoken';
-import { GoogleUser } from '~/store';
-
-type GoogleAuthResponse = {
-    credential: string;
-};
-
-type GoogleAuthPayload = {
-    email: string;
-    email_verified: string;
-    name: string;
-    picture: string;
-};
+import { GoogleCredentials } from '~/store';
 
 export default defineComponent({
     name: 'MlGoogleAuth',
@@ -45,20 +33,12 @@ export default defineComponent({
 
     setup(_, { emit }) {
         const context = useContext();
-        const callbackName = ref(`on_gapi_sign_in_${generateId()}`.replaceAll('-', '_'));
+        const callbackName = ref(`on_gapi_auth_${generateId()}`.replaceAll('-', '_'));
         const clientId = ref(context.env.STOREFRONT_GOOGLE_ID);
 
-        function onSignIn(response: GoogleAuthResponse): void {
-            const payload = decodeJwt(response.credential) as GoogleAuthPayload;
-
-            const user: GoogleUser = {
-                email: payload.email,
-                isEmailVerified: payload.email_verified,
-                name: payload.name,
-                avatarUrl: payload.picture
-            };
-
-            emit('sign-in', user);
+        function onSignIn(response: GoogleCredentials): void {
+            const event: GoogleCredentials = { credential: response.credential };
+            emit('sign-in', event);
         }
 
         if (process.client) {

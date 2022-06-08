@@ -15,6 +15,14 @@ export interface ResetPasswordState {
     email: string | null;
 }
 
+interface GoogleUser {
+    email: string;
+    email_verified: string;
+    name: string;
+    picture: string;
+    aud: string;
+}
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -103,5 +111,27 @@ export class AuthService {
         await this.passwordResetsRepository.deleteByUser(user);
 
         return this.encodeToken(user);
+    }
+
+    public async googleSignIn(credentials: string): Promise<string> {
+        const googleUser = await this.jwtService.decode(credentials) as GoogleUser;
+
+        if (googleUser?.aud !== process.env.API_GOOGLE_ID) {
+            this.throwUnauthorizedException();
+        }
+
+        const user = await this.fetchGoogleUser(googleUser);
+
+        return this.encodeToken(user);
+    }
+
+    private async fetchGoogleUser(googleUser: GoogleUser): Promise<DatabaseUser> {
+        const existingUser = await this.usersRepository.getUserByEmail(googleUser.email);
+
+        return existingUser || this.usersRepository.create({
+            password: '',
+            email: googleUser.email,
+            username: googleUser.name
+        });
     }
 }
