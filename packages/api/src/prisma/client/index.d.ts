@@ -20,6 +20,7 @@ export type DatabaseUser = {
   id: string
   username: string
   email: string
+  emailConfirmed: boolean
   password: string
 }
 
@@ -956,6 +957,7 @@ export namespace Prisma {
     id: string | null
     username: string | null
     email: string | null
+    emailConfirmed: boolean | null
     password: string | null
   }
 
@@ -963,6 +965,7 @@ export namespace Prisma {
     id: string | null
     username: string | null
     email: string | null
+    emailConfirmed: boolean | null
     password: string | null
   }
 
@@ -970,6 +973,7 @@ export namespace Prisma {
     id: number
     username: number
     email: number
+    emailConfirmed: number
     password: number
     _all: number
   }
@@ -979,6 +983,7 @@ export namespace Prisma {
     id?: true
     username?: true
     email?: true
+    emailConfirmed?: true
     password?: true
   }
 
@@ -986,6 +991,7 @@ export namespace Prisma {
     id?: true
     username?: true
     email?: true
+    emailConfirmed?: true
     password?: true
   }
 
@@ -993,6 +999,7 @@ export namespace Prisma {
     id?: true
     username?: true
     email?: true
+    emailConfirmed?: true
     password?: true
     _all?: true
   }
@@ -1079,6 +1086,7 @@ export namespace Prisma {
     id: string
     username: string
     email: string
+    emailConfirmed: boolean
     password: string
     _count: DatabaseUserCountAggregateOutputType | null
     _min: DatabaseUserMinAggregateOutputType | null
@@ -1103,6 +1111,7 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     email?: boolean
+    emailConfirmed?: boolean
     password?: boolean
     passwordResets?: boolean | DatabasePasswordResetFindManyArgs
     _count?: boolean | DatabaseUserCountOutputTypeArgs
@@ -4474,6 +4483,7 @@ export namespace Prisma {
     id: 'id',
     username: 'username',
     email: 'email',
+    emailConfirmed: 'emailConfirmed',
     password: 'password'
   };
 
@@ -4545,6 +4555,7 @@ export namespace Prisma {
     id?: StringFilter | string
     username?: StringFilter | string
     email?: StringFilter | string
+    emailConfirmed?: BoolFilter | boolean
     password?: StringFilter | string
     passwordResets?: DatabasePasswordResetListRelationFilter
   }
@@ -4553,6 +4564,7 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    emailConfirmed?: SortOrder
     password?: SortOrder
     passwordResets?: DatabasePasswordResetOrderByRelationAggregateInput
   }
@@ -4567,6 +4579,7 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    emailConfirmed?: SortOrder
     password?: SortOrder
     _count?: DatabaseUserCountOrderByAggregateInput
     _max?: DatabaseUserMaxOrderByAggregateInput
@@ -4580,6 +4593,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     username?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
+    emailConfirmed?: BoolWithAggregatesFilter | boolean
     password?: StringWithAggregatesFilter | string
   }
 
@@ -4748,6 +4762,7 @@ export namespace Prisma {
     id?: string
     username: string
     email: string
+    emailConfirmed?: boolean
     password: string
     passwordResets?: DatabasePasswordResetCreateNestedManyWithoutUserInput
   }
@@ -4756,6 +4771,7 @@ export namespace Prisma {
     id?: string
     username: string
     email: string
+    emailConfirmed?: boolean
     password: string
     passwordResets?: DatabasePasswordResetUncheckedCreateNestedManyWithoutUserInput
   }
@@ -4764,6 +4780,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
     passwordResets?: DatabasePasswordResetUpdateManyWithoutUserInput
   }
@@ -4772,6 +4789,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
     passwordResets?: DatabasePasswordResetUncheckedUpdateManyWithoutUserInput
   }
@@ -4780,6 +4798,7 @@ export namespace Prisma {
     id?: string
     username: string
     email: string
+    emailConfirmed?: boolean
     password: string
   }
 
@@ -4787,6 +4806,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
   }
 
@@ -4794,6 +4814,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
   }
 
@@ -5010,6 +5031,11 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type DatabasePasswordResetListRelationFilter = {
     every?: DatabasePasswordResetWhereInput
     some?: DatabasePasswordResetWhereInput
@@ -5024,6 +5050,7 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    emailConfirmed?: SortOrder
     password?: SortOrder
   }
 
@@ -5031,6 +5058,7 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    emailConfirmed?: SortOrder
     password?: SortOrder
   }
 
@@ -5038,6 +5066,7 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    emailConfirmed?: SortOrder
     password?: SortOrder
   }
 
@@ -5057,6 +5086,14 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedStringFilter
     _max?: NestedStringFilter
+  }
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type DateTimeFilter = {
@@ -5338,6 +5375,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DatabasePasswordResetUpdateManyWithoutUserInput = {
     create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
@@ -5480,6 +5521,11 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type NestedStringWithAggregatesFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -5506,6 +5552,14 @@ export namespace Prisma {
     gt?: number
     gte?: number
     not?: NestedIntFilter | number
+  }
+
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type NestedDateTimeFilter = {
@@ -5716,6 +5770,7 @@ export namespace Prisma {
     id?: string
     username: string
     email: string
+    emailConfirmed?: boolean
     password: string
   }
 
@@ -5723,6 +5778,7 @@ export namespace Prisma {
     id?: string
     username: string
     email: string
+    emailConfirmed?: boolean
     password: string
   }
 
@@ -5740,6 +5796,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
   }
 
@@ -5747,6 +5804,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
   }
 

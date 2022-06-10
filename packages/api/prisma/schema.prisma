@@ -9,10 +9,11 @@ datasource db {
 }
 
 model DatabaseUser {
-    id             String @id @default(uuid())
-    username       String @db.VarChar(200) @unique
-    email          String @db.VarChar(200) @unique
-    password       String @db.VarChar(200)
+    id             String                  @id @default(uuid())
+    username       String                  @db.VarChar(200) @unique
+    email          String                  @db.VarChar(200) @unique
+    emailConfirmed Boolean                 @default(false)
+    password       String                  @db.VarChar(200)
     passwordResets DatabasePasswordReset[]
 }
 

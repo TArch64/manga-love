@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import { v4 as generateUUID } from 'uuid';
 import { PasswordResetsRepository, UsersRepository } from '../repository';
 import { PublicUrlService, TypedError } from '../../core';
-import { DatabasePasswordReset, DatabaseUser, handleUniqueConstrain } from '../../prisma';
+import { DatabasePasswordReset, DatabaseUser, Prisma, handleUniqueConstrain } from '../../prisma';
 import { MailerService } from '../../mailer';
-import { ResetPasswordMail } from './emails';
+import { ResetPasswordMail, EmailVerificationMail } from './emails';
 import { AuthPasswordService } from './auth-password.service';
 
 export type TokenPayload = { userId: string };
@@ -54,19 +54,28 @@ export class AuthService {
         return this.jwtService.sign({ userId: user.id });
     }
 
-    public async signUp(user: Omit<DatabaseUser, 'id'>): Promise<string> {
+    public async signUp(user: Prisma.DatabaseUserCreateInput): Promise<string> {
         if (!user.email || !user.password || !user.username) {
             throw new TypedError('invalid-request');
         }
 
-        user.password = await this.passwordService.encrypt(user.password);
-        const created = await this.usersRepository.create(user);
-
         try {
+            user.password = await this.passwordService.encrypt(user.password);
+            const created = await this.usersRepository.create(user);
+
+            await this.sendEmailVerificationEmail(created);
+
             return this.encodeToken(created);
         } catch (error: unknown) {
             handleUniqueConstrain(error);
         }
+    }
+
+    public async sendEmailVerificationEmail(user: DatabaseUser): Promise<void> {
+        const resetUrl = this.storefrontUrl.resolve(['auth/email-verification']);
+        const mail = new EmailVerificationMail(user.email, resetUrl);
+
+        await this.mailerService.send(mail);
     }
 
     public async askResetPassword(email: string): Promise<void> {
@@ -131,7 +140,8 @@ export class AuthService {
         return existingUser || this.usersRepository.create({
             password: '',
             email: googleUser.email,
-            username: googleUser.name
+            username: googleUser.name,
+            emailConfirmed: true
         });
     }
 }

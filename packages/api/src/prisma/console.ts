@@ -3,4 +3,6 @@ import { client } from './client-provider';
 
 global.prisma = client;
 
-start();
+const repl = start();
+
+repl.setupHistory('/app/tmp/console-history', () => {});

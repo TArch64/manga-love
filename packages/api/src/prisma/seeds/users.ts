@@ -1,6 +1,6 @@
-import { client, DatabaseUser } from '../client-provider';
+import { client, Prisma } from '../client-provider';
 
-async function buildUser(user: Omit<DatabaseUser, 'id'>): Promise<void> {
+async function buildUser(user: Prisma.DatabaseUserCreateInput): Promise<void> {
     await client.databaseUser.upsert({
         where: { email: user.email },
         create: user,
