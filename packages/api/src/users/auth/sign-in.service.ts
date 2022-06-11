@@ -1,10 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserActionsRepository, UsersRepository } from '../repository';
-import { PublicUrlService, TypedError } from '../../core';
-import { DatabaseUser, DatabaseUserAction, DatabaseUserActionType, Prisma, handleUniqueConstrain } from '../../prisma';
-import { MailerService } from '../../mailer';
-import { EmailVerificationMail } from './emails';
+import { UsersRepository } from '../repository';
+import { TypedError } from '../../core';
+import { DatabaseUser } from '../../prisma';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
 
@@ -17,14 +15,10 @@ interface GoogleUser {
 }
 
 @Injectable()
-export class AuthService {
+export class SignInService {
     constructor(
         private readonly usersRepository: UsersRepository,
-        private readonly userActionsRepository: UserActionsRepository,
         private readonly jwtService: JwtService,
-        private readonly mailerService: MailerService,
-        @Inject(PublicUrlService.STOREFRONT)
-        private readonly storefrontUrl: PublicUrlService,
         private readonly passwordService: AuthPasswordService,
         private readonly authTokenService: AuthTokenService
     ) {}
@@ -42,31 +36,6 @@ export class AuthService {
 
     private throwUnauthorizedException(): never {
         throw new TypedError('bad-credentials', 401);
-    }
-
-    public async signUp(input: Prisma.DatabaseUserCreateInput): Promise<string> {
-        if (!input.email || !input.password || !input.username) {
-            throw new TypedError('invalid-request');
-        }
-
-        try {
-            input.password = await this.passwordService.encrypt(input.password);
-            const user = await this.usersRepository.create(input);
-            const action = await this.userActionsRepository.create(user, DatabaseUserActionType.EMAIL_VERIFICATION);
-
-            await this.sendEmailVerificationEmail(user, action);
-
-            return this.authTokenService.encodeToken(user);
-        } catch (error: unknown) {
-            handleUniqueConstrain(error);
-        }
-    }
-
-    public async sendEmailVerificationEmail(user: DatabaseUser, action: DatabaseUserAction): Promise<void> {
-        const resetUrl = this.storefrontUrl.resolve(['auth/email-verification'], { code: action.code });
-        const mail = new EmailVerificationMail(user.email, resetUrl);
-
-        await this.mailerService.send(mail);
     }
 
     public async googleSignIn(credentials: string): Promise<string> {

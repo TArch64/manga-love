@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { PublicUrlService } from '../../core';
-import { AuthService, ResetPasswordState } from './auth.service';
 import { AuthStrategy } from './auth.strategy';
+import { PasswordResetService, ResetPasswordState } from './password-reset.service';
+import { SignUpService } from './sign-up.service';
+import { SignInService } from './sign-in.service';
 
 interface SignInBody {
     email: string;
@@ -40,7 +42,9 @@ interface SuccessResponse {
 @Controller('auth')
 export class AuthController {
     constructor(
-        private readonly authService: AuthService,
+        private readonly signInService: SignInService,
+        private readonly signUpService: SignUpService,
+        private readonly passwordResetService: PasswordResetService,
         @Inject(PublicUrlService.API)
         private readonly apiUrl: PublicUrlService
     ) {}
@@ -66,7 +70,7 @@ export class AuthController {
         @Res() res: Response
     ): Promise<void> {
         try {
-            const token = await this.authService.signIn(body.email, body.password);
+            const token = await this.signInService.signIn(body.email, body.password);
             this.writeAuthCookie(res, token);
 
             returnUrl ? res.redirect(returnUrl) : res.json({ success: true });
@@ -94,20 +98,20 @@ export class AuthController {
         @Body() body: SignUpBody,
         @Res({ passthrough: true }) res: Response
     ): Promise<SuccessResponse> {
-        const token = await this.authService.signUp(body);
+        const token = await this.signUpService.signUp(body);
         this.writeAuthCookie(res, token);
         return { success: true };
     }
 
     @Post('ask-reset-password')
     public async askResetPassword(@Body() body: AskResetPasswordBody): Promise<SuccessResponse> {
-        await this.authService.askResetPassword(body.email);
+        await this.passwordResetService.askResetPassword(body.email);
         return { success: true };
     }
 
     @Get('reset-password')
     public resetPasswordState(@Query('code') code: string): Promise<ResetPasswordState> {
-        return this.authService.getResetPasswordState(code);
+        return this.passwordResetService.getResetPasswordState(code);
     }
 
     @Post('reset-password')
@@ -115,7 +119,7 @@ export class AuthController {
         @Body() body: ResetPasswordBody,
         @Res({ passthrough: true }) res: Response
     ): Promise<SuccessResponse> {
-        const token = await this.authService.resetPassword(body.code, body.password);
+        const token = await this.passwordResetService.resetPassword(body.code, body.password);
         this.writeAuthCookie(res, token);
         return { success: true };
     }
@@ -125,7 +129,7 @@ export class AuthController {
         @Body() body: GoogleCredentialsBody,
         @Res({ passthrough: true }) res: Response
     ): Promise<SuccessResponse> {
-        const token = await this.authService.googleSignIn(body.credential);
+        const token = await this.signInService.googleSignIn(body.credential);
         this.writeAuthCookie(res, token);
         return { success: true };
     }

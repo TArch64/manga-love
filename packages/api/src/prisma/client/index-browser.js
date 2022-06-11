@@ -84,10 +84,10 @@ exports.Prisma.DatabaseUserScalarFieldEnum = makeEnum({
   password: 'password'
 });
 
-exports.Prisma.DatabasePasswordResetScalarFieldEnum = makeEnum({
+exports.Prisma.DatabaseUserActionScalarFieldEnum = makeEnum({
   id: 'id',
-  email: 'email',
   code: 'code',
+  type: 'type',
   createdAt: 'createdAt',
   userId: 'userId'
 });
@@ -121,6 +121,11 @@ exports.Prisma.QueryMode = makeEnum({
   default: 'default',
   insensitive: 'insensitive'
 });
+exports.DatabaseUserActionType = makeEnum({
+  RESET_PASSWORD: 'RESET_PASSWORD',
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION'
+});
+
 exports.DatabaseMangaSource = makeEnum({
   KITSU: 'KITSU'
 });
@@ -133,7 +138,7 @@ exports.DatabaseMangaType = makeEnum({
 
 exports.Prisma.ModelName = makeEnum({
   DatabaseUser: 'DatabaseUser',
-  DatabasePasswordReset: 'DatabasePasswordReset',
+  DatabaseUserAction: 'DatabaseUserAction',
   DatabaseManga: 'DatabaseManga',
   DatabaseImage: 'DatabaseImage'
 });

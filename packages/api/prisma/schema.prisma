@@ -9,21 +9,26 @@ datasource db {
 }
 
 model DatabaseUser {
-    id             String                  @id @default(uuid())
-    username       String                  @db.VarChar(200) @unique
-    email          String                  @db.VarChar(200) @unique
-    emailConfirmed Boolean                 @default(false)
-    password       String                  @db.VarChar(200)
-    passwordResets DatabasePasswordReset[]
+    id             String               @id @default(uuid())
+    username       String               @db.VarChar(200) @unique
+    email          String               @db.VarChar(200) @unique
+    emailConfirmed Boolean              @default(false)
+    password       String               @db.VarChar(200)
+    actions        DatabaseUserAction[]
 }
 
-model DatabasePasswordReset {
-    id        String       @id @default(uuid())
-    email     String       @db.VarChar(200)
-    code      String       @db.VarChar(200) @unique
-    createdAt DateTime     @default(now())
+model DatabaseUserAction {
+    id        String                 @id @default(uuid())
+    code      String                 @db.VarChar(200) @unique @default(uuid())
+    type      DatabaseUserActionType
+    createdAt DateTime               @default(now())
     userId    String
-    user      DatabaseUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      DatabaseUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum DatabaseUserActionType {
+    RESET_PASSWORD
+    EMAIL_VERIFICATION
 }
 
 model DatabaseManga {

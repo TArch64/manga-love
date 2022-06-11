@@ -4,10 +4,13 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersRepositoryModule } from '../repository';
 import { PublicUrlService } from '../../core';
 import { MailerModule } from '../../mailer';
-import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { AuthStrategy } from './auth.strategy';
 import { AuthPasswordService } from './auth-password.service';
+import { PasswordResetService } from './password-reset.service';
+import { AuthTokenService } from './auth-token.service';
+import { SignUpService } from './sign-up.service';
+import { SignInService } from './sign-in.service';
 
 @Module({
     imports: [
@@ -23,8 +26,11 @@ import { AuthPasswordService } from './auth-password.service';
         AuthController
     ],
     providers: [
-        AuthService,
         AuthPasswordService,
+        PasswordResetService,
+        AuthTokenService,
+        SignInService,
+        SignUpService,
         PublicUrlService.provide(PublicUrlService.API, process.env.API_PUBLIC_URL),
         PublicUrlService.provide(PublicUrlService.STOREFRONT, process.env.API_STOREFRONT_URL),
         AuthStrategy

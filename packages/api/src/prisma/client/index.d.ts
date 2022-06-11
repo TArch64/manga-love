@@ -25,13 +25,13 @@ export type DatabaseUser = {
 }
 
 /**
- * Model DatabasePasswordReset
+ * Model DatabaseUserAction
  * 
  */
-export type DatabasePasswordReset = {
+export type DatabaseUserAction = {
   id: string
-  email: string
   code: string
+  type: DatabaseUserActionType
   createdAt: Date
   userId: string
 }
@@ -71,6 +71,14 @@ export type DatabaseImage = {
 
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+export const DatabaseUserActionType: {
+  RESET_PASSWORD: 'RESET_PASSWORD',
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION'
+};
+
+export type DatabaseUserActionType = (typeof DatabaseUserActionType)[keyof typeof DatabaseUserActionType]
+
 
 export const DatabaseMangaSource: {
   KITSU: 'KITSU'
@@ -239,14 +247,14 @@ export class PrismaClient<
   get databaseUser(): Prisma.DatabaseUserDelegate<GlobalReject>;
 
   /**
-   * `prisma.databasePasswordReset`: Exposes CRUD operations for the **DatabasePasswordReset** model.
+   * `prisma.databaseUserAction`: Exposes CRUD operations for the **DatabaseUserAction** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more DatabasePasswordResets
-    * const databasePasswordResets = await prisma.databasePasswordReset.findMany()
+    * // Fetch zero or more DatabaseUserActions
+    * const databaseUserActions = await prisma.databaseUserAction.findMany()
     * ```
     */
-  get databasePasswordReset(): Prisma.DatabasePasswordResetDelegate<GlobalReject>;
+  get databaseUserAction(): Prisma.DatabaseUserActionDelegate<GlobalReject>;
 
   /**
    * `prisma.databaseManga`: Exposes CRUD operations for the **DatabaseManga** model.
@@ -682,7 +690,7 @@ export namespace Prisma {
 
   export const ModelName: {
     DatabaseUser: 'DatabaseUser',
-    DatabasePasswordReset: 'DatabasePasswordReset',
+    DatabaseUserAction: 'DatabaseUserAction',
     DatabaseManga: 'DatabaseManga',
     DatabaseImage: 'DatabaseImage'
   };
@@ -846,11 +854,11 @@ export namespace Prisma {
 
 
   export type DatabaseUserCountOutputType = {
-    passwordResets: number
+    actions: number
   }
 
   export type DatabaseUserCountOutputTypeSelect = {
-    passwordResets?: boolean
+    actions?: boolean
   }
 
   export type DatabaseUserCountOutputTypeGetPayload<
@@ -1113,12 +1121,12 @@ export namespace Prisma {
     email?: boolean
     emailConfirmed?: boolean
     password?: boolean
-    passwordResets?: boolean | DatabasePasswordResetFindManyArgs
+    actions?: boolean | DatabaseUserActionFindManyArgs
     _count?: boolean | DatabaseUserCountOutputTypeArgs
   }
 
   export type DatabaseUserInclude = {
-    passwordResets?: boolean | DatabasePasswordResetFindManyArgs
+    actions?: boolean | DatabaseUserActionFindManyArgs
     _count?: boolean | DatabaseUserCountOutputTypeArgs
   }
 
@@ -1133,13 +1141,13 @@ export namespace Prisma {
     ?'include' extends U
     ? DatabaseUser  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'passwordResets' ? Array < DatabasePasswordResetGetPayload<S['include'][P]>>  :
+        P extends 'actions' ? Array < DatabaseUserActionGetPayload<S['include'][P]>>  :
         P extends '_count' ? DatabaseUserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'passwordResets' ? Array < DatabasePasswordResetGetPayload<S['select'][P]>>  :
+        P extends 'actions' ? Array < DatabaseUserActionGetPayload<S['select'][P]>>  :
         P extends '_count' ? DatabaseUserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof DatabaseUser ? DatabaseUser[P] : never
   } 
     : DatabaseUser
@@ -1480,7 +1488,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    passwordResets<T extends DatabasePasswordResetFindManyArgs = {}>(args?: Subset<T, DatabasePasswordResetFindManyArgs>): CheckSelect<T, PrismaPromise<Array<DatabasePasswordReset>>, PrismaPromise<Array<DatabasePasswordResetGetPayload<T>>>>;
+    actions<T extends DatabaseUserActionFindManyArgs = {}>(args?: Subset<T, DatabaseUserActionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<DatabaseUserAction>>, PrismaPromise<Array<DatabaseUserActionGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -1811,318 +1819,318 @@ export namespace Prisma {
 
 
   /**
-   * Model DatabasePasswordReset
+   * Model DatabaseUserAction
    */
 
 
-  export type AggregateDatabasePasswordReset = {
-    _count: DatabasePasswordResetCountAggregateOutputType | null
-    _min: DatabasePasswordResetMinAggregateOutputType | null
-    _max: DatabasePasswordResetMaxAggregateOutputType | null
+  export type AggregateDatabaseUserAction = {
+    _count: DatabaseUserActionCountAggregateOutputType | null
+    _min: DatabaseUserActionMinAggregateOutputType | null
+    _max: DatabaseUserActionMaxAggregateOutputType | null
   }
 
-  export type DatabasePasswordResetMinAggregateOutputType = {
+  export type DatabaseUserActionMinAggregateOutputType = {
     id: string | null
-    email: string | null
     code: string | null
+    type: DatabaseUserActionType | null
     createdAt: Date | null
     userId: string | null
   }
 
-  export type DatabasePasswordResetMaxAggregateOutputType = {
+  export type DatabaseUserActionMaxAggregateOutputType = {
     id: string | null
-    email: string | null
     code: string | null
+    type: DatabaseUserActionType | null
     createdAt: Date | null
     userId: string | null
   }
 
-  export type DatabasePasswordResetCountAggregateOutputType = {
+  export type DatabaseUserActionCountAggregateOutputType = {
     id: number
-    email: number
     code: number
+    type: number
     createdAt: number
     userId: number
     _all: number
   }
 
 
-  export type DatabasePasswordResetMinAggregateInputType = {
+  export type DatabaseUserActionMinAggregateInputType = {
     id?: true
-    email?: true
     code?: true
+    type?: true
     createdAt?: true
     userId?: true
   }
 
-  export type DatabasePasswordResetMaxAggregateInputType = {
+  export type DatabaseUserActionMaxAggregateInputType = {
     id?: true
-    email?: true
     code?: true
+    type?: true
     createdAt?: true
     userId?: true
   }
 
-  export type DatabasePasswordResetCountAggregateInputType = {
+  export type DatabaseUserActionCountAggregateInputType = {
     id?: true
-    email?: true
     code?: true
+    type?: true
     createdAt?: true
     userId?: true
     _all?: true
   }
 
-  export type DatabasePasswordResetAggregateArgs = {
+  export type DatabaseUserActionAggregateArgs = {
     /**
-     * Filter which DatabasePasswordReset to aggregate.
+     * Filter which DatabaseUserAction to aggregate.
      * 
     **/
-    where?: DatabasePasswordResetWhereInput
+    where?: DatabaseUserActionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of DatabasePasswordResets to fetch.
+     * Determine the order of DatabaseUserActions to fetch.
      * 
     **/
-    orderBy?: Enumerable<DatabasePasswordResetOrderByWithRelationInput>
+    orderBy?: Enumerable<DatabaseUserActionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      * 
     **/
-    cursor?: DatabasePasswordResetWhereUniqueInput
+    cursor?: DatabaseUserActionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` DatabasePasswordResets from the position of the cursor.
+     * Take `±n` DatabaseUserActions from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` DatabasePasswordResets.
+     * Skip the first `n` DatabaseUserActions.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned DatabasePasswordResets
+     * Count returned DatabaseUserActions
     **/
-    _count?: true | DatabasePasswordResetCountAggregateInputType
+    _count?: true | DatabaseUserActionCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: DatabasePasswordResetMinAggregateInputType
+    _min?: DatabaseUserActionMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: DatabasePasswordResetMaxAggregateInputType
+    _max?: DatabaseUserActionMaxAggregateInputType
   }
 
-  export type GetDatabasePasswordResetAggregateType<T extends DatabasePasswordResetAggregateArgs> = {
-        [P in keyof T & keyof AggregateDatabasePasswordReset]: P extends '_count' | 'count'
+  export type GetDatabaseUserActionAggregateType<T extends DatabaseUserActionAggregateArgs> = {
+        [P in keyof T & keyof AggregateDatabaseUserAction]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateDatabasePasswordReset[P]>
-      : GetScalarType<T[P], AggregateDatabasePasswordReset[P]>
+        : GetScalarType<T[P], AggregateDatabaseUserAction[P]>
+      : GetScalarType<T[P], AggregateDatabaseUserAction[P]>
   }
 
 
 
 
-  export type DatabasePasswordResetGroupByArgs = {
-    where?: DatabasePasswordResetWhereInput
-    orderBy?: Enumerable<DatabasePasswordResetOrderByWithAggregationInput>
-    by: Array<DatabasePasswordResetScalarFieldEnum>
-    having?: DatabasePasswordResetScalarWhereWithAggregatesInput
+  export type DatabaseUserActionGroupByArgs = {
+    where?: DatabaseUserActionWhereInput
+    orderBy?: Enumerable<DatabaseUserActionOrderByWithAggregationInput>
+    by: Array<DatabaseUserActionScalarFieldEnum>
+    having?: DatabaseUserActionScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: DatabasePasswordResetCountAggregateInputType | true
-    _min?: DatabasePasswordResetMinAggregateInputType
-    _max?: DatabasePasswordResetMaxAggregateInputType
+    _count?: DatabaseUserActionCountAggregateInputType | true
+    _min?: DatabaseUserActionMinAggregateInputType
+    _max?: DatabaseUserActionMaxAggregateInputType
   }
 
 
-  export type DatabasePasswordResetGroupByOutputType = {
+  export type DatabaseUserActionGroupByOutputType = {
     id: string
-    email: string
     code: string
+    type: DatabaseUserActionType
     createdAt: Date
     userId: string
-    _count: DatabasePasswordResetCountAggregateOutputType | null
-    _min: DatabasePasswordResetMinAggregateOutputType | null
-    _max: DatabasePasswordResetMaxAggregateOutputType | null
+    _count: DatabaseUserActionCountAggregateOutputType | null
+    _min: DatabaseUserActionMinAggregateOutputType | null
+    _max: DatabaseUserActionMaxAggregateOutputType | null
   }
 
-  type GetDatabasePasswordResetGroupByPayload<T extends DatabasePasswordResetGroupByArgs> = PrismaPromise<
+  type GetDatabaseUserActionGroupByPayload<T extends DatabaseUserActionGroupByArgs> = PrismaPromise<
     Array<
-      PickArray<DatabasePasswordResetGroupByOutputType, T['by']> &
+      PickArray<DatabaseUserActionGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof DatabasePasswordResetGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof DatabaseUserActionGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], DatabasePasswordResetGroupByOutputType[P]>
-            : GetScalarType<T[P], DatabasePasswordResetGroupByOutputType[P]>
+              : GetScalarType<T[P], DatabaseUserActionGroupByOutputType[P]>
+            : GetScalarType<T[P], DatabaseUserActionGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type DatabasePasswordResetSelect = {
+  export type DatabaseUserActionSelect = {
     id?: boolean
-    email?: boolean
     code?: boolean
+    type?: boolean
     createdAt?: boolean
     userId?: boolean
     user?: boolean | DatabaseUserArgs
   }
 
-  export type DatabasePasswordResetInclude = {
+  export type DatabaseUserActionInclude = {
     user?: boolean | DatabaseUserArgs
   }
 
-  export type DatabasePasswordResetGetPayload<
-    S extends boolean | null | undefined | DatabasePasswordResetArgs,
+  export type DatabaseUserActionGetPayload<
+    S extends boolean | null | undefined | DatabaseUserActionArgs,
     U = keyof S
       > = S extends true
-        ? DatabasePasswordReset
+        ? DatabaseUserAction
     : S extends undefined
     ? never
-    : S extends DatabasePasswordResetArgs | DatabasePasswordResetFindManyArgs
+    : S extends DatabaseUserActionArgs | DatabaseUserActionFindManyArgs
     ?'include' extends U
-    ? DatabasePasswordReset  & {
+    ? DatabaseUserAction  & {
     [P in TrueKeys<S['include']>]:
         P extends 'user' ? DatabaseUserGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'user' ? DatabaseUserGetPayload<S['select'][P]> :  P extends keyof DatabasePasswordReset ? DatabasePasswordReset[P] : never
+        P extends 'user' ? DatabaseUserGetPayload<S['select'][P]> :  P extends keyof DatabaseUserAction ? DatabaseUserAction[P] : never
   } 
-    : DatabasePasswordReset
-  : DatabasePasswordReset
+    : DatabaseUserAction
+  : DatabaseUserAction
 
 
-  type DatabasePasswordResetCountArgs = Merge<
-    Omit<DatabasePasswordResetFindManyArgs, 'select' | 'include'> & {
-      select?: DatabasePasswordResetCountAggregateInputType | true
+  type DatabaseUserActionCountArgs = Merge<
+    Omit<DatabaseUserActionFindManyArgs, 'select' | 'include'> & {
+      select?: DatabaseUserActionCountAggregateInputType | true
     }
   >
 
-  export interface DatabasePasswordResetDelegate<GlobalRejectSettings> {
+  export interface DatabaseUserActionDelegate<GlobalRejectSettings> {
     /**
-     * Find zero or one DatabasePasswordReset that matches the filter.
-     * @param {DatabasePasswordResetFindUniqueArgs} args - Arguments to find a DatabasePasswordReset
+     * Find zero or one DatabaseUserAction that matches the filter.
+     * @param {DatabaseUserActionFindUniqueArgs} args - Arguments to find a DatabaseUserAction
      * @example
-     * // Get one DatabasePasswordReset
-     * const databasePasswordReset = await prisma.databasePasswordReset.findUnique({
+     * // Get one DatabaseUserAction
+     * const databaseUserAction = await prisma.databaseUserAction.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends DatabasePasswordResetFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, DatabasePasswordResetFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'DatabasePasswordReset'> extends True ? CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>> : CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset | null >, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T> | null >>
+    findUnique<T extends DatabaseUserActionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, DatabaseUserActionFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'DatabaseUserAction'> extends True ? CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>> : CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction | null >, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T> | null >>
 
     /**
-     * Find the first DatabasePasswordReset that matches the filter.
+     * Find the first DatabaseUserAction that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabasePasswordResetFindFirstArgs} args - Arguments to find a DatabasePasswordReset
+     * @param {DatabaseUserActionFindFirstArgs} args - Arguments to find a DatabaseUserAction
      * @example
-     * // Get one DatabasePasswordReset
-     * const databasePasswordReset = await prisma.databasePasswordReset.findFirst({
+     * // Get one DatabaseUserAction
+     * const databaseUserAction = await prisma.databaseUserAction.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends DatabasePasswordResetFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, DatabasePasswordResetFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'DatabasePasswordReset'> extends True ? CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>> : CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset | null >, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T> | null >>
+    findFirst<T extends DatabaseUserActionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, DatabaseUserActionFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'DatabaseUserAction'> extends True ? CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>> : CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction | null >, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T> | null >>
 
     /**
-     * Find zero or more DatabasePasswordResets that matches the filter.
+     * Find zero or more DatabaseUserActions that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabasePasswordResetFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {DatabaseUserActionFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all DatabasePasswordResets
-     * const databasePasswordResets = await prisma.databasePasswordReset.findMany()
+     * // Get all DatabaseUserActions
+     * const databaseUserActions = await prisma.databaseUserAction.findMany()
      * 
-     * // Get first 10 DatabasePasswordResets
-     * const databasePasswordResets = await prisma.databasePasswordReset.findMany({ take: 10 })
+     * // Get first 10 DatabaseUserActions
+     * const databaseUserActions = await prisma.databaseUserAction.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const databasePasswordResetWithIdOnly = await prisma.databasePasswordReset.findMany({ select: { id: true } })
+     * const databaseUserActionWithIdOnly = await prisma.databaseUserAction.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends DatabasePasswordResetFindManyArgs>(
-      args?: SelectSubset<T, DatabasePasswordResetFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<DatabasePasswordReset>>, PrismaPromise<Array<DatabasePasswordResetGetPayload<T>>>>
+    findMany<T extends DatabaseUserActionFindManyArgs>(
+      args?: SelectSubset<T, DatabaseUserActionFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<DatabaseUserAction>>, PrismaPromise<Array<DatabaseUserActionGetPayload<T>>>>
 
     /**
-     * Create a DatabasePasswordReset.
-     * @param {DatabasePasswordResetCreateArgs} args - Arguments to create a DatabasePasswordReset.
+     * Create a DatabaseUserAction.
+     * @param {DatabaseUserActionCreateArgs} args - Arguments to create a DatabaseUserAction.
      * @example
-     * // Create one DatabasePasswordReset
-     * const DatabasePasswordReset = await prisma.databasePasswordReset.create({
+     * // Create one DatabaseUserAction
+     * const DatabaseUserAction = await prisma.databaseUserAction.create({
      *   data: {
-     *     // ... data to create a DatabasePasswordReset
+     *     // ... data to create a DatabaseUserAction
      *   }
      * })
      * 
     **/
-    create<T extends DatabasePasswordResetCreateArgs>(
-      args: SelectSubset<T, DatabasePasswordResetCreateArgs>
-    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+    create<T extends DatabaseUserActionCreateArgs>(
+      args: SelectSubset<T, DatabaseUserActionCreateArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>>
 
     /**
-     * Create many DatabasePasswordResets.
-     *     @param {DatabasePasswordResetCreateManyArgs} args - Arguments to create many DatabasePasswordResets.
+     * Create many DatabaseUserActions.
+     *     @param {DatabaseUserActionCreateManyArgs} args - Arguments to create many DatabaseUserActions.
      *     @example
-     *     // Create many DatabasePasswordResets
-     *     const databasePasswordReset = await prisma.databasePasswordReset.createMany({
+     *     // Create many DatabaseUserActions
+     *     const databaseUserAction = await prisma.databaseUserAction.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends DatabasePasswordResetCreateManyArgs>(
-      args?: SelectSubset<T, DatabasePasswordResetCreateManyArgs>
+    createMany<T extends DatabaseUserActionCreateManyArgs>(
+      args?: SelectSubset<T, DatabaseUserActionCreateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Delete a DatabasePasswordReset.
-     * @param {DatabasePasswordResetDeleteArgs} args - Arguments to delete one DatabasePasswordReset.
+     * Delete a DatabaseUserAction.
+     * @param {DatabaseUserActionDeleteArgs} args - Arguments to delete one DatabaseUserAction.
      * @example
-     * // Delete one DatabasePasswordReset
-     * const DatabasePasswordReset = await prisma.databasePasswordReset.delete({
+     * // Delete one DatabaseUserAction
+     * const DatabaseUserAction = await prisma.databaseUserAction.delete({
      *   where: {
-     *     // ... filter to delete one DatabasePasswordReset
+     *     // ... filter to delete one DatabaseUserAction
      *   }
      * })
      * 
     **/
-    delete<T extends DatabasePasswordResetDeleteArgs>(
-      args: SelectSubset<T, DatabasePasswordResetDeleteArgs>
-    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+    delete<T extends DatabaseUserActionDeleteArgs>(
+      args: SelectSubset<T, DatabaseUserActionDeleteArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>>
 
     /**
-     * Update one DatabasePasswordReset.
-     * @param {DatabasePasswordResetUpdateArgs} args - Arguments to update one DatabasePasswordReset.
+     * Update one DatabaseUserAction.
+     * @param {DatabaseUserActionUpdateArgs} args - Arguments to update one DatabaseUserAction.
      * @example
-     * // Update one DatabasePasswordReset
-     * const databasePasswordReset = await prisma.databasePasswordReset.update({
+     * // Update one DatabaseUserAction
+     * const databaseUserAction = await prisma.databaseUserAction.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2132,34 +2140,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends DatabasePasswordResetUpdateArgs>(
-      args: SelectSubset<T, DatabasePasswordResetUpdateArgs>
-    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+    update<T extends DatabaseUserActionUpdateArgs>(
+      args: SelectSubset<T, DatabaseUserActionUpdateArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>>
 
     /**
-     * Delete zero or more DatabasePasswordResets.
-     * @param {DatabasePasswordResetDeleteManyArgs} args - Arguments to filter DatabasePasswordResets to delete.
+     * Delete zero or more DatabaseUserActions.
+     * @param {DatabaseUserActionDeleteManyArgs} args - Arguments to filter DatabaseUserActions to delete.
      * @example
-     * // Delete a few DatabasePasswordResets
-     * const { count } = await prisma.databasePasswordReset.deleteMany({
+     * // Delete a few DatabaseUserActions
+     * const { count } = await prisma.databaseUserAction.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends DatabasePasswordResetDeleteManyArgs>(
-      args?: SelectSubset<T, DatabasePasswordResetDeleteManyArgs>
+    deleteMany<T extends DatabaseUserActionDeleteManyArgs>(
+      args?: SelectSubset<T, DatabaseUserActionDeleteManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more DatabasePasswordResets.
+     * Update zero or more DatabaseUserActions.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabasePasswordResetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {DatabaseUserActionUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many DatabasePasswordResets
-     * const databasePasswordReset = await prisma.databasePasswordReset.updateMany({
+     * // Update many DatabaseUserActions
+     * const databaseUserAction = await prisma.databaseUserAction.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2169,59 +2177,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends DatabasePasswordResetUpdateManyArgs>(
-      args: SelectSubset<T, DatabasePasswordResetUpdateManyArgs>
+    updateMany<T extends DatabaseUserActionUpdateManyArgs>(
+      args: SelectSubset<T, DatabaseUserActionUpdateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one DatabasePasswordReset.
-     * @param {DatabasePasswordResetUpsertArgs} args - Arguments to update or create a DatabasePasswordReset.
+     * Create or update one DatabaseUserAction.
+     * @param {DatabaseUserActionUpsertArgs} args - Arguments to update or create a DatabaseUserAction.
      * @example
-     * // Update or create a DatabasePasswordReset
-     * const databasePasswordReset = await prisma.databasePasswordReset.upsert({
+     * // Update or create a DatabaseUserAction
+     * const databaseUserAction = await prisma.databaseUserAction.upsert({
      *   create: {
-     *     // ... data to create a DatabasePasswordReset
+     *     // ... data to create a DatabaseUserAction
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the DatabasePasswordReset we want to update
+     *     // ... the filter for the DatabaseUserAction we want to update
      *   }
      * })
     **/
-    upsert<T extends DatabasePasswordResetUpsertArgs>(
-      args: SelectSubset<T, DatabasePasswordResetUpsertArgs>
-    ): CheckSelect<T, Prisma__DatabasePasswordResetClient<DatabasePasswordReset>, Prisma__DatabasePasswordResetClient<DatabasePasswordResetGetPayload<T>>>
+    upsert<T extends DatabaseUserActionUpsertArgs>(
+      args: SelectSubset<T, DatabaseUserActionUpsertArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>>
 
     /**
-     * Count the number of DatabasePasswordResets.
+     * Count the number of DatabaseUserActions.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabasePasswordResetCountArgs} args - Arguments to filter DatabasePasswordResets to count.
+     * @param {DatabaseUserActionCountArgs} args - Arguments to filter DatabaseUserActions to count.
      * @example
-     * // Count the number of DatabasePasswordResets
-     * const count = await prisma.databasePasswordReset.count({
+     * // Count the number of DatabaseUserActions
+     * const count = await prisma.databaseUserAction.count({
      *   where: {
-     *     // ... the filter for the DatabasePasswordResets we want to count
+     *     // ... the filter for the DatabaseUserActions we want to count
      *   }
      * })
     **/
-    count<T extends DatabasePasswordResetCountArgs>(
-      args?: Subset<T, DatabasePasswordResetCountArgs>,
+    count<T extends DatabaseUserActionCountArgs>(
+      args?: Subset<T, DatabaseUserActionCountArgs>,
     ): PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], DatabasePasswordResetCountAggregateOutputType>
+          : GetScalarType<T['select'], DatabaseUserActionCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a DatabasePasswordReset.
+     * Allows you to perform aggregations operations on a DatabaseUserAction.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabasePasswordResetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {DatabaseUserActionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -2241,13 +2249,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends DatabasePasswordResetAggregateArgs>(args: Subset<T, DatabasePasswordResetAggregateArgs>): PrismaPromise<GetDatabasePasswordResetAggregateType<T>>
+    aggregate<T extends DatabaseUserActionAggregateArgs>(args: Subset<T, DatabaseUserActionAggregateArgs>): PrismaPromise<GetDatabaseUserActionAggregateType<T>>
 
     /**
-     * Group by DatabasePasswordReset.
+     * Group by DatabaseUserAction.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DatabasePasswordResetGroupByArgs} args - Group by arguments.
+     * @param {DatabaseUserActionGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -2262,14 +2270,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends DatabasePasswordResetGroupByArgs,
+      T extends DatabaseUserActionGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DatabasePasswordResetGroupByArgs['orderBy'] }
-        : { orderBy?: DatabasePasswordResetGroupByArgs['orderBy'] },
+        ? { orderBy: DatabaseUserActionGroupByArgs['orderBy'] }
+        : { orderBy?: DatabaseUserActionGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -2318,16 +2326,16 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, DatabasePasswordResetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDatabasePasswordResetGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, DatabaseUserActionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDatabaseUserActionGroupByPayload<T> : PrismaPromise<InputErrors>
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for DatabasePasswordReset.
+   * The delegate class that acts as a "Promise-like" for DatabaseUserAction.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__DatabasePasswordResetClient<T> implements PrismaPromise<T> {
+  export class Prisma__DatabaseUserActionClient<T> implements PrismaPromise<T> {
     [prisma]: true;
     private readonly _dmmf;
     private readonly _fetcher;
@@ -2372,304 +2380,304 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * DatabasePasswordReset findUnique
+   * DatabaseUserAction findUnique
    */
-  export type DatabasePasswordResetFindUniqueArgs = {
+  export type DatabaseUserActionFindUniqueArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
     /**
-     * Throw an Error if a DatabasePasswordReset can't be found
+     * Throw an Error if a DatabaseUserAction can't be found
      * 
     **/
     rejectOnNotFound?: RejectOnNotFound
     /**
-     * Filter, which DatabasePasswordReset to fetch.
+     * Filter, which DatabaseUserAction to fetch.
      * 
     **/
-    where: DatabasePasswordResetWhereUniqueInput
+    where: DatabaseUserActionWhereUniqueInput
   }
 
 
   /**
-   * DatabasePasswordReset findFirst
+   * DatabaseUserAction findFirst
    */
-  export type DatabasePasswordResetFindFirstArgs = {
+  export type DatabaseUserActionFindFirstArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
     /**
-     * Throw an Error if a DatabasePasswordReset can't be found
+     * Throw an Error if a DatabaseUserAction can't be found
      * 
     **/
     rejectOnNotFound?: RejectOnNotFound
     /**
-     * Filter, which DatabasePasswordReset to fetch.
+     * Filter, which DatabaseUserAction to fetch.
      * 
     **/
-    where?: DatabasePasswordResetWhereInput
+    where?: DatabaseUserActionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of DatabasePasswordResets to fetch.
+     * Determine the order of DatabaseUserActions to fetch.
      * 
     **/
-    orderBy?: Enumerable<DatabasePasswordResetOrderByWithRelationInput>
+    orderBy?: Enumerable<DatabaseUserActionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for DatabasePasswordResets.
+     * Sets the position for searching for DatabaseUserActions.
      * 
     **/
-    cursor?: DatabasePasswordResetWhereUniqueInput
+    cursor?: DatabaseUserActionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` DatabasePasswordResets from the position of the cursor.
+     * Take `±n` DatabaseUserActions from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` DatabasePasswordResets.
+     * Skip the first `n` DatabaseUserActions.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of DatabasePasswordResets.
+     * Filter by unique combinations of DatabaseUserActions.
      * 
     **/
-    distinct?: Enumerable<DatabasePasswordResetScalarFieldEnum>
+    distinct?: Enumerable<DatabaseUserActionScalarFieldEnum>
   }
 
 
   /**
-   * DatabasePasswordReset findMany
+   * DatabaseUserAction findMany
    */
-  export type DatabasePasswordResetFindManyArgs = {
+  export type DatabaseUserActionFindManyArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
     /**
-     * Filter, which DatabasePasswordResets to fetch.
+     * Filter, which DatabaseUserActions to fetch.
      * 
     **/
-    where?: DatabasePasswordResetWhereInput
+    where?: DatabaseUserActionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of DatabasePasswordResets to fetch.
+     * Determine the order of DatabaseUserActions to fetch.
      * 
     **/
-    orderBy?: Enumerable<DatabasePasswordResetOrderByWithRelationInput>
+    orderBy?: Enumerable<DatabaseUserActionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing DatabasePasswordResets.
+     * Sets the position for listing DatabaseUserActions.
      * 
     **/
-    cursor?: DatabasePasswordResetWhereUniqueInput
+    cursor?: DatabaseUserActionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` DatabasePasswordResets from the position of the cursor.
+     * Take `±n` DatabaseUserActions from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` DatabasePasswordResets.
+     * Skip the first `n` DatabaseUserActions.
      * 
     **/
     skip?: number
-    distinct?: Enumerable<DatabasePasswordResetScalarFieldEnum>
+    distinct?: Enumerable<DatabaseUserActionScalarFieldEnum>
   }
 
 
   /**
-   * DatabasePasswordReset create
+   * DatabaseUserAction create
    */
-  export type DatabasePasswordResetCreateArgs = {
+  export type DatabaseUserActionCreateArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
     /**
-     * The data needed to create a DatabasePasswordReset.
+     * The data needed to create a DatabaseUserAction.
      * 
     **/
-    data: XOR<DatabasePasswordResetCreateInput, DatabasePasswordResetUncheckedCreateInput>
+    data: XOR<DatabaseUserActionCreateInput, DatabaseUserActionUncheckedCreateInput>
   }
 
 
   /**
-   * DatabasePasswordReset createMany
+   * DatabaseUserAction createMany
    */
-  export type DatabasePasswordResetCreateManyArgs = {
+  export type DatabaseUserActionCreateManyArgs = {
     /**
-     * The data used to create many DatabasePasswordResets.
+     * The data used to create many DatabaseUserActions.
      * 
     **/
-    data: Enumerable<DatabasePasswordResetCreateManyInput>
+    data: Enumerable<DatabaseUserActionCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * DatabasePasswordReset update
+   * DatabaseUserAction update
    */
-  export type DatabasePasswordResetUpdateArgs = {
+  export type DatabaseUserActionUpdateArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
     /**
-     * The data needed to update a DatabasePasswordReset.
+     * The data needed to update a DatabaseUserAction.
      * 
     **/
-    data: XOR<DatabasePasswordResetUpdateInput, DatabasePasswordResetUncheckedUpdateInput>
+    data: XOR<DatabaseUserActionUpdateInput, DatabaseUserActionUncheckedUpdateInput>
     /**
-     * Choose, which DatabasePasswordReset to update.
+     * Choose, which DatabaseUserAction to update.
      * 
     **/
-    where: DatabasePasswordResetWhereUniqueInput
+    where: DatabaseUserActionWhereUniqueInput
   }
 
 
   /**
-   * DatabasePasswordReset updateMany
+   * DatabaseUserAction updateMany
    */
-  export type DatabasePasswordResetUpdateManyArgs = {
+  export type DatabaseUserActionUpdateManyArgs = {
     /**
-     * The data used to update DatabasePasswordResets.
+     * The data used to update DatabaseUserActions.
      * 
     **/
-    data: XOR<DatabasePasswordResetUpdateManyMutationInput, DatabasePasswordResetUncheckedUpdateManyInput>
+    data: XOR<DatabaseUserActionUpdateManyMutationInput, DatabaseUserActionUncheckedUpdateManyInput>
     /**
-     * Filter which DatabasePasswordResets to update
+     * Filter which DatabaseUserActions to update
      * 
     **/
-    where?: DatabasePasswordResetWhereInput
+    where?: DatabaseUserActionWhereInput
   }
 
 
   /**
-   * DatabasePasswordReset upsert
+   * DatabaseUserAction upsert
    */
-  export type DatabasePasswordResetUpsertArgs = {
+  export type DatabaseUserActionUpsertArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
     /**
-     * The filter to search for the DatabasePasswordReset to update in case it exists.
+     * The filter to search for the DatabaseUserAction to update in case it exists.
      * 
     **/
-    where: DatabasePasswordResetWhereUniqueInput
+    where: DatabaseUserActionWhereUniqueInput
     /**
-     * In case the DatabasePasswordReset found by the `where` argument doesn't exist, create a new DatabasePasswordReset with this data.
+     * In case the DatabaseUserAction found by the `where` argument doesn't exist, create a new DatabaseUserAction with this data.
      * 
     **/
-    create: XOR<DatabasePasswordResetCreateInput, DatabasePasswordResetUncheckedCreateInput>
+    create: XOR<DatabaseUserActionCreateInput, DatabaseUserActionUncheckedCreateInput>
     /**
-     * In case the DatabasePasswordReset was found with the provided `where` argument, update it with this data.
+     * In case the DatabaseUserAction was found with the provided `where` argument, update it with this data.
      * 
     **/
-    update: XOR<DatabasePasswordResetUpdateInput, DatabasePasswordResetUncheckedUpdateInput>
+    update: XOR<DatabaseUserActionUpdateInput, DatabaseUserActionUncheckedUpdateInput>
   }
 
 
   /**
-   * DatabasePasswordReset delete
+   * DatabaseUserAction delete
    */
-  export type DatabasePasswordResetDeleteArgs = {
+  export type DatabaseUserActionDeleteArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
     /**
-     * Filter which DatabasePasswordReset to delete.
+     * Filter which DatabaseUserAction to delete.
      * 
     **/
-    where: DatabasePasswordResetWhereUniqueInput
+    where: DatabaseUserActionWhereUniqueInput
   }
 
 
   /**
-   * DatabasePasswordReset deleteMany
+   * DatabaseUserAction deleteMany
    */
-  export type DatabasePasswordResetDeleteManyArgs = {
+  export type DatabaseUserActionDeleteManyArgs = {
     /**
-     * Filter which DatabasePasswordResets to delete
+     * Filter which DatabaseUserActions to delete
      * 
     **/
-    where?: DatabasePasswordResetWhereInput
+    where?: DatabaseUserActionWhereInput
   }
 
 
   /**
-   * DatabasePasswordReset without action
+   * DatabaseUserAction without action
    */
-  export type DatabasePasswordResetArgs = {
+  export type DatabaseUserActionArgs = {
     /**
-     * Select specific fields to fetch from the DatabasePasswordReset
+     * Select specific fields to fetch from the DatabaseUserAction
      * 
     **/
-    select?: DatabasePasswordResetSelect | null
+    select?: DatabaseUserActionSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: DatabasePasswordResetInclude | null
+    include?: DatabaseUserActionInclude | null
   }
 
 
@@ -4490,15 +4498,15 @@ export namespace Prisma {
   export type DatabaseUserScalarFieldEnum = (typeof DatabaseUserScalarFieldEnum)[keyof typeof DatabaseUserScalarFieldEnum]
 
 
-  export const DatabasePasswordResetScalarFieldEnum: {
+  export const DatabaseUserActionScalarFieldEnum: {
     id: 'id',
-    email: 'email',
     code: 'code',
+    type: 'type',
     createdAt: 'createdAt',
     userId: 'userId'
   };
 
-  export type DatabasePasswordResetScalarFieldEnum = (typeof DatabasePasswordResetScalarFieldEnum)[keyof typeof DatabasePasswordResetScalarFieldEnum]
+  export type DatabaseUserActionScalarFieldEnum = (typeof DatabaseUserActionScalarFieldEnum)[keyof typeof DatabaseUserActionScalarFieldEnum]
 
 
   export const DatabaseMangaScalarFieldEnum: {
@@ -4557,7 +4565,7 @@ export namespace Prisma {
     email?: StringFilter | string
     emailConfirmed?: BoolFilter | boolean
     password?: StringFilter | string
-    passwordResets?: DatabasePasswordResetListRelationFilter
+    actions?: DatabaseUserActionListRelationFilter
   }
 
   export type DatabaseUserOrderByWithRelationInput = {
@@ -4566,7 +4574,7 @@ export namespace Prisma {
     email?: SortOrder
     emailConfirmed?: SortOrder
     password?: SortOrder
-    passwordResets?: DatabasePasswordResetOrderByRelationAggregateInput
+    actions?: DatabaseUserActionOrderByRelationAggregateInput
   }
 
   export type DatabaseUserWhereUniqueInput = {
@@ -4597,50 +4605,50 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter | string
   }
 
-  export type DatabasePasswordResetWhereInput = {
-    AND?: Enumerable<DatabasePasswordResetWhereInput>
-    OR?: Enumerable<DatabasePasswordResetWhereInput>
-    NOT?: Enumerable<DatabasePasswordResetWhereInput>
+  export type DatabaseUserActionWhereInput = {
+    AND?: Enumerable<DatabaseUserActionWhereInput>
+    OR?: Enumerable<DatabaseUserActionWhereInput>
+    NOT?: Enumerable<DatabaseUserActionWhereInput>
     id?: StringFilter | string
-    email?: StringFilter | string
     code?: StringFilter | string
+    type?: EnumDatabaseUserActionTypeFilter | DatabaseUserActionType
     createdAt?: DateTimeFilter | Date | string
     userId?: StringFilter | string
     user?: XOR<DatabaseUserRelationFilter, DatabaseUserWhereInput>
   }
 
-  export type DatabasePasswordResetOrderByWithRelationInput = {
+  export type DatabaseUserActionOrderByWithRelationInput = {
     id?: SortOrder
-    email?: SortOrder
     code?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
     user?: DatabaseUserOrderByWithRelationInput
   }
 
-  export type DatabasePasswordResetWhereUniqueInput = {
+  export type DatabaseUserActionWhereUniqueInput = {
     id?: string
     code?: string
   }
 
-  export type DatabasePasswordResetOrderByWithAggregationInput = {
+  export type DatabaseUserActionOrderByWithAggregationInput = {
     id?: SortOrder
-    email?: SortOrder
     code?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
-    _count?: DatabasePasswordResetCountOrderByAggregateInput
-    _max?: DatabasePasswordResetMaxOrderByAggregateInput
-    _min?: DatabasePasswordResetMinOrderByAggregateInput
+    _count?: DatabaseUserActionCountOrderByAggregateInput
+    _max?: DatabaseUserActionMaxOrderByAggregateInput
+    _min?: DatabaseUserActionMinOrderByAggregateInput
   }
 
-  export type DatabasePasswordResetScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<DatabasePasswordResetScalarWhereWithAggregatesInput>
-    OR?: Enumerable<DatabasePasswordResetScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<DatabasePasswordResetScalarWhereWithAggregatesInput>
+  export type DatabaseUserActionScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<DatabaseUserActionScalarWhereWithAggregatesInput>
+    OR?: Enumerable<DatabaseUserActionScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<DatabaseUserActionScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    email?: StringWithAggregatesFilter | string
     code?: StringWithAggregatesFilter | string
+    type?: EnumDatabaseUserActionTypeWithAggregatesFilter | DatabaseUserActionType
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     userId?: StringWithAggregatesFilter | string
   }
@@ -4764,7 +4772,7 @@ export namespace Prisma {
     email: string
     emailConfirmed?: boolean
     password: string
-    passwordResets?: DatabasePasswordResetCreateNestedManyWithoutUserInput
+    actions?: DatabaseUserActionCreateNestedManyWithoutUserInput
   }
 
   export type DatabaseUserUncheckedCreateInput = {
@@ -4773,7 +4781,7 @@ export namespace Prisma {
     email: string
     emailConfirmed?: boolean
     password: string
-    passwordResets?: DatabasePasswordResetUncheckedCreateNestedManyWithoutUserInput
+    actions?: DatabaseUserActionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type DatabaseUserUpdateInput = {
@@ -4782,7 +4790,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
-    passwordResets?: DatabasePasswordResetUpdateManyWithoutUserInput
+    actions?: DatabaseUserActionUpdateManyWithoutUserInput
   }
 
   export type DatabaseUserUncheckedUpdateInput = {
@@ -4791,7 +4799,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
-    passwordResets?: DatabasePasswordResetUncheckedUpdateManyWithoutUserInput
+    actions?: DatabaseUserActionUncheckedUpdateManyWithoutUserInput
   }
 
   export type DatabaseUserCreateManyInput = {
@@ -4818,57 +4826,57 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DatabasePasswordResetCreateInput = {
+  export type DatabaseUserActionCreateInput = {
     id?: string
-    email: string
-    code: string
+    code?: string
+    type: DatabaseUserActionType
     createdAt?: Date | string
-    user: DatabaseUserCreateNestedOneWithoutPasswordResetsInput
+    user: DatabaseUserCreateNestedOneWithoutActionsInput
   }
 
-  export type DatabasePasswordResetUncheckedCreateInput = {
+  export type DatabaseUserActionUncheckedCreateInput = {
     id?: string
-    email: string
-    code: string
+    code?: string
+    type: DatabaseUserActionType
     createdAt?: Date | string
     userId: string
   }
 
-  export type DatabasePasswordResetUpdateInput = {
+  export type DatabaseUserActionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: DatabaseUserUpdateOneRequiredWithoutPasswordResetsInput
+    user?: DatabaseUserUpdateOneRequiredWithoutActionsInput
   }
 
-  export type DatabasePasswordResetUncheckedUpdateInput = {
+  export type DatabaseUserActionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DatabasePasswordResetCreateManyInput = {
+  export type DatabaseUserActionCreateManyInput = {
     id?: string
-    email: string
-    code: string
+    code?: string
+    type: DatabaseUserActionType
     createdAt?: Date | string
     userId: string
   }
 
-  export type DatabasePasswordResetUpdateManyMutationInput = {
+  export type DatabaseUserActionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DatabasePasswordResetUncheckedUpdateManyInput = {
+  export type DatabaseUserActionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
@@ -5036,13 +5044,13 @@ export namespace Prisma {
     not?: NestedBoolFilter | boolean
   }
 
-  export type DatabasePasswordResetListRelationFilter = {
-    every?: DatabasePasswordResetWhereInput
-    some?: DatabasePasswordResetWhereInput
-    none?: DatabasePasswordResetWhereInput
+  export type DatabaseUserActionListRelationFilter = {
+    every?: DatabaseUserActionWhereInput
+    some?: DatabaseUserActionWhereInput
+    none?: DatabaseUserActionWhereInput
   }
 
-  export type DatabasePasswordResetOrderByRelationAggregateInput = {
+  export type DatabaseUserActionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5096,6 +5104,13 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type EnumDatabaseUserActionTypeFilter = {
+    equals?: DatabaseUserActionType
+    in?: Enumerable<DatabaseUserActionType>
+    notIn?: Enumerable<DatabaseUserActionType>
+    not?: NestedEnumDatabaseUserActionTypeFilter | DatabaseUserActionType
+  }
+
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -5112,28 +5127,38 @@ export namespace Prisma {
     isNot?: DatabaseUserWhereInput
   }
 
-  export type DatabasePasswordResetCountOrderByAggregateInput = {
+  export type DatabaseUserActionCountOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     code?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
   }
 
-  export type DatabasePasswordResetMaxOrderByAggregateInput = {
+  export type DatabaseUserActionMaxOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     code?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
   }
 
-  export type DatabasePasswordResetMinOrderByAggregateInput = {
+  export type DatabaseUserActionMinOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     code?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
+  }
+
+  export type EnumDatabaseUserActionTypeWithAggregatesFilter = {
+    equals?: DatabaseUserActionType
+    in?: Enumerable<DatabaseUserActionType>
+    notIn?: Enumerable<DatabaseUserActionType>
+    not?: NestedEnumDatabaseUserActionTypeWithAggregatesFilter | DatabaseUserActionType
+    _count?: NestedIntFilter
+    _min?: NestedEnumDatabaseUserActionTypeFilter
+    _max?: NestedEnumDatabaseUserActionTypeFilter
   }
 
   export type DateTimeWithAggregatesFilter = {
@@ -5357,18 +5382,18 @@ export namespace Prisma {
     _max?: NestedFloatFilter
   }
 
-  export type DatabasePasswordResetCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
-    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
-    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+  export type DatabaseUserActionCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabaseUserActionCreateWithoutUserInput>, Enumerable<DatabaseUserActionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabaseUserActionCreateOrConnectWithoutUserInput>
+    createMany?: DatabaseUserActionCreateManyUserInputEnvelope
+    connect?: Enumerable<DatabaseUserActionWhereUniqueInput>
   }
 
-  export type DatabasePasswordResetUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
-    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
-    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
+  export type DatabaseUserActionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabaseUserActionCreateWithoutUserInput>, Enumerable<DatabaseUserActionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabaseUserActionCreateOrConnectWithoutUserInput>
+    createMany?: DatabaseUserActionCreateManyUserInputEnvelope
+    connect?: Enumerable<DatabaseUserActionWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5379,50 +5404,54 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type DatabasePasswordResetUpdateManyWithoutUserInput = {
-    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<DatabasePasswordResetUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
-    set?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    disconnect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    delete?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    update?: Enumerable<DatabasePasswordResetUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<DatabasePasswordResetUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<DatabasePasswordResetScalarWhereInput>
+  export type DatabaseUserActionUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabaseUserActionCreateWithoutUserInput>, Enumerable<DatabaseUserActionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabaseUserActionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<DatabaseUserActionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: DatabaseUserActionCreateManyUserInputEnvelope
+    set?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    disconnect?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    delete?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    connect?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    update?: Enumerable<DatabaseUserActionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<DatabaseUserActionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<DatabaseUserActionScalarWhereInput>
   }
 
-  export type DatabasePasswordResetUncheckedUpdateManyWithoutUserInput = {
-    create?: XOR<Enumerable<DatabasePasswordResetCreateWithoutUserInput>, Enumerable<DatabasePasswordResetUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<DatabasePasswordResetCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<DatabasePasswordResetUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: DatabasePasswordResetCreateManyUserInputEnvelope
-    set?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    disconnect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    delete?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    connect?: Enumerable<DatabasePasswordResetWhereUniqueInput>
-    update?: Enumerable<DatabasePasswordResetUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<DatabasePasswordResetUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<DatabasePasswordResetScalarWhereInput>
+  export type DatabaseUserActionUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<DatabaseUserActionCreateWithoutUserInput>, Enumerable<DatabaseUserActionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<DatabaseUserActionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<DatabaseUserActionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: DatabaseUserActionCreateManyUserInputEnvelope
+    set?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    disconnect?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    delete?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    connect?: Enumerable<DatabaseUserActionWhereUniqueInput>
+    update?: Enumerable<DatabaseUserActionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<DatabaseUserActionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<DatabaseUserActionScalarWhereInput>
   }
 
-  export type DatabaseUserCreateNestedOneWithoutPasswordResetsInput = {
-    create?: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
-    connectOrCreate?: DatabaseUserCreateOrConnectWithoutPasswordResetsInput
+  export type DatabaseUserCreateNestedOneWithoutActionsInput = {
+    create?: XOR<DatabaseUserCreateWithoutActionsInput, DatabaseUserUncheckedCreateWithoutActionsInput>
+    connectOrCreate?: DatabaseUserCreateOrConnectWithoutActionsInput
     connect?: DatabaseUserWhereUniqueInput
+  }
+
+  export type EnumDatabaseUserActionTypeFieldUpdateOperationsInput = {
+    set?: DatabaseUserActionType
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type DatabaseUserUpdateOneRequiredWithoutPasswordResetsInput = {
-    create?: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
-    connectOrCreate?: DatabaseUserCreateOrConnectWithoutPasswordResetsInput
-    upsert?: DatabaseUserUpsertWithoutPasswordResetsInput
+  export type DatabaseUserUpdateOneRequiredWithoutActionsInput = {
+    create?: XOR<DatabaseUserCreateWithoutActionsInput, DatabaseUserUncheckedCreateWithoutActionsInput>
+    connectOrCreate?: DatabaseUserCreateOrConnectWithoutActionsInput
+    upsert?: DatabaseUserUpsertWithoutActionsInput
     connect?: DatabaseUserWhereUniqueInput
-    update?: XOR<DatabaseUserUpdateWithoutPasswordResetsInput, DatabaseUserUncheckedUpdateWithoutPasswordResetsInput>
+    update?: XOR<DatabaseUserUpdateWithoutActionsInput, DatabaseUserUncheckedUpdateWithoutActionsInput>
   }
 
   export type DatabaseImageCreateNestedManyWithoutTargetMangaInput = {
@@ -5562,6 +5591,13 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type NestedEnumDatabaseUserActionTypeFilter = {
+    equals?: DatabaseUserActionType
+    in?: Enumerable<DatabaseUserActionType>
+    notIn?: Enumerable<DatabaseUserActionType>
+    not?: NestedEnumDatabaseUserActionTypeFilter | DatabaseUserActionType
+  }
+
   export type NestedDateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -5571,6 +5607,16 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedEnumDatabaseUserActionTypeWithAggregatesFilter = {
+    equals?: DatabaseUserActionType
+    in?: Enumerable<DatabaseUserActionType>
+    notIn?: Enumerable<DatabaseUserActionType>
+    not?: NestedEnumDatabaseUserActionTypeWithAggregatesFilter | DatabaseUserActionType
+    _count?: NestedIntFilter
+    _min?: NestedEnumDatabaseUserActionTypeFilter
+    _max?: NestedEnumDatabaseUserActionTypeFilter
   }
 
   export type NestedDateTimeWithAggregatesFilter = {
@@ -5715,58 +5761,58 @@ export namespace Prisma {
     _max?: NestedFloatFilter
   }
 
-  export type DatabasePasswordResetCreateWithoutUserInput = {
+  export type DatabaseUserActionCreateWithoutUserInput = {
     id?: string
-    email: string
-    code: string
+    code?: string
+    type: DatabaseUserActionType
     createdAt?: Date | string
   }
 
-  export type DatabasePasswordResetUncheckedCreateWithoutUserInput = {
+  export type DatabaseUserActionUncheckedCreateWithoutUserInput = {
     id?: string
-    email: string
-    code: string
+    code?: string
+    type: DatabaseUserActionType
     createdAt?: Date | string
   }
 
-  export type DatabasePasswordResetCreateOrConnectWithoutUserInput = {
-    where: DatabasePasswordResetWhereUniqueInput
-    create: XOR<DatabasePasswordResetCreateWithoutUserInput, DatabasePasswordResetUncheckedCreateWithoutUserInput>
+  export type DatabaseUserActionCreateOrConnectWithoutUserInput = {
+    where: DatabaseUserActionWhereUniqueInput
+    create: XOR<DatabaseUserActionCreateWithoutUserInput, DatabaseUserActionUncheckedCreateWithoutUserInput>
   }
 
-  export type DatabasePasswordResetCreateManyUserInputEnvelope = {
-    data: Enumerable<DatabasePasswordResetCreateManyUserInput>
+  export type DatabaseUserActionCreateManyUserInputEnvelope = {
+    data: Enumerable<DatabaseUserActionCreateManyUserInput>
     skipDuplicates?: boolean
   }
 
-  export type DatabasePasswordResetUpsertWithWhereUniqueWithoutUserInput = {
-    where: DatabasePasswordResetWhereUniqueInput
-    update: XOR<DatabasePasswordResetUpdateWithoutUserInput, DatabasePasswordResetUncheckedUpdateWithoutUserInput>
-    create: XOR<DatabasePasswordResetCreateWithoutUserInput, DatabasePasswordResetUncheckedCreateWithoutUserInput>
+  export type DatabaseUserActionUpsertWithWhereUniqueWithoutUserInput = {
+    where: DatabaseUserActionWhereUniqueInput
+    update: XOR<DatabaseUserActionUpdateWithoutUserInput, DatabaseUserActionUncheckedUpdateWithoutUserInput>
+    create: XOR<DatabaseUserActionCreateWithoutUserInput, DatabaseUserActionUncheckedCreateWithoutUserInput>
   }
 
-  export type DatabasePasswordResetUpdateWithWhereUniqueWithoutUserInput = {
-    where: DatabasePasswordResetWhereUniqueInput
-    data: XOR<DatabasePasswordResetUpdateWithoutUserInput, DatabasePasswordResetUncheckedUpdateWithoutUserInput>
+  export type DatabaseUserActionUpdateWithWhereUniqueWithoutUserInput = {
+    where: DatabaseUserActionWhereUniqueInput
+    data: XOR<DatabaseUserActionUpdateWithoutUserInput, DatabaseUserActionUncheckedUpdateWithoutUserInput>
   }
 
-  export type DatabasePasswordResetUpdateManyWithWhereWithoutUserInput = {
-    where: DatabasePasswordResetScalarWhereInput
-    data: XOR<DatabasePasswordResetUpdateManyMutationInput, DatabasePasswordResetUncheckedUpdateManyWithoutPasswordResetsInput>
+  export type DatabaseUserActionUpdateManyWithWhereWithoutUserInput = {
+    where: DatabaseUserActionScalarWhereInput
+    data: XOR<DatabaseUserActionUpdateManyMutationInput, DatabaseUserActionUncheckedUpdateManyWithoutActionsInput>
   }
 
-  export type DatabasePasswordResetScalarWhereInput = {
-    AND?: Enumerable<DatabasePasswordResetScalarWhereInput>
-    OR?: Enumerable<DatabasePasswordResetScalarWhereInput>
-    NOT?: Enumerable<DatabasePasswordResetScalarWhereInput>
+  export type DatabaseUserActionScalarWhereInput = {
+    AND?: Enumerable<DatabaseUserActionScalarWhereInput>
+    OR?: Enumerable<DatabaseUserActionScalarWhereInput>
+    NOT?: Enumerable<DatabaseUserActionScalarWhereInput>
     id?: StringFilter | string
-    email?: StringFilter | string
     code?: StringFilter | string
+    type?: EnumDatabaseUserActionTypeFilter | DatabaseUserActionType
     createdAt?: DateTimeFilter | Date | string
     userId?: StringFilter | string
   }
 
-  export type DatabaseUserCreateWithoutPasswordResetsInput = {
+  export type DatabaseUserCreateWithoutActionsInput = {
     id?: string
     username: string
     email: string
@@ -5774,7 +5820,7 @@ export namespace Prisma {
     password: string
   }
 
-  export type DatabaseUserUncheckedCreateWithoutPasswordResetsInput = {
+  export type DatabaseUserUncheckedCreateWithoutActionsInput = {
     id?: string
     username: string
     email: string
@@ -5782,17 +5828,17 @@ export namespace Prisma {
     password: string
   }
 
-  export type DatabaseUserCreateOrConnectWithoutPasswordResetsInput = {
+  export type DatabaseUserCreateOrConnectWithoutActionsInput = {
     where: DatabaseUserWhereUniqueInput
-    create: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
+    create: XOR<DatabaseUserCreateWithoutActionsInput, DatabaseUserUncheckedCreateWithoutActionsInput>
   }
 
-  export type DatabaseUserUpsertWithoutPasswordResetsInput = {
-    update: XOR<DatabaseUserUpdateWithoutPasswordResetsInput, DatabaseUserUncheckedUpdateWithoutPasswordResetsInput>
-    create: XOR<DatabaseUserCreateWithoutPasswordResetsInput, DatabaseUserUncheckedCreateWithoutPasswordResetsInput>
+  export type DatabaseUserUpsertWithoutActionsInput = {
+    update: XOR<DatabaseUserUpdateWithoutActionsInput, DatabaseUserUncheckedUpdateWithoutActionsInput>
+    create: XOR<DatabaseUserCreateWithoutActionsInput, DatabaseUserUncheckedCreateWithoutActionsInput>
   }
 
-  export type DatabaseUserUpdateWithoutPasswordResetsInput = {
+  export type DatabaseUserUpdateWithoutActionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -5800,7 +5846,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DatabaseUserUncheckedUpdateWithoutPasswordResetsInput = {
+  export type DatabaseUserUncheckedUpdateWithoutActionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -5918,31 +5964,31 @@ export namespace Prisma {
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type DatabasePasswordResetCreateManyUserInput = {
+  export type DatabaseUserActionCreateManyUserInput = {
     id?: string
-    email: string
-    code: string
+    code?: string
+    type: DatabaseUserActionType
     createdAt?: Date | string
   }
 
-  export type DatabasePasswordResetUpdateWithoutUserInput = {
+  export type DatabaseUserActionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DatabasePasswordResetUncheckedUpdateWithoutUserInput = {
+  export type DatabaseUserActionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DatabasePasswordResetUncheckedUpdateManyWithoutPasswordResetsInput = {
+  export type DatabaseUserActionUncheckedUpdateManyWithoutActionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
