@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs/common';
+import { IsEmail, IsJWT, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Response } from 'express';
 import { PublicUrlService } from '../../core';
 import { AuthStrategy } from './auth.strategy';
@@ -6,13 +7,19 @@ import { PasswordResetService, ResetPasswordState } from './password-reset.servi
 import { SignUpService } from './sign-up.service';
 import { SignInService } from './sign-in.service';
 
-interface SignInBody {
-    email: string;
-    password: string;
+class SignInBody {
+    @IsEmail()
+    public email: string;
+
+    @IsNotEmpty()
+    @IsString()
+    public password: string;
 }
 
-interface GoogleCredentialsBody {
-    credential: string;
+class GoogleCredentialsBody {
+    @IsNotEmpty()
+    @IsJWT()
+    public credential: string;
 }
 
 interface SignInRender {
@@ -20,19 +27,31 @@ interface SignInRender {
     error?: string;
 }
 
-interface SignUpBody {
-    username: string;
-    email: string;
-    password: string;
+class SignUpBody {
+    @IsNotEmpty()
+    @IsString()
+    public username: string;
+
+    @IsEmail()
+    public email: string;
+
+    @IsNotEmpty()
+    @IsString()
+    public password: string;
 }
 
-interface AskResetPasswordBody {
-    email: string;
+class AskResetPasswordBody {
+    @IsEmail()
+    public email: string;
 }
 
-interface ResetPasswordBody {
-    password: string;
-    code: string;
+class ResetPasswordBody {
+    @IsNotEmpty()
+    @IsString()
+    public password: string;
+
+    @IsUUID()
+    public code: string;
 }
 
 interface SuccessResponse {
