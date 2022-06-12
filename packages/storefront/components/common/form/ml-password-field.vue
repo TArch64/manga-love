@@ -16,7 +16,7 @@
                 :class="visibilityButtonClasses"
                 @click="togglePasswordVisibility"
             >
-                <MlIcon name="password-visibility" size="20px" />
+                <MlIcon type="auth" name="password-visibility" size="20px" />
             </MlButton>
         </template>
     </MlFormField>
