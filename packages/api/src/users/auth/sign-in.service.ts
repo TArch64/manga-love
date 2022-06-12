@@ -24,8 +24,6 @@ export class SignInService {
     ) {}
 
     public async signIn(email: string, password: string): Promise<string>  {
-        if (!email || !password) this.throwUnauthorizedException();
-
         const user = await this.usersRepository.getUserByEmail(email);
         const isMatchPassword = user && await this.passwordService.compare(password, user.password);
 

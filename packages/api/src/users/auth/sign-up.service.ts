@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserActionsRepository, UsersRepository } from '../repository';
 import { MailerService } from '../../mailer';
-import { PublicUrlService, TypedError } from '../../core';
+import { PublicUrlService } from '../../core';
 import { DatabaseUser, DatabaseUserAction, DatabaseUserActionType, handleUniqueConstrain, Prisma } from '../../prisma';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
@@ -20,10 +20,6 @@ export class SignUpService {
     ) {}
 
     public async signUp(input: Prisma.DatabaseUserCreateInput): Promise<string> {
-        if (!input.email || !input.password || !input.username) {
-            throw new TypedError('invalid-request');
-        }
-
         try {
             input.password = await this.passwordService.encrypt(input.password);
             const user = await this.usersRepository.create(input);

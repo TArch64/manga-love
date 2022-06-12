@@ -50,7 +50,7 @@ export class PasswordResetService {
     public async resetPassword(code: string, password: string): Promise<string> {
         const action = await this.userActionsRepository.getByCode(code);
 
-        if (!action || !password) {
+        if (!action) {
             throw new TypedError('unknown');
         }
 
