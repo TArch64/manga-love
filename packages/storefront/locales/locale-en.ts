@@ -50,8 +50,9 @@ export default {
             toForgot: 'Try again',
             toSignUp: 'Sign up',
 
-            errors: {
-                invalidCode: 'Sorry but seems like this link is not valid'
+            error: {
+                title: 'Ooops...',
+                description: 'Sorry but seems like this link is not valid'
             }
         },
 
