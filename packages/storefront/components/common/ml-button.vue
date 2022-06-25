@@ -22,6 +22,7 @@ export enum ButtonType {
 
 export enum ButtonSkin {
     PRIMARY = 'primary',
+    OUTLINED = 'outlined',
     FLAT = 'flat'
 }
 
@@ -103,6 +104,8 @@ export default defineComponent({
     display: inline-flex;
     justify-content: center;
     cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover,
     &:focus {
@@ -150,6 +153,33 @@ export default defineComponent({
 
     &.ml-button--loading::after {
         --loader-color: #FFF;
+    }
+}
+
+.ml-button--outlined {
+    border: 1px solid #242424;
+    border-radius: 8px;
+    color: #242424;
+    position: relative;
+    transition: opacity 0.1s ease-out;
+    will-change: opacity;
+
+    &:active,
+    &:visited {
+        color: #242424;
+    }
+
+    &:not(.ml-button--loading):disabled {
+        border-color: #DBDBDB;
+    }
+
+    &:not(:disabled):hover,
+    &:not(:disabled):focus {
+        opacity: 0.8;
+    }
+
+    &.ml-button--loading::after {
+        --loader-color: #242424;
     }
 }
 

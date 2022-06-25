@@ -35,7 +35,8 @@ import { computed, defineComponent, PropType } from '@nuxtjs/composition-api';
 import { MlIcon } from '../common';
 
 enum ResultType {
-    SUCCESS = 'success'
+    SUCCESS = 'success',
+    ERROR = 'error'
 }
 
 export default defineComponent({

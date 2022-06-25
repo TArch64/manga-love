@@ -58,7 +58,13 @@ export default {
         emailVerification: {
             title: 'Hi, {name}',
             description: 'You can confirm your email by clicking on the button bellow. If you did not registered, please ignore this letter.',
-            confirm: 'Confirm my email'
+            confirm: 'Confirm my email',
+            toHome: 'Back to home',
+
+            error: {
+                title: 'Ooops...',
+                description: 'This link for confirming email is expired or invalid'
+            }
         },
 
         form: {
