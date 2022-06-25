@@ -41,9 +41,16 @@ export interface ResetPasswordState {
     code: string;
 }
 
+export interface EmailVerificationState {
+    isValid: boolean;
+    code: string;
+    name: string;
+}
+
 interface State {
     currentUser: User | null;
     resetPasswordState: ResetPasswordState | null;
+    emailVerificationState: EmailVerificationState | null;
 }
 
 interface Actions {
@@ -54,6 +61,7 @@ interface Actions {
     askResetPassword(info: ForgotInfo): Promise<void>;
     loadResetPasswordState(code: string): Promise<void>;
     resetPassword(info: ResetPasswordInfo): Promise<void>;
+    loadEmailVerificationState(code: string): Promise<void>;
 }
 
 const apiHttp = useApiHttp();
@@ -61,7 +69,8 @@ const apiHttp = useApiHttp();
 export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
     state: () => ({
         currentUser: null,
-        resetPasswordState: null
+        resetPasswordState: null,
+        emailVerificationState: null
     }),
 
     actions: {
@@ -109,6 +118,11 @@ export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
                 password: info.password,
                 code: this.resetPasswordState?.code || ''
             });
+        },
+
+        async loadEmailVerificationState(code: string) {
+            this.emailVerificationState = await apiHttp.get<EmailVerificationState>('auth/email-verification', { code });
+            this.emailVerificationState.code = code;
         }
     }
 });

@@ -1,42 +1,29 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserActionsRepository, UsersRepository } from '../repository';
-import { MailerService } from '../../mailer';
-import { PublicUrlService } from '../../core';
-import { DatabaseUser, DatabaseUserAction, DatabaseUserActionType, handleUniqueConstrain, Prisma } from '../../prisma';
+import { handleUniqueConstrain, Prisma } from '../../prisma';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
-import { EmailVerificationMail } from './emails';
+import { EmailVerificationService } from './email-verification.service';
 
 @Injectable()
 export class SignUpService {
     constructor(
         private readonly usersRepository: UsersRepository,
         private readonly userActionsRepository: UserActionsRepository,
-        private readonly mailerService: MailerService,
-        @Inject(PublicUrlService.STOREFRONT)
-        private readonly storefrontUrl: PublicUrlService,
         private readonly passwordService: AuthPasswordService,
-        private readonly authTokenService: AuthTokenService
+        private readonly authTokenService: AuthTokenService,
+        private readonly emailVerificationService: EmailVerificationService
     ) {}
 
     public async signUp(input: Prisma.DatabaseUserCreateInput): Promise<string> {
         try {
             input.password = await this.passwordService.encrypt(input.password);
             const user = await this.usersRepository.create(input);
-            const action = await this.userActionsRepository.create(user, DatabaseUserActionType.EMAIL_VERIFICATION);
 
-            await this.sendEmailVerificationEmail(user, action);
-
+            await this.emailVerificationService.sendEmail(user);
             return this.authTokenService.encodeToken(user);
         } catch (error: unknown) {
             handleUniqueConstrain(error);
         }
-    }
-
-    private async sendEmailVerificationEmail(user: DatabaseUser, action: DatabaseUserAction): Promise<void> {
-        const resetUrl = this.storefrontUrl.resolve(['auth/email-verification'], { code: action.code });
-        const mail = new EmailVerificationMail(user.email, resetUrl);
-
-        await this.mailerService.send(mail);
     }
 }

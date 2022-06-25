@@ -30,11 +30,11 @@ export class PasswordResetService {
             throw new TypedError('invalid-email');
         }
 
-        const action = await this.userActionsRepository.create(user, DatabaseUserActionType.RESET_PASSWORD);
-        await this.sendResetPasswordEmail(user, action);
+        await this.sendResetPasswordEmail(user);
     }
 
-    private async sendResetPasswordEmail(user: DatabaseUser, action: DatabaseUserAction): Promise<void> {
+    private async sendResetPasswordEmail(user: DatabaseUser): Promise<void> {
+        const action = await this.userActionsRepository.create(user, DatabaseUserActionType.RESET_PASSWORD);
         const resetUrl = this.storefrontUrl.resolve(['auth/reset-password'], { code: action.code });
         const mail = new ResetPasswordMail(user.email, resetUrl);
 

@@ -55,6 +55,12 @@ export default {
             }
         },
 
+        emailVerification: {
+            title: 'Hi, {name}',
+            description: 'You can confirm your email by clicking on the button bellow. If you did not registered, please ignore this letter.',
+            confirm: 'Confirm my email'
+        },
+
         form: {
             username: {
                 placeholder: 'Type username',

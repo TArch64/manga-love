@@ -1,2 +1,11 @@
 export { useAuthStore } from './auth-store';
-export type { SignInCredentials, SignUpInfo, ForgotInfo, ResetPasswordInfo, ResetPasswordState, GoogleCredentials, GoogleSignInResponse } from './auth-store';
+export type {
+    SignInCredentials,
+    SignUpInfo,
+    ForgotInfo,
+    ResetPasswordInfo,
+    ResetPasswordState,
+    GoogleCredentials,
+    GoogleSignInResponse,
+    EmailVerificationState
+} from './auth-store';

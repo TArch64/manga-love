@@ -6,6 +6,7 @@ import { AuthStrategy } from './auth.strategy';
 import { PasswordResetService, ResetPasswordState } from './password-reset.service';
 import { SignUpService } from './sign-up.service';
 import { SignInService } from './sign-in.service';
+import { EmailVerificationService, EmailVerificationState } from './email-verification.service';
 
 class SignInBody {
     @IsEmail()
@@ -64,6 +65,7 @@ export class AuthController {
         private readonly signInService: SignInService,
         private readonly signUpService: SignUpService,
         private readonly passwordResetService: PasswordResetService,
+        private readonly emailVerificationService: EmailVerificationService,
         @Inject(PublicUrlService.API)
         private readonly apiUrl: PublicUrlService
     ) {}
@@ -151,5 +153,10 @@ export class AuthController {
         const token = await this.signInService.googleSignIn(body.credential);
         this.writeAuthCookie(res, token);
         return { success: true };
+    }
+
+    @Get('email-verification')
+    public emailVerificationState(@Query('code') code: string): Promise<EmailVerificationState> {
+        return this.emailVerificationService.getVerificationState(code);
     }
 }
