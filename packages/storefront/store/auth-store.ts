@@ -47,6 +47,10 @@ export interface EmailVerificationState {
     name: string;
 }
 
+interface VerifyPasswordRequest {
+    code: string;
+}
+
 interface State {
     currentUser: User | null;
     resetPasswordState: ResetPasswordState | null;
@@ -62,6 +66,7 @@ interface Actions {
     loadResetPasswordState(code: string): Promise<void>;
     resetPassword(info: ResetPasswordInfo): Promise<void>;
     loadEmailVerificationState(code: string): Promise<void>;
+    verifyEmail(): Promise<void>;
 }
 
 const apiHttp = useApiHttp();
@@ -123,6 +128,12 @@ export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
         async loadEmailVerificationState(code: string) {
             this.emailVerificationState = await apiHttp.get<EmailVerificationState>('auth/email-verification', { code });
             this.emailVerificationState.code = code;
+        },
+
+        async verifyEmail() {
+            await apiHttp.post<VerifyPasswordRequest>('auth/email-verification', {
+                code: this.emailVerificationState?.code ?? ''
+            });
         }
     }
 });

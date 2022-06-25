@@ -55,6 +55,11 @@ class ResetPasswordBody {
     public code: string;
 }
 
+class VerifyEmailBody {
+    @IsUUID()
+    public code: string;
+}
+
 interface SuccessResponse {
     success: true;
 }
@@ -158,5 +163,11 @@ export class AuthController {
     @Get('email-verification')
     public emailVerificationState(@Query('code') code: string): Promise<EmailVerificationState> {
         return this.emailVerificationService.getVerificationState(code);
+    }
+
+    @Post('email-verification')
+    public async verifyEmail(@Body() body: VerifyEmailBody): Promise<SuccessResponse> {
+        await this.emailVerificationService.verifyEmail(body.code);
+        return { success: true };
     }
 }

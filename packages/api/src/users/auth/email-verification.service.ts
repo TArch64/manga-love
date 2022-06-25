@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MailerService } from '../../mailer';
-import { PublicUrlService } from '../../core';
+import { PublicUrlService, TypedError } from '../../core';
 import { DatabaseUser, DatabaseUserActionType } from '../../prisma';
 import { UserActionsRepository, UsersRepository } from '../repository';
 import { EmailVerificationMail } from './emails';
@@ -19,6 +19,18 @@ export class EmailVerificationService {
         private readonly userActionsRepository: UserActionsRepository,
         private readonly usersRepository: UsersRepository
     ) {}
+
+    public async verifyEmail(code: string): Promise<void> {
+        const action = await this.userActionsRepository.getByCode(code);
+
+        if (!action) {
+            throw new TypedError('unknown');
+        }
+
+        const user = await this.usersRepository.getUserById(action.userId);
+        await this.usersRepository.update(action.userId, { emailConfirmed: true });
+        await this.userActionsRepository.deleteByType(user, DatabaseUserActionType.EMAIL_VERIFICATION);
+    }
 
     public async getVerificationState(code: string): Promise<EmailVerificationState> {
         const action = await this.userActionsRepository.getByCode(code);
