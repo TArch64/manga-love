@@ -57,6 +57,7 @@ export default defineComponent({
 
 <style scoped>
 .ml-google-auth {
-    min-height: 44px;
+    height: 44px;
+    width: 44px;
 }
 </style>

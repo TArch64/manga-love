@@ -57,10 +57,18 @@ export default {
         },
 
         emailVerification: {
-            title: 'Hi, {name}',
-            description: 'You can confirm your email by clicking on the button bellow. If you did not registered, please ignore this letter.',
             confirm: 'Confirm my email',
             toHome: 'Back to home',
+
+            pending: {
+                title: 'Hi, {name}',
+                description: 'You can confirm your email by clicking on the button bellow. If you did not registered, please ignore this letter.'
+            },
+
+            success: {
+                title: 'SUCCESS!',
+                description: 'Your email confirmed'
+            },
 
             error: {
                 title: 'Ooops...',

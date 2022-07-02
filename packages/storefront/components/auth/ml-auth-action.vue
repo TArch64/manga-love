@@ -82,10 +82,16 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     height: 100%;
+    max-width: 500px;
+    margin: auto;
     padding-top: 80px;
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: 30px;
+
+    @media (min-width: 768px) {
+        height: auto;
+    }
 }
 
 .ml-auth-action__title {
@@ -137,12 +143,13 @@ export default defineComponent({
     color: #606060;
     line-height: 1.5;
     margin-top: 0;
-    margin-bottom: auto;
+    margin-bottom: 50px;
 }
 
 .ml-auth-action__actions {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: auto;
 }
 </style>

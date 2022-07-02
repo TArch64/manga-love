@@ -1,7 +1,7 @@
 <template>
     <MlAuthAction
-        :title="$t('auth.emailVerification.title', { name: username })"
-        :description="$t('auth.emailVerification.description')"
+        :title="$t('auth.emailVerification.pending.title', { name: username })"
+        :description="$t('auth.emailVerification.pending.description')"
     >
         <template #actions>
             <MlButton
@@ -23,10 +23,10 @@ import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlAuthAction } from '~/components/auth';
 import { MlButton } from '~/components/common';
 import { useAuthStore } from '~/store';
-import { useRouter, useToaster } from '~/composables';
+import { useToaster } from '~/composables';
 
 export default defineComponent({
-    name: 'EmailVerificationValid',
+    name: 'EmailVerificationPending',
     layout: 'none',
 
     components: {
@@ -34,9 +34,10 @@ export default defineComponent({
         MlButton
     },
 
-    setup() {
+    emits: ['success'],
+
+    setup(_, { emit }) {
         const authStore = useAuthStore();
-        const router = useRouter();
         const toaster = useToaster();
         const username = computed(() => authStore.emailVerificationState!.name);
         const isProcessing = ref(false);
@@ -45,7 +46,7 @@ export default defineComponent({
             try {
                 isProcessing.value = true;
                 await authStore.verifyEmail();
-                router.push('/');
+                emit('success');
             } catch (error) {
                 toaster.show({ path: 'errors.somethingWentWrong' });
                 isProcessing.value = false;

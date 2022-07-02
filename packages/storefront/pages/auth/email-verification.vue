@@ -1,11 +1,16 @@
 <template>
-    <EmailVerificationValid v-if="emailVerification.isValid" />
+    <EmailVerificationSuccess v-if="isSuccess" />
+    <EmailVerificationPending @success="isSuccess = true" v-else-if="isValid" />
     <EmailVerificationInvalid v-else />
 </template>
 
 <script lang="ts">
-import { defineComponent, useAsync } from '@nuxtjs/composition-api';
-import { EmailVerificationValid, EmailVerificationInvalid } from '~/components/email-verification';
+import { computed, defineComponent, ref, useAsync } from '@nuxtjs/composition-api';
+import {
+    EmailVerificationPending,
+    EmailVerificationSuccess,
+    EmailVerificationInvalid
+} from '~/components/email-verification';
 import { EmailVerificationState, useAuthStore } from '~/store';
 import { useRouter } from '~/composables';
 
@@ -14,7 +19,8 @@ export default defineComponent({
     layout: 'none',
 
     components: {
-        EmailVerificationValid,
+        EmailVerificationPending,
+        EmailVerificationSuccess,
         EmailVerificationInvalid
     },
 
@@ -28,7 +34,10 @@ export default defineComponent({
             return authStore.emailVerificationState!;
         });
 
-        return { emailVerification };
+        const isSuccess = ref(false);
+        const isValid = computed(() => emailVerification.value!.isValid);
+
+        return { isSuccess, isValid };
     }
 });
 </script>
