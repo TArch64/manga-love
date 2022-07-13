@@ -33,6 +33,40 @@ services:
     depends_on:
       - db
 
+  api-auth:
+      container_name: manga_love_api_auth
+      build:
+          context: ./packages/api-auth
+          dockerfile: ../../Dockerfile
+      command: npm run start:dev
+      stdin_open: true
+      volumes:
+          - ./packages/api-auth:/app
+          - ./packages/api-auth/node_modules:/app-auth/node_modules
+      networks:
+          - love
+      env_file:
+          - ./.env
+      depends_on:
+          - db
+
+  api-mailer:
+      container_name: manga_love_api_mailer
+      build:
+          context: ./packages/api-mailer
+          dockerfile: ../../Dockerfile
+      command: npm run start:dev
+      stdin_open: true
+      volumes:
+          - ./packages/api-mailer:/app
+          - ./packages/api-mailer/node_modules:/app-mailer/node_modules
+      networks:
+          - love
+      env_file:
+          - ./.env
+      depends_on:
+          - db
+
   db:
     container_name: manga_love_psql
     image: postgres:14.2-alpine
