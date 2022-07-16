@@ -39,7 +39,7 @@ export class SignInService {
     public async googleSignIn(credentials: string): Promise<string> {
         const googleUser = await this.jwtService.decode(credentials) as GoogleUser;
 
-        if (googleUser?.aud !== process.env.API_GOOGLE_ID) {
+        if (googleUser?.aud !== process.env.API_AUTH_GOOGLE_ID) {
             this.throwUnauthorizedException();
         }
 

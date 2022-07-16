@@ -1,42 +1,51 @@
 {
-    "collection": "@nestjs/schematics",
-    "sourceRoot": "apps/api/src",
-    "compilerOptions": {
-        "assets": [
-            "**/*.ejs"
-        ],
-        "watchAssets": true,
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/api/src",
+  "compilerOptions": {
+    "assets": [
+      "**/*.ejs"
+    ],
+    "watchAssets": true,
+    "tsConfigPath": "apps/api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/api",
+  "projects": {
+    "api": {
+      "type": "application",
+      "root": "apps/api",
+      "entryFile": "main",
+      "sourceRoot": "apps/api/src",
+      "compilerOptions": {
         "tsConfigPath": "apps/api/tsconfig.app.json"
+      }
     },
-    "monorepo": true,
-    "root": "apps/api",
-    "projects": {
-        "api": {
-            "type": "application",
-            "root": "apps/api",
-            "entryFile": "main",
-            "sourceRoot": "apps/api/src",
-            "compilerOptions": {
-                "tsConfigPath": "apps/api/tsconfig.app.json"
-            }
-        },
-        "api-mailer": {
-            "type": "application",
-            "root": "apps/api-mailer",
-            "entryFile": "main",
-            "sourceRoot": "apps/api-mailer/src",
-            "compilerOptions": {
-                "tsConfigPath": "apps/api-mailer/tsconfig.app.json"
-            }
-        },
-        "api-core": {
-            "type": "library",
-            "root": "libs/api-core",
-            "entryFile": "index",
-            "sourceRoot": "libs/api-core/src",
-            "compilerOptions": {
-                "tsConfigPath": "libs/api-core/tsconfig.lib.json"
-            }
-        }
+    "api-mailer": {
+      "type": "application",
+      "root": "apps/api-mailer",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-mailer/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-mailer/tsconfig.app.json"
+      }
+    },
+    "api-core": {
+      "type": "library",
+      "root": "libs/api-core",
+      "entryFile": "index",
+      "sourceRoot": "libs/api-core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/api-core/tsconfig.lib.json"
+      }
+    },
+    "api-auth": {
+      "type": "application",
+      "root": "apps/api-auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-auth/tsconfig.app.json"
+      }
     }
+  }
 }
