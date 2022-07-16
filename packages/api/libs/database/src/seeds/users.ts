@@ -1,4 +1,4 @@
-import { client, Prisma } from '../client-provider';
+import { client, Prisma } from './client-provider';
 
 async function buildUser(user: Prisma.DatabaseUserCreateInput): Promise<void> {
     await client.databaseUser.upsert({

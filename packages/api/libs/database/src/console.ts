@@ -1,8 +1,8 @@
 import { start } from 'repl';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { client } from './client-provider';
+import { PrismaClient } from '@prisma/client';
 
-global.prisma = client;
+global.prisma = new PrismaClient();
 
 const repl = start();
 const historyLocation = '/app/tmp/console-history';

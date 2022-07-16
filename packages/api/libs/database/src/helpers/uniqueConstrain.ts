@@ -1,5 +1,5 @@
 import { TypedError } from '@manga-love/core';
-import { Prisma } from '../client';
+import { Prisma } from '@prisma/client';
 import { UniqueConstrainError } from '../prisma.service';
 
 export function isUniqueConstrain(error: unknown): error is UniqueConstrainError {
