@@ -2,7 +2,7 @@ import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { UsersRepository } from '../repository';
+import { UsersRepository } from '@manga-love/database';
 import { CurrentUser } from './current-user.decorator';
 
 type TokenPayload = { userId: string };

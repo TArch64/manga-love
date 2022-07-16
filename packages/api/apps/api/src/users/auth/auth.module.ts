@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { PublicUrlService } from '@manga-love/core';
-import { UsersRepositoryModule } from '../repository';
+import { UsersDatabaseModule } from '@manga-love/database';
 import { AuthController } from './auth.controller';
 import { AuthStrategy } from './auth.strategy';
 
 @Module({
     imports: [
         PassportModule,
-        UsersRepositoryModule,
+        UsersDatabaseModule,
         JwtModule.register({
             secret: process.env.API_SECRET,
             signOptions: { expiresIn: '30d' }
