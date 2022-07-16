@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { DatabaseUser } from '../../prisma';
+import { DatabaseUser } from '@manga-love/database';
 
 export type CurrentUser = Omit<DatabaseUser, 'password'>;
 

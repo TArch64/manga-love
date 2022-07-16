@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { DatabaseManga, DatabaseMangaType } from '../../prisma';
+import { DatabaseManga, DatabaseMangaType } from '@manga-love/database';
 import { MangaPosterModel } from './manga-poster.model';
 
 registerEnumType(DatabaseMangaType, { name: 'MangaType' });

@@ -15,7 +15,7 @@
     "prisma:migrate": "prisma db push",
     "prisma:new-migration": "prisma migrate dev --name",
     "prisma:seeds": "prisma db seed",
-    "prisma:console": "ts-node -i ./apps/api/src/prisma/console.ts"
+    "prisma:console": "ts-node -i ./libs/database/src/console.ts"
   },
   "dependencies": {
     "@nestjs/apollo": "^10.0.8",
@@ -61,6 +61,6 @@
     "uuid": "^8.3.2"
   },
   "prisma": {
-    "seed": "ts-node apps/api/src/prisma/seeds/seeds.ts"
+    "seed": "ts-node libs/database/src/seeds/seeds.ts"
   }
 }

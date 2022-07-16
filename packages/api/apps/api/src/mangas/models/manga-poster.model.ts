@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { DatabaseImage } from '../../prisma';
+import { DatabaseImage } from '@manga-love/database';
 
 @ObjectType('MangaPoster')
 export class MangaPosterModel {

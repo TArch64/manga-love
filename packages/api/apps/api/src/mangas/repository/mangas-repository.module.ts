@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from '../../prisma';
+import { PrismaService } from '@manga-love/database';
 import { MangasRepository } from './mangas.repository';
 
 @Module({

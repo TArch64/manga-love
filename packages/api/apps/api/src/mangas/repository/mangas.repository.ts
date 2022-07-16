@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseImage, DatabaseManga, PrismaService } from '../../prisma';
+import { DatabaseImage, DatabaseManga, PrismaService } from '@manga-love/database';
 
 export interface MangaFilter {
     offset: number;

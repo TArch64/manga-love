@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { DatabaseUser } from '../../prisma';
+import { DatabaseUser } from '@manga-love/database';
 
 export type TokenPayload = { userId: string };
 

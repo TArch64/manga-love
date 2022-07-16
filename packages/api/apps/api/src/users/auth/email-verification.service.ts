@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { PublicUrlService, TypedError } from '@manga-love/core';
-import { DatabaseUser, DatabaseUserActionType } from '../../prisma';
+import { DatabaseUser, DatabaseUserActionType } from '@manga-love/database';
 import { UserActionsRepository, UsersRepository } from '../repository';
 import { MICROSERVICES } from '../../microservices.config';
 
