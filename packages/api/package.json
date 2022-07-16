@@ -15,7 +15,7 @@
         "prisma:migrate": "prisma db push",
         "prisma:new-migration": "prisma migrate dev --name",
         "prisma:seeds": "prisma db seed",
-        "prisma:console": "ts-node -i ./src/prisma/console.ts"
+        "prisma:console": "ts-node -i ./apps/api/src/prisma/console.ts"
     },
     "dependencies": {
         "@nestjs/apollo": "^10.0.8",
@@ -24,6 +24,7 @@
         "@nestjs/core": "^8.0.0",
         "@nestjs/graphql": "^10.0.8",
         "@nestjs/jwt": "^8.0.0",
+        "@nestjs/microservices": "^8.4.7",
         "@nestjs/passport": "^8.2.1",
         "@nestjs/platform-express": "^8.0.0",
         "@nestjs/schematics": "^8.0.0",
@@ -60,6 +61,6 @@
         "uuid": "^8.3.2"
     },
     "prisma": {
-        "seed": "ts-node src/prisma/seeds/seeds.ts"
+        "seed": "ts-node apps/api/src/prisma/seeds/seeds.ts"
     }
 }
