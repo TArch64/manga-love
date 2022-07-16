@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { reportMicroserviceStarted } from '@manga-love/api-core/microservices';
+import { reportMicroserviceStarted } from '@manga-love/api-core';
 import { TcpOptions, Transport } from '@nestjs/microservices';
 import { ApiMailerModule } from './api-mailer.module';
 

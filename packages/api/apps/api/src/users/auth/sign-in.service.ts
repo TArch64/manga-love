@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { TypedError } from '@manga-love/api-core';
 import { UsersRepository } from '../repository';
-import { TypedError } from '../../core';
 import { DatabaseUser } from '../../prisma';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';

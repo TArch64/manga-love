@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs/common';
 import { IsEmail, IsJWT, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Response } from 'express';
-import { PublicUrlService } from '../../core';
+import { PublicUrlService } from '@manga-love/api-core';
 import { AuthStrategy } from './auth.strategy';
 import { PasswordResetService, ResetPasswordState } from './password-reset.service';
 import { SignUpService } from './sign-up.service';

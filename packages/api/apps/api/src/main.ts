@@ -3,7 +3,7 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { reportMicroserviceStarted } from '@manga-love/api-core/microservices';
+import { reportMicroserviceStarted } from '@manga-love/api-core';
 import { AppModule } from './app.module';
 import { AppExceptionsFilter } from './app-exceptions.filter';
 
