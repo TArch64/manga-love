@@ -1,12 +1,11 @@
 import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs/common';
 import { IsEmail, IsJWT, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Response } from 'express';
-import { PublicUrlService } from '@manga-love/core';
+import { PublicUrlService, SuccessResponse } from '@manga-love/core';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom, Observable } from 'rxjs';
+import { MICROSERVICES } from '../../microservices.config';
 import { AuthStrategy } from './auth.strategy';
-import { PasswordResetService, ResetPasswordState } from './password-reset.service';
-import { SignUpService } from './sign-up.service';
-import { SignInService } from './sign-in.service';
-import { EmailVerificationService, EmailVerificationState } from './email-verification.service';
 
 class SignInBody {
     @IsEmail()
@@ -60,17 +59,11 @@ class VerifyEmailBody {
     public code: string;
 }
 
-interface SuccessResponse {
-    success: true;
-}
-
 @Controller('auth')
 export class AuthController {
     constructor(
-        private readonly signInService: SignInService,
-        private readonly signUpService: SignUpService,
-        private readonly passwordResetService: PasswordResetService,
-        private readonly emailVerificationService: EmailVerificationService,
+        @Inject(MICROSERVICES.AUTH)
+        private readonly authService: ClientProxy,
         @Inject(PublicUrlService.API)
         private readonly apiUrl: PublicUrlService
     ) {}
@@ -96,7 +89,7 @@ export class AuthController {
         @Res() res: Response
     ): Promise<void> {
         try {
-            const token = await this.signInService.signIn(body.email, body.password);
+            const token = await firstValueFrom<string>(this.authService.send('sign-in', body));
             this.writeAuthCookie(res, token);
 
             returnUrl ? res.redirect(returnUrl) : res.json({ success: true });
@@ -124,20 +117,19 @@ export class AuthController {
         @Body() body: SignUpBody,
         @Res({ passthrough: true }) res: Response
     ): Promise<SuccessResponse> {
-        const token = await this.signUpService.signUp(body);
+        const token = await firstValueFrom<string>(this.authService.send('sign-up', body));
         this.writeAuthCookie(res, token);
         return { success: true };
     }
 
     @Post('ask-reset-password')
-    public async askResetPassword(@Body() body: AskResetPasswordBody): Promise<SuccessResponse> {
-        await this.passwordResetService.askResetPassword(body.email);
-        return { success: true };
+    public askResetPassword(@Body() body: AskResetPasswordBody): Observable<SuccessResponse> {
+        return this.authService.send('ask-reset-password', body.email);
     }
 
     @Get('reset-password')
-    public resetPasswordState(@Query('code') code: string): Promise<ResetPasswordState> {
-        return this.passwordResetService.getResetPasswordState(code);
+    public resetPasswordState(@Query('code') code: string): Observable<object> {
+        return this.authService.send('reset-password-state', code);
     }
 
     @Post('reset-password')
@@ -145,7 +137,7 @@ export class AuthController {
         @Body() body: ResetPasswordBody,
         @Res({ passthrough: true }) res: Response
     ): Promise<SuccessResponse> {
-        const token = await this.passwordResetService.resetPassword(body.code, body.password);
+        const token = await firstValueFrom(this.authService.send('reset-password', body));
         this.writeAuthCookie(res, token);
         return { success: true };
     }
@@ -155,19 +147,19 @@ export class AuthController {
         @Body() body: GoogleCredentialsBody,
         @Res({ passthrough: true }) res: Response
     ): Promise<SuccessResponse> {
-        const token = await this.signInService.googleSignIn(body.credential);
+        const token = await firstValueFrom<string>(this.authService.send('google-sign-in', body.credential));
         this.writeAuthCookie(res, token);
         return { success: true };
     }
 
     @Get('email-verification')
-    public emailVerificationState(@Query('code') code: string): Promise<EmailVerificationState> {
-        return this.emailVerificationService.getVerificationState(code);
+    public emailVerificationState(@Query('code') code: string): Observable<object> {
+        return this.authService.send('email-verification', code);
     }
 
     @Post('email-verification')
     public async verifyEmail(@Body() body: VerifyEmailBody): Promise<SuccessResponse> {
-        await this.emailVerificationService.verifyEmail(body.code);
+        await firstValueFrom(this.authService.send('verify-email', (body.code)));
         return { success: true };
     }
 }

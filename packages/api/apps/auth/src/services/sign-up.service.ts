@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { handleUniqueConstrain, Prisma } from '@manga-love/database';
-import { UserActionsRepository, UsersRepository } from '../repository';
+import { handleUniqueConstrain, Prisma, UserActionsRepository, UsersRepository } from '@manga-love/database';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
 import { EmailVerificationService } from './email-verification.service';

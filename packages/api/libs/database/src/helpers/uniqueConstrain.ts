@@ -1,6 +1,6 @@
 import { TypedError } from '@manga-love/core';
 import { Prisma } from '@prisma/client';
-import { UniqueConstrainError } from '../prisma.service';
+import { UniqueConstrainError } from '../prisma';
 
 export function isUniqueConstrain(error: unknown): error is UniqueConstrainError {
     if (!(error instanceof Prisma.PrismaClientKnownRequestError)) return false;

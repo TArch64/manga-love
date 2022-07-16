@@ -3,8 +3,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { UsersRepository } from '../repository';
-import { TokenPayload } from './auth-token.service';
 import { CurrentUser } from './current-user.decorator';
+
+type TokenPayload = { userId: string };
 
 @Injectable()
 export class AuthStrategy extends PassportStrategy(Strategy, 'jwt') {

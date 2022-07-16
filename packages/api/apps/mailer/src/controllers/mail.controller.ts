@@ -1,11 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
+import { SuccessResponse } from '@manga-love/core';
 import { MailConfig } from '../models';
 import { SenderService } from '../services';
-
-interface SuccessResponse {
-    success: true;
-}
 
 @Controller()
 export class MailController {

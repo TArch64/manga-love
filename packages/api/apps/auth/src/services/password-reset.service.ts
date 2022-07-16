@@ -2,9 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { PublicUrlService, TypedError } from '@manga-love/core';
-import { DatabaseUserActionType, DatabaseUser } from '@manga-love/database';
-import { UserActionsRepository, UsersRepository } from '../repository';
-import { MICROSERVICES } from '../../microservices.config';
+import { DatabaseUserActionType, DatabaseUser, UserActionsRepository, UsersRepository } from '@manga-love/database';
+import { MICROSERVICES } from '../microservices.config';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
 
