@@ -20,11 +20,17 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "paths": {
-      "@manga-love/api-core": [
-        "libs/api-core/src"
+      "@manga-love/core": [
+        "libs/core/src"
       ],
-      "@manga-love/api-core/*": [
-        "libs/api-core/src/*"
+      "@manga-love/core/*": [
+        "libs/core/src/*"
+      ],
+      "@manga-love/database": [
+        "libs/database/src"
+      ],
+      "@manga-love/database/*": [
+        "libs/database/src/*"
       ]
     }
   }

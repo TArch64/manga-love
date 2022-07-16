@@ -6,7 +6,8 @@
       "**/*.ejs"
     ],
     "watchAssets": true,
-    "tsConfigPath": "apps/api/tsconfig.app.json"
+    "tsConfigPath": "apps/api/tsconfig.app.json",
+    "webpack": false
   },
   "monorepo": true,
   "root": "apps/api",
@@ -20,31 +21,40 @@
         "tsConfigPath": "apps/api/tsconfig.app.json"
       }
     },
-    "api-mailer": {
-      "type": "application",
-      "root": "apps/api-mailer",
-      "entryFile": "main",
-      "sourceRoot": "apps/api-mailer/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/api-mailer/tsconfig.app.json"
-      }
-    },
-    "api-core": {
+    "database": {
       "type": "library",
-      "root": "libs/api-core",
+      "root": "libs/database",
       "entryFile": "index",
-      "sourceRoot": "libs/api-core/src",
+      "sourceRoot": "libs/database/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/api-core/tsconfig.lib.json"
+        "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
     },
-    "api-auth": {
-      "type": "application",
-      "root": "apps/api-auth",
-      "entryFile": "main",
-      "sourceRoot": "apps/api-auth/src",
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/api-auth/tsconfig.app.json"
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
+    },
+    "mailer": {
+      "type": "application",
+      "root": "apps/mailer",
+      "entryFile": "main",
+      "sourceRoot": "apps/mailer/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mailer/tsconfig.app.json"
+      }
+    },
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     }
   }

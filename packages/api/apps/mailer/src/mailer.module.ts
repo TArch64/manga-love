@@ -23,4 +23,4 @@ import { MailController } from './controllers';
         }
     ]
 })
-export class ApiMailerModule {}
+export class MailerModule {}

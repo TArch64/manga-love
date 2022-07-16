@@ -1,7 +1,7 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { GqlExceptionFilter } from '@nestjs/graphql';
-import { TypedError } from '@manga-love/api-core';
+import { TypedError } from '@manga-love/core';
 
 type ErrorResponse = {
     status: HttpStatus;

@@ -6,4 +6,4 @@ import { AuthController } from './controllers';
     controllers: [AuthController],
     providers: []
 })
-export class ApiAuthModule {}
+export class AuthModule {}

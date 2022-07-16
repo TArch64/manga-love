@@ -1,4 +1,4 @@
-import { TypedError } from '@manga-love/api-core';
+import { TypedError } from '@manga-love/core';
 import { Prisma } from '../client';
 import { UniqueConstrainError } from '../prisma.service';
 

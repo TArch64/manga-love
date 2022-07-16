@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { PublicUrlService } from '@manga-love/api-core';
+import { PublicUrlService } from '@manga-love/core';
 import { UsersRepositoryModule } from '../repository';
 import { AuthController } from './auth.controller';
 import { AuthStrategy } from './auth.strategy';

@@ -20,6 +20,6 @@ export class TemplateRenderService {
     }
 
     private buildTemplatePath(name: string): string {
-        return resolve('./dist/apps/api-mailer/views', `${name}.ejs`);
+        return resolve('./dist/apps/mailer/views', `${name}.ejs`);
     }
 }

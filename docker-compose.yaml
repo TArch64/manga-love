@@ -35,6 +35,7 @@ services:
       - db
     links:
       - api-mailer
+      - api-auth
 
   api-auth:
     container_name: manga_love_api_auth
@@ -42,7 +43,7 @@ services:
     build:
       context: ./packages/api
       dockerfile: ../../Dockerfile
-    command: npm run start:dev api-auth
+    command: npm run start:dev auth
     stdin_open: true
     volumes:
       - ./packages/api:/app
@@ -60,7 +61,7 @@ services:
     build:
       context: ./packages/api
       dockerfile: ../../Dockerfile
-    command: npm run start:dev api-mailer
+    command: npm run start:dev mailer
     stdin_open: true
     volumes:
       - ./packages/api:/app
