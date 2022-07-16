@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
-  Decimal
+  Decimal,
+  objectEnumValues
 } = require('./runtime/index-browser')
 
 
@@ -11,12 +12,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 3.11.1
- * Query Engine version: 1a2506facaf1a4727b7c26850735e88ec779dee9
+ * Prisma Client JS version: 4.0.0
+ * Query Engine version: da41d2bb3406da22087b849f0e911199ba4fbf11
  */
 Prisma.prismaVersion = {
-  client: "3.11.1",
-  engine: "1a2506facaf1a4727b7c26850735e88ec779dee9"
+  client: "4.0.0",
+  engine: "da41d2bb3406da22087b849f0e911199ba4fbf11"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -65,9 +66,15 @@ Prisma.validator = () => (val) => val
 /**
  * Shorthand utilities for JSON filtering
  */
-Prisma.DbNull = 'DbNull'
-Prisma.JsonNull = 'JsonNull'
-Prisma.AnyNull = 'AnyNull'
+Prisma.DbNull = objectEnumValues.instances.DbNull
+Prisma.JsonNull = objectEnumValues.instances.JsonNull
+Prisma.AnyNull = objectEnumValues.instances.AnyNull
+
+Prisma.NullTypes = {
+  DbNull: objectEnumValues.classes.DbNull,
+  JsonNull: objectEnumValues.classes.JsonNull,
+  AnyNull: objectEnumValues.classes.AnyNull
+}
 
 /**
  * Enums

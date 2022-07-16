@@ -303,9 +303,19 @@ export namespace Prisma {
    */
   export import Decimal = runtime.Decimal
 
+  export type DecimalJsLike = runtime.DecimalJsLike
+
   /**
-   * Prisma Client JS version: 3.11.1
-   * Query Engine version: 1a2506facaf1a4727b7c26850735e88ec779dee9
+   * Metrics 
+   */
+  export import Metrics = runtime.Metrics
+  export import Metric = runtime.Metric
+  export import MetricHistogram = runtime.MetricHistogram
+  export import MetricHistogramBucket = runtime.MetricHistogramBucket
+
+  /**
+   * Prisma Client JS version: 4.0.0
+   * Query Engine version: da41d2bb3406da22087b849f0e911199ba4fbf11
    */
   export type PrismaVersion = {
     client: string
@@ -364,25 +374,68 @@ export namespace Prisma {
   export type InputJsonValue = string | number | boolean | InputJsonObject | InputJsonArray
 
   /**
+   * Types of the values used to represent different kinds of `null` values when working with JSON fields.
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  namespace NullTypes {
+    /**
+    * Type of `Prisma.DbNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class DbNull {
+      private DbNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.JsonNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class JsonNull {
+      private JsonNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.AnyNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class AnyNull {
+      private AnyNull: never
+      private constructor()
+    }
+  }
+
+  /**
    * Helper for filtering JSON entries that have `null` on the database (empty on the db)
    * 
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const DbNull: 'DbNull'
+  export const DbNull: NullTypes.DbNull
 
   /**
    * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
    * 
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const JsonNull: 'JsonNull'
+  export const JsonNull: NullTypes.JsonNull
 
   /**
    * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
    * 
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const AnyNull: 'AnyNull'
+  export const AnyNull: NullTypes.AnyNull
 
   type SelectAndInclude = {
     select: any
@@ -729,7 +782,8 @@ export namespace Prisma {
   export interface PrismaClientOptions {
     /**
      * Configure findUnique/findFirst to throw an error if the query returns null. 
-     *  * @example
+     * @deprecated since 4.0.0. Use `findUniqueOrThrow`/`findFirstOrThrow` methods instead.
+     * @example
      * ```
      * // Reject on both findUnique/findFirst
      * rejectOnNotFound: true
@@ -817,6 +871,7 @@ export namespace Prisma {
     | 'aggregate'
     | 'count'
     | 'runCommandRaw'
+    | 'findRaw'
 
   /**
    * These options are being passed in to the middleware as "params"
@@ -838,7 +893,8 @@ export namespace Prisma {
   ) => Promise<T>
 
   // tested in getLogLevel.test.ts
-  export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined; 
+  export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
+
   export type Datasource = {
     url?: string
   }
@@ -1339,6 +1395,40 @@ export namespace Prisma {
     ): CheckSelect<T, Prisma__DatabaseUserClient<DatabaseUser>, Prisma__DatabaseUserClient<DatabaseUserGetPayload<T>>>
 
     /**
+     * Find one DatabaseUser that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {DatabaseUserFindUniqueOrThrowArgs} args - Arguments to find a DatabaseUser
+     * @example
+     * // Get one DatabaseUser
+     * const databaseUser = await prisma.databaseUser.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends DatabaseUserFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseUserFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserClient<DatabaseUser>, Prisma__DatabaseUserClient<DatabaseUserGetPayload<T>>>
+
+    /**
+     * Find the first DatabaseUser that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseUserFindFirstOrThrowArgs} args - Arguments to find a DatabaseUser
+     * @example
+     * // Get one DatabaseUser
+     * const databaseUser = await prisma.databaseUser.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends DatabaseUserFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseUserFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserClient<DatabaseUser>, Prisma__DatabaseUserClient<DatabaseUserGetPayload<T>>>
+
+    /**
      * Count the number of DatabaseUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
@@ -1516,9 +1606,9 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * DatabaseUser findUnique
+   * DatabaseUser base type for findUnique actions
    */
-  export type DatabaseUserFindUniqueArgs = {
+  export type DatabaseUserFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseUser
      * 
@@ -1529,11 +1619,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseUserInclude | null
-    /**
-     * Throw an Error if a DatabaseUser can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseUser to fetch.
      * 
@@ -1541,11 +1626,22 @@ export namespace Prisma {
     where: DatabaseUserWhereUniqueInput
   }
 
+  /**
+   * DatabaseUser: findUnique
+   */
+  export interface DatabaseUserFindUniqueArgs extends DatabaseUserFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
-   * DatabaseUser findFirst
+   * DatabaseUser base type for findFirst actions
    */
-  export type DatabaseUserFindFirstArgs = {
+  export type DatabaseUserFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseUser
      * 
@@ -1556,11 +1652,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseUserInclude | null
-    /**
-     * Throw an Error if a DatabaseUser can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseUser to fetch.
      * 
@@ -1603,6 +1694,17 @@ export namespace Prisma {
     distinct?: Enumerable<DatabaseUserScalarFieldEnum>
   }
 
+  /**
+   * DatabaseUser: findFirst
+   */
+  export interface DatabaseUserFindFirstArgs extends DatabaseUserFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
    * DatabaseUser findMany
@@ -1799,6 +1901,18 @@ export namespace Prisma {
     where?: DatabaseUserWhereInput
   }
 
+
+  /**
+   * DatabaseUser: findUniqueOrThrow
+   */
+  export type DatabaseUserFindUniqueOrThrowArgs = DatabaseUserFindUniqueArgsBase
+      
+
+  /**
+   * DatabaseUser: findFirstOrThrow
+   */
+  export type DatabaseUserFindFirstOrThrowArgs = DatabaseUserFindFirstArgsBase
+      
 
   /**
    * DatabaseUser without action
@@ -2203,6 +2317,40 @@ export namespace Prisma {
     ): CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>>
 
     /**
+     * Find one DatabaseUserAction that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {DatabaseUserActionFindUniqueOrThrowArgs} args - Arguments to find a DatabaseUserAction
+     * @example
+     * // Get one DatabaseUserAction
+     * const databaseUserAction = await prisma.databaseUserAction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends DatabaseUserActionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseUserActionFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>>
+
+    /**
+     * Find the first DatabaseUserAction that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseUserActionFindFirstOrThrowArgs} args - Arguments to find a DatabaseUserAction
+     * @example
+     * // Get one DatabaseUserAction
+     * const databaseUserAction = await prisma.databaseUserAction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends DatabaseUserActionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseUserActionFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseUserActionClient<DatabaseUserAction>, Prisma__DatabaseUserActionClient<DatabaseUserActionGetPayload<T>>>
+
+    /**
      * Count the number of DatabaseUserActions.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
@@ -2380,9 +2528,9 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * DatabaseUserAction findUnique
+   * DatabaseUserAction base type for findUnique actions
    */
-  export type DatabaseUserActionFindUniqueArgs = {
+  export type DatabaseUserActionFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseUserAction
      * 
@@ -2393,11 +2541,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseUserActionInclude | null
-    /**
-     * Throw an Error if a DatabaseUserAction can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseUserAction to fetch.
      * 
@@ -2405,11 +2548,22 @@ export namespace Prisma {
     where: DatabaseUserActionWhereUniqueInput
   }
 
+  /**
+   * DatabaseUserAction: findUnique
+   */
+  export interface DatabaseUserActionFindUniqueArgs extends DatabaseUserActionFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
-   * DatabaseUserAction findFirst
+   * DatabaseUserAction base type for findFirst actions
    */
-  export type DatabaseUserActionFindFirstArgs = {
+  export type DatabaseUserActionFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseUserAction
      * 
@@ -2420,11 +2574,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseUserActionInclude | null
-    /**
-     * Throw an Error if a DatabaseUserAction can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseUserAction to fetch.
      * 
@@ -2467,6 +2616,17 @@ export namespace Prisma {
     distinct?: Enumerable<DatabaseUserActionScalarFieldEnum>
   }
 
+  /**
+   * DatabaseUserAction: findFirst
+   */
+  export interface DatabaseUserActionFindFirstArgs extends DatabaseUserActionFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
    * DatabaseUserAction findMany
@@ -2663,6 +2823,18 @@ export namespace Prisma {
     where?: DatabaseUserActionWhereInput
   }
 
+
+  /**
+   * DatabaseUserAction: findUniqueOrThrow
+   */
+  export type DatabaseUserActionFindUniqueOrThrowArgs = DatabaseUserActionFindUniqueArgsBase
+      
+
+  /**
+   * DatabaseUserAction: findFirstOrThrow
+   */
+  export type DatabaseUserActionFindFirstOrThrowArgs = DatabaseUserActionFindFirstArgsBase
+      
 
   /**
    * DatabaseUserAction without action
@@ -3111,6 +3283,40 @@ export namespace Prisma {
     ): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>>
 
     /**
+     * Find one DatabaseManga that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {DatabaseMangaFindUniqueOrThrowArgs} args - Arguments to find a DatabaseManga
+     * @example
+     * // Get one DatabaseManga
+     * const databaseManga = await prisma.databaseManga.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends DatabaseMangaFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseMangaFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>>
+
+    /**
+     * Find the first DatabaseManga that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseMangaFindFirstOrThrowArgs} args - Arguments to find a DatabaseManga
+     * @example
+     * // Get one DatabaseManga
+     * const databaseManga = await prisma.databaseManga.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends DatabaseMangaFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseMangaFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseMangaClient<DatabaseManga>, Prisma__DatabaseMangaClient<DatabaseMangaGetPayload<T>>>
+
+    /**
      * Count the number of DatabaseMangas.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
@@ -3288,9 +3494,9 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * DatabaseManga findUnique
+   * DatabaseManga base type for findUnique actions
    */
-  export type DatabaseMangaFindUniqueArgs = {
+  export type DatabaseMangaFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseManga
      * 
@@ -3301,11 +3507,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseMangaInclude | null
-    /**
-     * Throw an Error if a DatabaseManga can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseManga to fetch.
      * 
@@ -3313,11 +3514,22 @@ export namespace Prisma {
     where: DatabaseMangaWhereUniqueInput
   }
 
+  /**
+   * DatabaseManga: findUnique
+   */
+  export interface DatabaseMangaFindUniqueArgs extends DatabaseMangaFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
-   * DatabaseManga findFirst
+   * DatabaseManga base type for findFirst actions
    */
-  export type DatabaseMangaFindFirstArgs = {
+  export type DatabaseMangaFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseManga
      * 
@@ -3328,11 +3540,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseMangaInclude | null
-    /**
-     * Throw an Error if a DatabaseManga can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseManga to fetch.
      * 
@@ -3375,6 +3582,17 @@ export namespace Prisma {
     distinct?: Enumerable<DatabaseMangaScalarFieldEnum>
   }
 
+  /**
+   * DatabaseManga: findFirst
+   */
+  export interface DatabaseMangaFindFirstArgs extends DatabaseMangaFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
    * DatabaseManga findMany
@@ -3571,6 +3789,18 @@ export namespace Prisma {
     where?: DatabaseMangaWhereInput
   }
 
+
+  /**
+   * DatabaseManga: findUniqueOrThrow
+   */
+  export type DatabaseMangaFindUniqueOrThrowArgs = DatabaseMangaFindUniqueArgsBase
+      
+
+  /**
+   * DatabaseManga: findFirstOrThrow
+   */
+  export type DatabaseMangaFindFirstOrThrowArgs = DatabaseMangaFindFirstArgsBase
+      
 
   /**
    * DatabaseManga without action
@@ -4001,6 +4231,40 @@ export namespace Prisma {
     ): CheckSelect<T, Prisma__DatabaseImageClient<DatabaseImage>, Prisma__DatabaseImageClient<DatabaseImageGetPayload<T>>>
 
     /**
+     * Find one DatabaseImage that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {DatabaseImageFindUniqueOrThrowArgs} args - Arguments to find a DatabaseImage
+     * @example
+     * // Get one DatabaseImage
+     * const databaseImage = await prisma.databaseImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends DatabaseImageFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseImageFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseImageClient<DatabaseImage>, Prisma__DatabaseImageClient<DatabaseImageGetPayload<T>>>
+
+    /**
+     * Find the first DatabaseImage that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DatabaseImageFindFirstOrThrowArgs} args - Arguments to find a DatabaseImage
+     * @example
+     * // Get one DatabaseImage
+     * const databaseImage = await prisma.databaseImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends DatabaseImageFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, DatabaseImageFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__DatabaseImageClient<DatabaseImage>, Prisma__DatabaseImageClient<DatabaseImageGetPayload<T>>>
+
+    /**
      * Count the number of DatabaseImages.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
@@ -4178,9 +4442,9 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * DatabaseImage findUnique
+   * DatabaseImage base type for findUnique actions
    */
-  export type DatabaseImageFindUniqueArgs = {
+  export type DatabaseImageFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseImage
      * 
@@ -4191,11 +4455,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseImageInclude | null
-    /**
-     * Throw an Error if a DatabaseImage can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseImage to fetch.
      * 
@@ -4203,11 +4462,22 @@ export namespace Prisma {
     where: DatabaseImageWhereUniqueInput
   }
 
+  /**
+   * DatabaseImage: findUnique
+   */
+  export interface DatabaseImageFindUniqueArgs extends DatabaseImageFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
-   * DatabaseImage findFirst
+   * DatabaseImage base type for findFirst actions
    */
-  export type DatabaseImageFindFirstArgs = {
+  export type DatabaseImageFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the DatabaseImage
      * 
@@ -4218,11 +4488,6 @@ export namespace Prisma {
      * 
     **/
     include?: DatabaseImageInclude | null
-    /**
-     * Throw an Error if a DatabaseImage can't be found
-     * 
-    **/
-    rejectOnNotFound?: RejectOnNotFound
     /**
      * Filter, which DatabaseImage to fetch.
      * 
@@ -4265,6 +4530,17 @@ export namespace Prisma {
     distinct?: Enumerable<DatabaseImageScalarFieldEnum>
   }
 
+  /**
+   * DatabaseImage: findFirst
+   */
+  export interface DatabaseImageFindFirstArgs extends DatabaseImageFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
 
   /**
    * DatabaseImage findMany
@@ -4461,6 +4737,18 @@ export namespace Prisma {
     where?: DatabaseImageWhereInput
   }
 
+
+  /**
+   * DatabaseImage: findUniqueOrThrow
+   */
+  export type DatabaseImageFindUniqueOrThrowArgs = DatabaseImageFindUniqueArgsBase
+      
+
+  /**
+   * DatabaseImage: findFirstOrThrow
+   */
+  export type DatabaseImageFindFirstOrThrowArgs = DatabaseImageFindFirstArgsBase
+      
 
   /**
    * DatabaseImage without action
@@ -4790,7 +5078,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
-    actions?: DatabaseUserActionUpdateManyWithoutUserInput
+    actions?: DatabaseUserActionUpdateManyWithoutUserNestedInput
   }
 
   export type DatabaseUserUncheckedUpdateInput = {
@@ -4799,7 +5087,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
-    actions?: DatabaseUserActionUncheckedUpdateManyWithoutUserInput
+    actions?: DatabaseUserActionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DatabaseUserCreateManyInput = {
@@ -4847,7 +5135,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     type?: EnumDatabaseUserActionTypeFieldUpdateOperationsInput | DatabaseUserActionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: DatabaseUserUpdateOneRequiredWithoutActionsInput
+    user?: DatabaseUserUpdateOneRequiredWithoutActionsNestedInput
   }
 
   export type DatabaseUserActionUncheckedUpdateInput = {
@@ -4920,7 +5208,7 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
     releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    posters?: DatabaseImageUpdateManyWithoutTargetMangaInput
+    posters?: DatabaseImageUpdateManyWithoutTargetMangaNestedInput
   }
 
   export type DatabaseMangaUncheckedUpdateInput = {
@@ -4934,7 +5222,7 @@ export namespace Prisma {
     type?: EnumDatabaseMangaTypeFieldUpdateOperationsInput | DatabaseMangaType
     releaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    posters?: DatabaseImageUncheckedUpdateManyWithoutTargetMangaInput
+    posters?: DatabaseImageUncheckedUpdateManyWithoutTargetMangaNestedInput
   }
 
   export type DatabaseMangaCreateManyInput = {
@@ -4994,7 +5282,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     originalSrc?: StringFieldUpdateOperationsInput | string
     originalAspectRatio?: FloatFieldUpdateOperationsInput | number
-    targetManga?: DatabaseMangaUpdateOneWithoutPostersInput
+    targetManga?: DatabaseMangaUpdateOneWithoutPostersNestedInput
   }
 
   export type DatabaseImageUncheckedUpdateInput = {
@@ -5404,7 +5692,7 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type DatabaseUserActionUpdateManyWithoutUserInput = {
+  export type DatabaseUserActionUpdateManyWithoutUserNestedInput = {
     create?: XOR<Enumerable<DatabaseUserActionCreateWithoutUserInput>, Enumerable<DatabaseUserActionUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<DatabaseUserActionCreateOrConnectWithoutUserInput>
     upsert?: Enumerable<DatabaseUserActionUpsertWithWhereUniqueWithoutUserInput>
@@ -5418,7 +5706,7 @@ export namespace Prisma {
     deleteMany?: Enumerable<DatabaseUserActionScalarWhereInput>
   }
 
-  export type DatabaseUserActionUncheckedUpdateManyWithoutUserInput = {
+  export type DatabaseUserActionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<Enumerable<DatabaseUserActionCreateWithoutUserInput>, Enumerable<DatabaseUserActionUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<DatabaseUserActionCreateOrConnectWithoutUserInput>
     upsert?: Enumerable<DatabaseUserActionUpsertWithWhereUniqueWithoutUserInput>
@@ -5446,7 +5734,7 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type DatabaseUserUpdateOneRequiredWithoutActionsInput = {
+  export type DatabaseUserUpdateOneRequiredWithoutActionsNestedInput = {
     create?: XOR<DatabaseUserCreateWithoutActionsInput, DatabaseUserUncheckedCreateWithoutActionsInput>
     connectOrCreate?: DatabaseUserCreateOrConnectWithoutActionsInput
     upsert?: DatabaseUserUpsertWithoutActionsInput
@@ -5484,7 +5772,7 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type DatabaseImageUpdateManyWithoutTargetMangaInput = {
+  export type DatabaseImageUpdateManyWithoutTargetMangaNestedInput = {
     create?: XOR<Enumerable<DatabaseImageCreateWithoutTargetMangaInput>, Enumerable<DatabaseImageUncheckedCreateWithoutTargetMangaInput>>
     connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutTargetMangaInput>
     upsert?: Enumerable<DatabaseImageUpsertWithWhereUniqueWithoutTargetMangaInput>
@@ -5498,7 +5786,7 @@ export namespace Prisma {
     deleteMany?: Enumerable<DatabaseImageScalarWhereInput>
   }
 
-  export type DatabaseImageUncheckedUpdateManyWithoutTargetMangaInput = {
+  export type DatabaseImageUncheckedUpdateManyWithoutTargetMangaNestedInput = {
     create?: XOR<Enumerable<DatabaseImageCreateWithoutTargetMangaInput>, Enumerable<DatabaseImageUncheckedCreateWithoutTargetMangaInput>>
     connectOrCreate?: Enumerable<DatabaseImageCreateOrConnectWithoutTargetMangaInput>
     upsert?: Enumerable<DatabaseImageUpsertWithWhereUniqueWithoutTargetMangaInput>
@@ -5526,7 +5814,7 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DatabaseMangaUpdateOneWithoutPostersInput = {
+  export type DatabaseMangaUpdateOneWithoutPostersNestedInput = {
     create?: XOR<DatabaseMangaCreateWithoutPostersInput, DatabaseMangaUncheckedCreateWithoutPostersInput>
     connectOrCreate?: DatabaseMangaCreateOrConnectWithoutPostersInput
     upsert?: DatabaseMangaUpsertWithoutPostersInput
@@ -6029,5 +6317,5 @@ export namespace Prisma {
   /**
    * DMMF
    */
-  export const dmmf: runtime.DMMF.Document;
+  export const dmmf: runtime.BaseDMMF
 }
