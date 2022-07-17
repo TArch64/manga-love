@@ -1,30 +1,15 @@
 <template>
     <div class="ml-google-auth">
         <client-only>
-            <div
-                id="g_id_onload"
-                data-context="signin"
-                data-ux_mode="popup"
-                :data-client_id="clientId"
-                :data-callback="callbackName"
-            />
-
-            <div
-                class="g_id_signin"
-                data-type="icon"
-                data-shape="circle"
-                data-theme="outline"
-                data-text="signin_with"
-                data-size="large"
-            />
+            <div ref="containerRef" />
         </client-only>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useContext } from '@nuxtjs/composition-api';
-import { v4 as generateId } from 'uuid';
+import { defineComponent, onMounted, ref, useContext } from '@nuxtjs/composition-api';
 import { GoogleCredentials } from '~/store';
+import { useExternalScript } from '~/composables';
 
 export default defineComponent({
     name: 'MlGoogleAuth',
@@ -33,8 +18,7 @@ export default defineComponent({
 
     setup(_, { emit }) {
         const context = useContext();
-        const callbackName = ref(`on_gapi_auth_${generateId()}`.replaceAll('-', '_'));
-        const clientId = ref(context.env.STOREFRONT_GOOGLE_ID);
+        const containerRef = ref<HTMLElement | null>(null);
 
         function onSignIn(response: GoogleCredentials): void {
             const event: GoogleCredentials = { credential: response.credential };
@@ -42,15 +26,25 @@ export default defineComponent({
         }
 
         if (process.client) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            window[callbackName.value] = onSignIn;
+            onMounted(async () => {
+                await useExternalScript('https://accounts.google.com/gsi/client');
+                const api = window.google.accounts.id;
+
+                api.initialize({ client_id: context.env.STOREFRONT_GOOGLE_ID, callback: onSignIn });
+
+                api.renderButton(containerRef.value!, {
+                    type: 'icon',
+                    shape: 'circle',
+                    theme: 'outline',
+                    text: 'signin_with',
+                    size: 'large'
+                });
+
+                api.prompt();
+            });
         }
 
-        return {
-            callbackName,
-            clientId
-        };
+        return { containerRef };
     }
 });
 </script>

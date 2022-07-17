@@ -31,7 +31,7 @@
             "@nuxtjs/i18n",
             "@pinia/nuxt",
             "@nuxtjs/toast",
-            "@types/uuid"
+            "@types/google-one-tap"
         ]
     },
     "exclude": [
