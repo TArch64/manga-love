@@ -27,7 +27,6 @@ import { useToaster } from '~/composables';
 
 export default defineComponent({
     name: 'EmailVerificationPending',
-    layout: 'none',
 
     components: {
         MlAuthAction,
@@ -39,7 +38,7 @@ export default defineComponent({
     setup(_, { emit }) {
         const authStore = useAuthStore();
         const toaster = useToaster();
-        const username = computed(() => authStore.emailVerificationState!.name);
+        const username = computed(() => authStore.emailVerificationState!.username);
         const isProcessing = ref(false);
 
         async function verifyEmail(): Promise<void> {

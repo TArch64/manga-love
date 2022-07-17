@@ -1,6 +1,6 @@
 query($code: String!) {
     emailVerificationState(code: $code) {
-        name
+        username
         isValid
     }
 }

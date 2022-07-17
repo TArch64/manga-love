@@ -19,7 +19,6 @@ import { MlButton } from '~/components/common';
 
 export default defineComponent({
     name: 'ResetPasswordInvalid',
-    layout: 'none',
 
     components: {
         MlAuthAction,

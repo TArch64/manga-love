@@ -11,13 +11,9 @@ type Success {
   success: Boolean!
 }
 
-type ResetPasswordStateType {
+type UserActionStateType {
   isValid: Boolean!
-}
-
-type EmailVerificationStateType {
-  isValid: Boolean!
-  name: String!
+  username: String!
 }
 
 type MangaPoster {
@@ -51,8 +47,8 @@ enum MangaType {
 
 type Query {
   currentUser: User!
-  resetPasswordState(code: String!): ResetPasswordStateType!
-  emailVerificationState(code: String!): EmailVerificationStateType!
+  resetPasswordState(code: String!): UserActionStateType!
+  emailVerificationState(code: String!): UserActionStateType!
   mangas(offset: Float!, limit: Float!): [Manga!]!
 }
 

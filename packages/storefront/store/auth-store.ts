@@ -37,13 +37,14 @@ export interface ResetPasswordInfo {
 
 export interface ResetPasswordState {
     isValid: boolean;
+    username: string;
     code: string;
 }
 
 export interface EmailVerificationState {
     isValid: boolean;
+    username: string;
     code: string;
-    name: string;
 }
 
 interface State {

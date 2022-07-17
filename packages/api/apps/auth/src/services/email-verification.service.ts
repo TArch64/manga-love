@@ -7,7 +7,7 @@ import { MICROSERVICES } from '../microservices.config';
 
 export interface EmailVerificationState {
     isValid: boolean;
-    name: string;
+    username: string;
 }
 
 @Injectable()
@@ -39,7 +39,7 @@ export class EmailVerificationService {
 
         return {
             isValid: !!action,
-            name: user?.username ?? ''
+            username: user?.username ?? ''
         };
     }
 

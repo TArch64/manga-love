@@ -9,14 +9,13 @@ import { AuthStrategy } from './auth.strategy';
 import { QLResponse } from './response.decorator';
 import {
     AskResetPasswordArgs,
-    ResetPasswordStateType,
     UserActionStateArgs,
+    UserActionStateType,
     SignInArgs,
     GoogleSignInArgs,
     SignUpArgs,
     SuccessType,
     ResetPasswordArgs,
-    EmailVerificationStateType,
     VerifyEmailBody
 } from './models';
 
@@ -68,8 +67,8 @@ export class AuthResolver {
         return this.authService.send('ask-reset-password', args.email).pipe(this.mapSuccessType);
     }
 
-    @Query(() => ResetPasswordStateType)
-    public resetPasswordState(@Args() args: UserActionStateArgs): Observable<ResetPasswordStateType> {
+    @Query(() => UserActionStateType)
+    public resetPasswordState(@Args() args: UserActionStateArgs): Observable<UserActionStateType> {
         return this.authService.send('reset-password-state', args.code);
     }
 
@@ -78,8 +77,8 @@ export class AuthResolver {
         return this.authService.send<string>('reset-password', args).pipe(this.authOperator(response));
     }
 
-    @Query(() => EmailVerificationStateType)
-    public emailVerificationState(@Args() args: UserActionStateArgs): Observable<EmailVerificationStateType> {
+    @Query(() => UserActionStateType)
+    public emailVerificationState(@Args() args: UserActionStateArgs): Observable<UserActionStateType> {
         return this.authService.send('email-verification', args.code);
     }
 

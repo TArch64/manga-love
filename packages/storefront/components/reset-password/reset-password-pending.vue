@@ -1,11 +1,11 @@
 <template>
     <div class="ml-flex ml-flex--column ml-padding-bottom--xlg">
         <h1 class="ml-reset-password__heading">
-            {{ $t('auth.resetPassword.heading') }}
+            {{ $t('auth.resetPassword.pending.title') }}
         </h1>
 
         <p class="ml-reset-password__note">
-            {{ $t('auth.resetPassword.note') }}
+            {{ $t('auth.resetPassword.pending.description') }}
         </p>
 
         <MlForm class="ml-flex--grow" :form="form" :loading="isProcessing" @submit="resetPassword">
@@ -22,7 +22,7 @@
             />
 
             <MlButton class="ml-width--full ml-margin-top--auto ml-margin-bottom--md" skin="primary" type="submit" size="lg" :loading="isProcessing">
-                {{ $t('auth.resetPassword.submit') }}
+                {{ $t('auth.resetPassword.confirm') }}
             </MlButton>
 
             <MlButton class="ml-width--full ml-text--uppercase" link="/auth/sign-up" skin="flat" size="lg">
@@ -50,8 +50,7 @@ interface ResetPasswordForm extends ResetPasswordInfo {
 }
 
 export default defineComponent({
-    name: 'ResetPasswordValid',
-    layout: 'auth',
+    name: 'ResetPasswordPending',
 
     components: {
         MlButton,
@@ -59,7 +58,9 @@ export default defineComponent({
         MlPasswordField
     },
 
-    setup() {
+    emits: ['success'],
+
+    setup(_, { emit }) {
         const authStore = useAuthStore();
         const toaster = useToaster();
         const router = useRouter();
@@ -93,7 +94,7 @@ export default defineComponent({
             try {
                 isProcessing.value = true;
                 await authStore.resetPassword(form.data);
-                router.push('/');
+                emit('success');
             } catch (error) {
                 toaster.show({ path: 'errors.somethingWentWrong' });
                 isProcessing.value = false;

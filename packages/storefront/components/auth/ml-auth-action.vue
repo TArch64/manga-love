@@ -1,6 +1,6 @@
 <template>
     <div class="ml-auth-action">
-        <h1 class="ml-auth-action__title">
+        <h1 class="ml-auth-action__title" v-if="title">
             {{ title }}
         </h1>
 
@@ -49,7 +49,8 @@ export default defineComponent({
     props: {
         title: {
             type: String,
-            required: true
+            required: false,
+            default: ''
         },
 
         description: {

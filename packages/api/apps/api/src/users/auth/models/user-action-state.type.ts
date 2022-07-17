@@ -1,10 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class EmailVerificationStateType {
+export class UserActionStateType {
     @Field()
     public isValid: boolean;
 
     @Field()
-    public name: string;
+    public username: string;
 }

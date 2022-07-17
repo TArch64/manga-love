@@ -30,6 +30,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     max-width: 500px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 

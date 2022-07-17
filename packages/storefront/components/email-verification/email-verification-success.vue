@@ -19,7 +19,6 @@ import { MlButton } from '~/components/common';
 
 export default defineComponent({
     name: 'EmailVerificationSuccess',
-    layout: 'none',
 
     components: {
         MlAuthAction,

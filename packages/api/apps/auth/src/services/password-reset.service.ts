@@ -9,6 +9,7 @@ import { AuthTokenService } from './auth-token.service';
 
 export interface ResetPasswordState {
     isValid: boolean;
+    username: string;
 }
 
 @Injectable()
@@ -50,8 +51,12 @@ export class PasswordResetService {
 
     public async getResetPasswordState(code: string): Promise<ResetPasswordState> {
         const action = await this.userActionsRepository.getByCode(code);
+        const user = action?.userId && await this.usersRepository.getUserById(action.userId);
 
-        return { isValid: !!action };
+        return {
+            isValid: !!action,
+            username: user?.username ?? ''
+        };
     }
 
     public async resetPassword(code: string, password: string): Promise<string> {

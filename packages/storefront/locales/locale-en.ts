@@ -44,11 +44,19 @@ export default {
         },
 
         resetPassword: {
-            heading: 'Reset password',
-            note: 'Please, enter the new password',
-            submit: 'Reset',
+            confirm: 'Reset',
             toForgot: 'Try again',
             toSignUp: 'Sign up',
+
+            pending: {
+                title: 'Hi, {name}',
+                description: 'Please, enter the new password'
+            },
+
+            success: {
+                title: 'SUCCESS!',
+                description: 'Your email changed'
+            },
 
             error: {
                 title: 'Ooops...',
