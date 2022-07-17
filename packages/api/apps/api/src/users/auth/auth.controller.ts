@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Query, Render, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query, Res } from '@nestjs/common';
 import { IsEmail, IsJWT, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Response } from 'express';
 import { PublicUrlService, SuccessResponse } from '@manga-love/core';
@@ -20,11 +20,6 @@ class GoogleCredentialsBody {
     @IsNotEmpty()
     @IsJWT()
     public credential: string;
-}
-
-interface SignInRender {
-    actionPath: string;
-    error?: string;
 }
 
 class SignUpBody {
@@ -68,40 +63,14 @@ export class AuthController {
         private readonly apiUrl: PublicUrlService
     ) {}
 
-    @Get('sign-in')
-    @Render('auth-sign-in.ejs')
-    public signInPage(
-        @Query('return') returnUrl?: string,
-        @Query('error') error?: string
-    ): SignInRender {
-        return {
-            actionPath: this.apiUrl.resolve('auth/sign-in', {
-                return: returnUrl ?? this.apiUrl.resolve('graphql')
-            }),
-            error
-        };
-    }
-
     @Post('sign-in')
     public async signIn(
         @Body() body: SignInBody,
-        @Query('return') returnUrl: string,
-        @Res() res: Response
-    ): Promise<void> {
-        try {
-            const token = await firstValueFrom<string>(this.authService.send('sign-in', body));
-            this.writeAuthCookie(res, token);
-
-            returnUrl ? res.redirect(returnUrl) : res.json({ success: true });
-        } catch (error) {
-            if (!returnUrl) throw error;
-
-            const url = this.apiUrl.resolve('auth/sign-in', {
-                return: returnUrl,
-                error: error.message
-            });
-            res.redirect(url);
-        }
+        @Res({ passthrough: true }) res: Response
+    ): Promise<SuccessResponse> {
+        const token = await firstValueFrom<string>(this.authService.send('sign-in', body));
+        this.writeAuthCookie(res, token);
+        return { success: true };
     }
 
     private writeAuthCookie(response: Response, token: string): void {

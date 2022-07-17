@@ -14,8 +14,6 @@ async function bootstrap(): Promise<void> {
     app.use(cookieParser(process.env.API_SECRET));
     app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(new AppExceptionsFilter(httpAdapterHost));
-    app.setBaseViewsDir(resolve('./src/views'));
-    app.setViewEngine('ejs');
     app.enableCors();
 
     await app.listen(3000, '0.0.0.0');
