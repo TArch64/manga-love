@@ -17,7 +17,8 @@ import { MicroservicesModule } from './microservices.config';
                     'request.credentials': 'include'
                 }
             },
-            autoSchemaFile: join(process.cwd(), './schema.graphql')
+            autoSchemaFile: join(process.cwd(), './schema.graphql'),
+            context: ({ req, res }) => ({ req, res })
         }),
         UsersModule,
         MangasModule,

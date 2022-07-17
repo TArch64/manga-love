@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
-import { useQuery, useApiHttp } from '~/composables';
-import { currentUserQuery } from '~/graphql/user';
-
-export interface User {
-    id: string;
-    email: string;
-}
+import {
+    AskResetPassword,
+    EmailVerificationStateQuery,
+    GoogleSignInMutation,
+    ResetPasswordMutation,
+    ResetPasswordStateQuery,
+    SignInMutation,
+    SignUpMutation,
+    VerifyEmailMutation
+} from '~/graphql/user';
 
 export interface GoogleCredentials {
     credential: string;
@@ -32,10 +35,6 @@ export interface ResetPasswordInfo {
     password: string;
 }
 
-interface ResetPasswordRequest extends ResetPasswordInfo {
-    code: string;
-}
-
 export interface ResetPasswordState {
     isValid: boolean;
     code: string;
@@ -47,92 +46,80 @@ export interface EmailVerificationState {
     name: string;
 }
 
-interface VerifyPasswordRequest {
-    code: string;
-}
-
 interface State {
-    currentUser: User | null;
     resetPasswordState: ResetPasswordState | null;
     emailVerificationState: EmailVerificationState | null;
 }
 
-interface Actions {
-    loadCurrentUser(): Promise<void>;
-    signIn(credentials: SignInCredentials): Promise<void>;
-    signInByGoogle(credentials: GoogleCredentials): Promise<void>;
-    signUp(info: SignUpInfo): Promise<void>;
-    askResetPassword(info: ForgotInfo): Promise<void>;
-    loadResetPasswordState(code: string): Promise<void>;
-    resetPassword(info: ResetPasswordInfo): Promise<void>;
-    loadEmailVerificationState(code: string): Promise<void>;
-    verifyEmail(): Promise<void>;
-}
-
-const apiHttp = useApiHttp();
-
-export const useAuthStore = defineStore<string, State, {}, Actions>('auth', {
-    state: () => ({
-        currentUser: null,
+export const useAuthStore = defineStore('auth', {
+    state: (): State => ({
         resetPasswordState: null,
         emailVerificationState: null
     }),
 
     actions: {
-        async loadCurrentUser() {
-            try {
-                const query = await useQuery<{ currentUser: User }>({ query: currentUserQuery });
-                this.currentUser = query.currentUser;
-            } catch (error) {
-                this.currentUser = null;
-            }
-        },
-
-        async signIn(credentials) {
-            await apiHttp.post<SignInCredentials>('auth/sign-in', {
-                email: credentials.email,
-                password: credentials.password
+        async signIn(credentials: SignInCredentials) {
+            await this.$nuxt.$apollo.mutate({
+                mutation: SignInMutation,
+                variables: credentials
             });
         },
 
-        async signInByGoogle(credentials) {
-            await apiHttp.post<GoogleCredentials>('auth/google-sign-in', credentials);
+        async signInByGoogle(credentials: GoogleCredentials) {
+            await this.$nuxt.$apollo.mutate({
+                mutation: GoogleSignInMutation,
+                variables: credentials
+            });
         },
 
         async signUp(info: SignUpInfo) {
-            await apiHttp.post<SignUpInfo>('auth/sign-up', {
-                username: info.username,
-                email: info.email,
-                password: info.password
+            await this.$nuxt.$apollo.mutate({
+                mutation: SignUpMutation,
+                variables: info
             });
         },
 
         async askResetPassword(info: ForgotInfo) {
-            await apiHttp.post<ForgotInfo>('auth/ask-reset-password', {
-                email: info.email
+            await this.$nuxt.$apollo.mutate({
+                mutation: AskResetPassword,
+                variables: { email: info.email }
             });
         },
 
         async loadResetPasswordState(code: string) {
-            this.resetPasswordState = await apiHttp.get<ResetPasswordState>('auth/reset-password', { code });
+            const result = await this.$nuxt.$apollo.query<{ resetPasswordState: ResetPasswordState }>({
+                query: ResetPasswordStateQuery,
+                variables: { code }
+            });
+
+            this.resetPasswordState = result.data.resetPasswordState;
             this.resetPasswordState.code = code;
         },
 
         async resetPassword(info: ResetPasswordInfo) {
-            await apiHttp.post<ResetPasswordRequest>('auth/reset-password', {
-                password: info.password,
-                code: this.resetPasswordState?.code || ''
+            await this.$nuxt.$apollo.mutate({
+                mutation: ResetPasswordMutation,
+                variables: {
+                    password: info.password,
+                    code: this.resetPasswordState?.code || ''
+                }
             });
         },
 
         async loadEmailVerificationState(code: string) {
-            this.emailVerificationState = await apiHttp.get<EmailVerificationState>('auth/email-verification', { code });
+            const result = await this.$nuxt.$apollo.query<{ emailVerificationState: EmailVerificationState }>({
+                query: EmailVerificationStateQuery,
+                variables: { code }
+            });
+
+            this.emailVerificationState = result.data.emailVerificationState;
             this.emailVerificationState.code = code;
         },
 
         async verifyEmail() {
-            await apiHttp.post<VerifyPasswordRequest>('auth/email-verification', {
-                code: this.emailVerificationState?.code ?? ''
+            await this.$nuxt.$apollo.mutate({
+                mutation: VerifyEmailMutation,
+                variables: { code: this.emailVerificationState?.code ?? '' }
             });
         }
     }

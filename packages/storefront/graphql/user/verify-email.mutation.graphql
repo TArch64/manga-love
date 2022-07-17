@@ -1,0 +1,5 @@
+mutation($code: String!) {
+    verifyEmail(code: $code) {
+        success
+    }
+}

@@ -1,0 +1,5 @@
+mutation($credential: String!) {
+    googleSignIn(credential: $credential) {
+        success
+    }
+}

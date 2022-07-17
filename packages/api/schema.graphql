@@ -7,6 +7,19 @@ type User {
   email: String
 }
 
+type Success {
+  success: Boolean!
+}
+
+type ResetPasswordStateType {
+  isValid: Boolean!
+}
+
+type EmailVerificationStateType {
+  isValid: Boolean!
+  name: String!
+}
+
 type MangaPoster {
   id: ID!
   originalSrc: String!
@@ -38,5 +51,16 @@ enum MangaType {
 
 type Query {
   currentUser: User!
+  resetPasswordState(code: String!): ResetPasswordStateType!
+  emailVerificationState(code: String!): EmailVerificationStateType!
   mangas(offset: Float!, limit: Float!): [Manga!]!
+}
+
+type Mutation {
+  signIn(email: String!, password: String!): Success!
+  googleSignIn(credential: String!): Success!
+  signUp(username: String!, email: String!, password: String!): Success!
+  askResetPassword(email: String!): Success!
+  resetPassword(password: String!, code: String!): Success!
+  verifyEmail(code: String!): Success!
 }

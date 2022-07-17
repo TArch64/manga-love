@@ -55,6 +55,10 @@ export default {
         ['@nuxtjs/toast', { duration: 5000 }]
     ],
 
+    plugins: [
+        '~/plugins/apollo-provider.ts'
+    ],
+
     css: [
         'normalize.css/normalize.css',
         '~/styles/global.css'
