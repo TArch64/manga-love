@@ -60,46 +60,31 @@ export const useAuthStore = defineStore('auth', {
 
     actions: {
         async signIn(credentials: SignInCredentials) {
-            await this.$nuxt.$apollo.mutate({
-                mutation: SignInMutation,
-                variables: credentials
-            });
+            await this.$nuxt.$apollo.mutate(SignInMutation, { variables: credentials });
         },
 
         async signInByGoogle(credentials: GoogleCredentials) {
-            await this.$nuxt.$apollo.mutate({
-                mutation: GoogleSignInMutation,
-                variables: credentials
-            });
+            await this.$nuxt.$apollo.mutate(GoogleSignInMutation, { variables: credentials });
         },
 
         async signUp(info: SignUpInfo) {
-            await this.$nuxt.$apollo.mutate({
-                mutation: SignUpMutation,
-                variables: info
-            });
+            await this.$nuxt.$apollo.mutate(SignUpMutation, { variables: info });
         },
 
         async askResetPassword(info: ForgotInfo) {
-            await this.$nuxt.$apollo.mutate({
-                mutation: AskResetPassword,
-                variables: { email: info.email }
-            });
+            await this.$nuxt.$apollo.mutate(AskResetPassword, { variables: info });
         },
 
         async loadResetPasswordState(code: string) {
-            const result = await this.$nuxt.$apollo.query<{ resetPasswordState: ResetPasswordState }>({
-                query: ResetPasswordStateQuery,
-                variables: { code }
-            });
+            type Result = { resetPasswordState: ResetPasswordState };
+            const result = await this.$nuxt.$apollo.query<Result>(ResetPasswordStateQuery, { variables: { code } });
 
-            this.resetPasswordState = result.data.resetPasswordState;
+            this.resetPasswordState = result.resetPasswordState;
             this.resetPasswordState.code = code;
         },
 
         async resetPassword(info: ResetPasswordInfo) {
-            await this.$nuxt.$apollo.mutate({
-                mutation: ResetPasswordMutation,
+            await this.$nuxt.$apollo.mutate(ResetPasswordMutation, {
                 variables: {
                     password: info.password,
                     code: this.resetPasswordState?.code || ''
@@ -108,18 +93,15 @@ export const useAuthStore = defineStore('auth', {
         },
 
         async loadEmailVerificationState(code: string) {
-            const result = await this.$nuxt.$apollo.query<{ emailVerificationState: EmailVerificationState }>({
-                query: EmailVerificationStateQuery,
-                variables: { code }
-            });
+            type Result = { emailVerificationState: EmailVerificationState };
+            const result = await this.$nuxt.$apollo.query<Result>(EmailVerificationStateQuery, { variables: { code } });
 
-            this.emailVerificationState = result.data.emailVerificationState;
+            this.emailVerificationState = result.emailVerificationState;
             this.emailVerificationState.code = code;
         },
 
         async verifyEmail() {
-            await this.$nuxt.$apollo.mutate({
-                mutation: VerifyEmailMutation,
+            await this.$nuxt.$apollo.mutate(VerifyEmailMutation, {
                 variables: { code: this.emailVerificationState?.code ?? '' }
             });
         }

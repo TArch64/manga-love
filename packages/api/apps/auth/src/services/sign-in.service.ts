@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { TypedError } from '@manga-love/core';
 import { DatabaseUser, UsersRepository } from '@manga-love/database';
+import { RpcException } from '@nestjs/microservices';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
 
@@ -32,7 +32,7 @@ export class SignInService {
     }
 
     private throwUnauthorizedException(): never {
-        throw new TypedError('bad-credentials', 401);
+        throw new RpcException('bad-credentials');
     }
 
     public async googleSignIn(credentials: string): Promise<string> {

@@ -1,5 +1,5 @@
-import { TypedError } from '@manga-love/core';
 import { Prisma } from '@prisma/client';
+import { RpcException } from '@nestjs/microservices';
 import { UniqueConstrainError } from '../prisma';
 
 export function isUniqueConstrain(error: unknown): error is UniqueConstrainError {
@@ -12,5 +12,5 @@ export function handleUniqueConstrain(error: unknown): never {
         throw error;
     }
     const [column] = error.meta.target;
-    throw new TypedError(`${column}-already-taken`);
+    throw new RpcException(`${column}-already-taken`);
 }

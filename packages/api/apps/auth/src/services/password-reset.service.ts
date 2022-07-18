@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { PublicUrlService, TypedError } from '@manga-love/core';
+import { PublicUrlService } from '@manga-love/core';
 import { DatabaseUserActionType, DatabaseUser, UserActionsRepository, UsersRepository } from '@manga-love/database';
 import { MICROSERVICES } from '../microservices.config';
 import { AuthPasswordService } from './auth-password.service';
@@ -29,7 +29,7 @@ export class PasswordResetService {
         const user = await this.usersRepository.getUserByEmail(email);
 
         if (!user) {
-            throw new TypedError('invalid-email');
+            throw new RpcException('invalid-email');
         }
 
         await this.sendResetPasswordEmail(user);
@@ -63,7 +63,7 @@ export class PasswordResetService {
         const action = await this.userActionsRepository.getByCode(code);
 
         if (!action) {
-            throw new TypedError('unknown');
+            throw new RpcException('unknown');
         }
 
         const user = await this.usersRepository.getUserById(action.userId);

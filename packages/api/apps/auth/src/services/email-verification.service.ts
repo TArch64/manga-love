@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { ClientProxy } from '@nestjs/microservices';
-import { PublicUrlService, TypedError } from '@manga-love/core';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
+import { PublicUrlService } from '@manga-love/core';
 import { DatabaseUser, DatabaseUserActionType, UserActionsRepository, UsersRepository } from '@manga-love/database';
 import { MICROSERVICES } from '../microservices.config';
 
@@ -25,7 +25,7 @@ export class EmailVerificationService {
         const action = await this.userActionsRepository.getByCode(code);
 
         if (!action) {
-            throw new TypedError('unknown');
+            throw new RpcException('unknown');
         }
 
         const user = await this.usersRepository.getUserById(action.userId);
