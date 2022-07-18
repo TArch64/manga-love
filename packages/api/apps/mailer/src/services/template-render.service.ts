@@ -2,6 +2,7 @@ import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 import { Injectable } from '@nestjs/common';
 import { render } from 'ejs';
+import mjml2html from 'mjml';
 
 @Injectable()
 export class TemplateRenderService {
@@ -9,7 +10,10 @@ export class TemplateRenderService {
 
     public async render(name: string, data: Record<string, string>): Promise<string> {
         const template = await this.loadTemplate(name);
-        return render(template, data, { async: true });
+        const mjml = await render(template, data, { async: true });
+        console.log(mjml2html);
+
+        return mjml2html(mjml).html;
     }
 
     private async loadTemplate(name: string): Promise<string> {
@@ -20,6 +24,6 @@ export class TemplateRenderService {
     }
 
     private buildTemplatePath(name: string): string {
-        return resolve('./dist/apps/mailer/views', `${name}.ejs`);
+        return resolve('./dist/apps/mailer/views', `${name}.mjml`);
     }
 }

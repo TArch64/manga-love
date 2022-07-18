@@ -1,39 +1,37 @@
 <template>
-    <div class="ml-flex ml-flex--column ml-padding-bottom--xlg">
-        <h1 class="ml-reset-password__heading">
-            {{ $t('auth.resetPassword.pending.title') }}
-        </h1>
+    <MlAuthAction
+        form
+        :title="$t('auth.resetPassword.pending.title', { username })"
+        :description="$t('auth.resetPassword.pending.description')"
+    >
+        <template #actions>
+            <MlForm :form="form" :loading="isProcessing" @submit="resetPassword">
+                <MlPasswordField
+                    name="password"
+                    class="ml-margin-bottom--md"
+                    :label="$t('auth.form.newPassword.label')"
+                />
 
-        <p class="ml-reset-password__note">
-            {{ $t('auth.resetPassword.pending.description') }}
-        </p>
+                <MlPasswordField
+                    name="passwordConfirmation"
+                    class="ml-margin-bottom--md"
+                    :label="$t('auth.form.newPasswordConfirmation.label')"
+                />
 
-        <MlForm class="ml-flex--grow" :form="form" :loading="isProcessing" @submit="resetPassword">
-            <MlPasswordField
-                name="password"
-                class="ml-margin-bottom--md"
-                :label="$t('auth.form.newPassword.label')"
-            />
+                <MlButton class="ml-width--full ml-margin-top--auto ml-margin-bottom--md" skin="primary" type="submit" size="lg" :loading="isProcessing">
+                    {{ $t('auth.resetPassword.confirm') }}
+                </MlButton>
 
-            <MlPasswordField
-                name="passwordConfirmation"
-                class="ml-margin-bottom--md"
-                :label="$t('auth.form.newPasswordConfirmation.label')"
-            />
-
-            <MlButton class="ml-width--full ml-margin-top--auto ml-margin-bottom--md" skin="primary" type="submit" size="lg" :loading="isProcessing">
-                {{ $t('auth.resetPassword.confirm') }}
-            </MlButton>
-
-            <MlButton class="ml-width--full ml-text--uppercase" link="/auth/sign-up" skin="flat" size="lg">
-                {{ $t('auth.resetPassword.toSignUp') }}
-            </MlButton>
-        </MlForm>
-    </div>
+                <MlButton class="ml-width--full ml-text--uppercase" link="/auth/sign-up" skin="flat" size="lg">
+                    {{ $t('auth.resetPassword.toSignUp') }}
+                </MlButton>
+            </MlForm>
+        </template>
+    </MlAuthAction>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useAsync } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref, useAsync } from '@nuxtjs/composition-api';
 import {
     useForm,
     MlForm,
@@ -44,6 +42,7 @@ import {
 import { ResetPasswordInfo, ResetPasswordState, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
 import { useRouter, useToaster } from '~/composables';
+import { MlAuthAction } from '../auth';
 
 interface ResetPasswordForm extends ResetPasswordInfo {
     passwordConfirmation: string;
@@ -55,7 +54,8 @@ export default defineComponent({
     components: {
         MlButton,
         MlForm,
-        MlPasswordField
+        MlPasswordField,
+        MlAuthAction
     },
 
     emits: ['success'],
@@ -71,6 +71,8 @@ export default defineComponent({
             await authStore.loadResetPasswordState(code);
             return authStore.resetPasswordState!;
         });
+
+        const username = computed(() => passwordReset.value?.username ?? '');
 
         const form = useForm<ResetPasswordForm>({
             password: {
@@ -103,6 +105,7 @@ export default defineComponent({
 
         return {
             form,
+            username,
             resetPassword,
             passwordReset,
             isProcessing

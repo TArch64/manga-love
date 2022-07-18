@@ -4,7 +4,7 @@
             {{ title }}
         </h1>
 
-        <div class="ml-auth-action__illustration">
+        <div class="ml-auth-action__illustration" v-if="!form">
             <MlIcon
                 class="ml-auth-action__illustration-image"
                 type="auth"
@@ -58,6 +58,12 @@ export default defineComponent({
             required: true
         },
 
+        form: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
         resultType: {
             type: String as PropType<ResultType>,
             required: false,
@@ -84,6 +90,7 @@ export default defineComponent({
     align-items: center;
     height: 100%;
     max-width: 500px;
+    width: 100%;
     margin: auto;
     padding-top: 80px;
     padding-left: 40px;

@@ -102,10 +102,8 @@ export default defineComponent({
 
 .ml-form-field__control:not(.ml-form-field__control--disabled) {
 
-    &:hover,
-    &:focus-within {
-        border-color: #242424;
-    }
+    &:hover { border-color: #808080 }
+    &:focus-within { border-color: #242424 }
 }
 
 .ml-form-field__control--disabled {

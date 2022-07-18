@@ -3,7 +3,7 @@
   "sourceRoot": "apps/api/src",
   "compilerOptions": {
     "assets": [
-      "**/*.ejs"
+      "**/*.mjml"
     ],
     "watchAssets": true,
     "tsConfigPath": "apps/api/tsconfig.app.json",

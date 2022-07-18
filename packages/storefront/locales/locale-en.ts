@@ -47,9 +47,10 @@ export default {
             confirm: 'Reset',
             toForgot: 'Try again',
             toSignUp: 'Sign up',
+            toHome: 'Back to home',
 
             pending: {
-                title: 'Hi, {name}',
+                title: 'Hi, {username}',
                 description: 'Please, enter the new password'
             },
 
@@ -69,7 +70,7 @@ export default {
             toHome: 'Back to home',
 
             pending: {
-                title: 'Hi, {name}',
+                title: 'Hi, {username}',
                 description: 'You can confirm your email by clicking on the button bellow. If you did not registered, please ignore this letter.'
             },
 
