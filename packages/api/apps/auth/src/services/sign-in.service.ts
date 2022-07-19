@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { DatabaseUser, UsersRepository } from '@manga-love/database';
-import { RpcException } from '@nestjs/microservices';
+import { DatabaseUser, DatabaseImage, UsersRepository } from '@manga-love/database';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
+import { firstValueFrom, Observable } from 'rxjs';
+import { MICROSERVICES } from '../microservices.config';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
 
@@ -19,7 +21,9 @@ export class SignInService {
         private readonly usersRepository: UsersRepository,
         private readonly jwtService: JwtService,
         private readonly passwordService: AuthPasswordService,
-        private readonly authTokenService: AuthTokenService
+        private readonly authTokenService: AuthTokenService,
+        @Inject(MICROSERVICES.UPLOADER)
+        private readonly uploaderService: ClientProxy
     ) {}
 
     public async signIn(email: string, password: string): Promise<string>  {
@@ -49,12 +53,22 @@ export class SignInService {
 
     private async fetchGoogleUser(googleUser: GoogleUser): Promise<DatabaseUser> {
         const existingUser = await this.usersRepository.getUserByEmail(googleUser.email);
+        return existingUser || this.createGoogleUser(googleUser);
+    }
 
-        return existingUser || this.usersRepository.create({
+    private async createGoogleUser(googleUser: GoogleUser): Promise<DatabaseUser> {
+        const uploadingAvatar = this.uploaderService.send<DatabaseImage>('import', googleUser.picture);
+        const avatar = await firstValueFrom(uploadingAvatar);
+
+        return this.usersRepository.create({
             password: '',
             email: googleUser.email,
             username: googleUser.name,
-            emailConfirmed: true
+            emailConfirmed: true,
+
+            avatar: {
+                connect: { id: avatar.id }
+            }
         });
     }
 }

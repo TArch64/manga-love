@@ -14,5 +14,8 @@ export class MangaPosterModel {
     public originalSrc: string;
 
     @Field()
-    public originalAspectRatio: number;
+    public originalWidth: number;
+
+    @Field()
+    public originalHeight: number;
 }

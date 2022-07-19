@@ -1,9 +1,6 @@
 import { client } from './client-provider';
-import { seedUsers } from './users';
 
-const seeds = [
-    seedUsers
-];
+const seeds = [];
 
 (async (): Promise<void> => {
     for (const seed of seeds) {

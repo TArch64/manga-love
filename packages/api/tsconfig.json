@@ -1,33 +1,41 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "declaration": true,
-        "removeComments": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "target": "ES2020",
-        "sourceMap": true,
-        "outDir": "./dist",
-        "baseUrl": "./",
-        "incremental": true,
-        "skipLibCheck": true,
-        "strictNullChecks": false,
-        "noImplicitAny": false,
-        "strictBindCallApply": false,
-        "forceConsistentCasingInFileNames": false,
-        "noFallthroughCasesInSwitch": false,
-        "resolveJsonModule": true,
-        "allowJs": true,
-        "esModuleInterop": true,
-        "paths": {
-            "@manga-love/core": ["libs/core/src"],
-            "@manga-love/core/*": ["libs/core/src/*"],
-            "@manga-love/database": ["libs/database/src"],
-            "@manga-love/database/*": ["libs/database/src/*"]
-        },
-        "types": [
-            "@types/mjml"
-        ]
-    }
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2020",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@manga-love/core": [
+        "libs/core/src"
+      ],
+      "@manga-love/core/*": [
+        "libs/core/src/*"
+      ],
+      "@manga-love/database": [
+        "libs/database/src"
+      ],
+      "@manga-love/database/*": [
+        "libs/database/src/*"
+      ]
+    },
+    "types": [
+      "@types/mjml"
+    ]
+  }
 }

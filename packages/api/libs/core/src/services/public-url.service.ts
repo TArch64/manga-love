@@ -4,6 +4,7 @@ import { FactoryProvider, Injectable } from '@nestjs/common';
 export class PublicUrlService {
     public static API = Symbol('API_PUBLIC_URL');
     public static STOREFRONT = Symbol('STOREFRONT_PUBLIC_URL');
+    public static CDN = Symbol('CDN_PUBLIC_URL');
 
     public static provide(token: symbol, baseUrl: string): FactoryProvider {
         return {

@@ -33,7 +33,8 @@ import {
         AuthPasswordService,
         PasswordResetService,
         PublicUrlService.provide(PublicUrlService.API, process.env.API_PUBLIC_URL),
-        PublicUrlService.provide(PublicUrlService.STOREFRONT, process.env.API_STOREFRONT_URL)
+        PublicUrlService.provide(PublicUrlService.STOREFRONT, process.env.API_STOREFRONT_URL),
+        PublicUrlService.provide(PublicUrlService.CDN, process.env.API_CLOUDFRONT_URL)
     ]
 })
 export class AuthModule {}

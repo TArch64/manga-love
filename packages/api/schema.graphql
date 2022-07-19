@@ -19,7 +19,8 @@ type UserActionStateType {
 type MangaPoster {
   id: ID!
   originalSrc: String!
-  originalAspectRatio: Float!
+  originalWidth: Float!
+  originalHeight: Float!
 }
 
 type Manga {

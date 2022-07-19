@@ -1,22 +1,12 @@
 import { FactoryProvider, Injectable } from '@nestjs/common';
-import { Axios } from 'axios';
-
-export interface HttpClientOptions {
-    baseUrl: string;
-    headers: Record<string, string>;
-}
+import axios, { Axios } from 'axios';
 
 @Injectable()
 export class HttpClient extends Axios {
-    public static provide(options: HttpClientOptions): FactoryProvider {
+    public static provide(): FactoryProvider {
         return {
             provide: HttpClient,
-
-            useFactory(): HttpClient {
-                return new HttpClient({
-                    baseURL: options.baseUrl
-                });
-            }
+            useFactory: () => axios.create()
         };
     }
 }

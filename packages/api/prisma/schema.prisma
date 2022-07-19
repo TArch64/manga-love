@@ -14,6 +14,8 @@ model DatabaseUser {
     emailConfirmed Boolean              @default(false)
     password       String               @db.VarChar(200)
     actions        DatabaseUserAction[]
+    avatarId       String               @unique
+    avatar         DatabaseImage        @relation(fields: [avatarId], references: [id], onDelete: Cascade)
 }
 
 model DatabaseUserAction {
@@ -57,9 +59,11 @@ enum DatabaseMangaType {
 }
 
 model DatabaseImage {
-    id                   String         @id @default(uuid())
-    originalSrc          String
-    originalAspectRatio  Float
-    targetId             String
-    targetManga          DatabaseManga? @relation(fields: [targetId], references: [id], onDelete: Cascade)
+    id               String         @id @default(uuid())
+    originalSrc      String
+    originalWidth    Int
+    originalHeight   Int
+    targetId         String?
+    targetManga      DatabaseManga? @relation(fields: [targetId], references: [id], onDelete: Cascade)
+    targetUserAvatar DatabaseUser?
 }
