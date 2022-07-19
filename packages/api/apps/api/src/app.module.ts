@@ -3,7 +3,6 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './users';
-import { MangasModule } from './mangas';
 import { MicroservicesModule } from './microservices.config';
 
 @Module({
@@ -21,7 +20,6 @@ import { MicroservicesModule } from './microservices.config';
             context: ({ req, res }) => ({ req, res })
         }),
         UsersModule,
-        MangasModule,
         MicroservicesModule
     ]
 })

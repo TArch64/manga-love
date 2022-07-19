@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ImagesDatabaseModule } from '@manga-love/database';
 import { AwsModule, HttpClient, PublicUrlService } from '@manga-love/core';
 import { UploaderController } from './controlers';
-import { ExternalImageService } from './services';
+import { ExternalImageService, ImageUploaderService } from './services';
 
 @Module({
     imports: [
@@ -13,6 +13,7 @@ import { ExternalImageService } from './services';
         UploaderController
     ],
     providers: [
+        ImageUploaderService,
         ExternalImageService,
         HttpClient.provide(),
         PublicUrlService.provide(PublicUrlService.CDN, process.env.API_CLOUDFRONT_URL)
