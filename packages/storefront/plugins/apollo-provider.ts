@@ -10,7 +10,7 @@ class ApolloProvider {
 
     public query<Result, Variables = OperationVariables>(
         query: QueryOptions<Variables>['query'],
-        config: Omit<QueryOptions<Variables>, 'query'>
+        config: Omit<QueryOptions<Variables>, 'query'> = {}
     ): Promise<Result> {
         const options: QueryOptions<Variables> = { ...config, query };
 

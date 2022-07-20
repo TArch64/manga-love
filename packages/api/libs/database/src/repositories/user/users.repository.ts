@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseUser, Prisma, PrismaService } from '../../prisma';
+import { DatabaseUser, DatabaseImage, Prisma, PrismaService } from '../../prisma';
 
 @Injectable()
 export class UsersRepository {
@@ -31,6 +31,12 @@ export class UsersRepository {
         return this.prisma.databaseUser.update({
             where: { id },
             data
+        });
+    }
+
+    public async getUserAvatarById(avatarId: string): Promise<DatabaseImage> {
+        return this.prisma.databaseImage.findUnique({
+            where: { id: avatarId }
         });
     }
 }

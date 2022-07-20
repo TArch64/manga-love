@@ -1,6 +1,11 @@
 {
     currentUser {
         id
-        email
+        username
+        avatar {
+            originalHeight
+            originalWidth
+            originalSrc
+        }
     }
 }

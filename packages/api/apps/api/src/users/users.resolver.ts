@@ -1,13 +1,21 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, ResolveField, Parent } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { UserModel } from './models';
+import { UsersRepository } from '@manga-love/database';
+import { UserModel, UserAvatarModel } from './models';
 import { CurrentUser, GqlAuthGuard, QLCurrentUser } from './auth';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
+    constructor(private readonly usersRepository: UsersRepository) {}
+
     @UseGuards(GqlAuthGuard)
     @Query(() => UserModel)
-    public async currentUser(@QLCurrentUser() currentUser: CurrentUser): Promise<UserModel> {
+    public currentUser(@QLCurrentUser() currentUser: CurrentUser): UserModel {
         return currentUser;
+    }
+
+    @ResolveField()
+    public async avatar(@Parent() user: UserModel): Promise<UserAvatarModel> {
+        return this.usersRepository.getUserAvatarById(user.avatarId);
     }
 }

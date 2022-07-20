@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import {
-    AskResetPassword,
+    AskResetPassword, CurrentUserQuery,
     EmailVerificationStateQuery,
     GoogleSignInMutation,
     ResetPasswordMutation,
@@ -47,13 +47,29 @@ export interface EmailVerificationState {
     code: string;
 }
 
+export interface UserAvatar {
+    originalHeight: number;
+    originalWidth: number;
+    originalSrc: string;
+}
+
+export interface User {
+    id: string;
+    username: string;
+    avatar: UserAvatar;
+}
+
 interface State {
+    currentUser: User | null;
+    isCurrentUserLoaded: boolean;
     resetPasswordState: ResetPasswordState | null;
     emailVerificationState: EmailVerificationState | null;
 }
 
 export const useAuthStore = defineStore('auth', {
     state: (): State => ({
+        currentUser: null,
+        isCurrentUserLoaded: false,
         resetPasswordState: null,
         emailVerificationState: null
     }),
@@ -61,14 +77,17 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async signIn(credentials: SignInCredentials) {
             await this.$nuxt.$apollo.mutate(SignInMutation, { variables: credentials });
+            this.isCurrentUserLoaded = false;
         },
 
         async signInByGoogle(credentials: GoogleCredentials) {
             await this.$nuxt.$apollo.mutate(GoogleSignInMutation, { variables: credentials });
+            this.isCurrentUserLoaded = false;
         },
 
         async signUp(info: SignUpInfo) {
             await this.$nuxt.$apollo.mutate(SignUpMutation, { variables: info });
+            this.isCurrentUserLoaded = false;
         },
 
         async askResetPassword(info: ForgotInfo) {
@@ -104,6 +123,18 @@ export const useAuthStore = defineStore('auth', {
             await this.$nuxt.$apollo.mutate(VerifyEmailMutation, {
                 variables: { code: this.emailVerificationState?.code ?? '' }
             });
+        },
+
+        async loadCurrentUser(): Promise<void> {
+            try {
+                type Result = { currentUser: User };
+                const result = await this.$nuxt.$apollo.query<Result>(CurrentUserQuery);
+                this.currentUser = result.currentUser;
+            } catch (error) {
+                this.currentUser = null;
+            } finally {
+                this.isCurrentUserLoaded = true;
+            }
         }
     }
 });

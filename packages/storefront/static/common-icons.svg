@@ -41,8 +41,11 @@
         <symbol id="navigation-link-profile-inactive" fill="none" viewBox="0 0 24 24">
             <path fill="var(--icon-foreground)" fill-rule="evenodd" d="M19.5 21s1.5 0 1.5-1.5-1.5-6-9-6-9 4.5-9 6S4.5 21 4.5 21h15ZM4.508 19.584v-.003.003Zm.025-.084h14.934a.379.379 0 0 0 .021-.003l.012-.003c-.002-.369-.231-1.479-1.248-2.496C17.274 16.02 15.434 15 12 15c-3.435 0-5.274 1.02-6.252 1.998-1.017 1.017-1.245 2.127-1.248 2.496l.033.006Zm14.961.084v-.003.003ZM12 10.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm4.5-3a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" clip-rule="evenodd"/>
         </symbol>
-        <svg id="navigation-link-profile-active" fill="none" viewBox="0 0 24 24">
+        <symbol id="navigation-link-profile-active" fill="none" viewBox="0 0 24 24">
             <path fill="var(--icon-foreground)" fill-rule="evenodd" d="M4.5 21S3 21 3 19.5s1.5-6 9-6 9 4.5 9 6-1.5 1.5-1.5 1.5h-15Zm7.5-9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z" clip-rule="evenodd"/>
-        </svg>
+        </symbol>
+        <symbol id="navigation-link-sign-in-inactive" fill="none" viewBox="0 0 20 20">
+            <path stroke="var(--icon-foreground)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.513 6.158V5.38a3.071 3.071 0 0 0-3.07-3.07H5.38a3.07 3.07 0 0 0-3.07 3.07v9.275a3.07 3.07 0 0 0 3.07 3.071h4.07a3.061 3.061 0 0 0 3.063-3.061v-.786m5.662-3.861H8.14m7.594-2.429 2.44 2.429-2.44 2.43"/>
+        </symbol>
     </defs>
 </svg>

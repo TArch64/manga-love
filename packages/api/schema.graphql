@@ -2,9 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserAvatar {
+  id: ID!
+  originalWidth: Float!
+  originalHeight: Float!
+  originalSrc: String!
+}
+
 type User {
   id: ID!
-  email: String
+  email: String!
+  username: String!
+  avatarId: ID!
+  avatar: UserAvatar!
 }
 
 type Success {

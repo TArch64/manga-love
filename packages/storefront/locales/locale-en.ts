@@ -115,7 +115,8 @@ export default {
                 home: 'Home',
                 library: 'Library',
                 notifications: 'Notifications',
-                profile: 'Profile'
+                profile: 'Profile',
+                'sign-in': 'Sign In'
             }
         }
     }

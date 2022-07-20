@@ -1,7 +1,7 @@
 <template>
     <nav class="ml-layout-navigation">
         <MlLayoutNavigationLink
-            v-for="link of $options.links"
+            v-for="link of links"
             :key="link.id"
             :id="link.id"
             :url="link.url"
@@ -13,7 +13,27 @@
 <script lang="ts">
 import { computed, defineComponent } from '@nuxtjs/composition-api';
 import { useRouter } from '~/composables';
+import { useAuthStore } from '~/store';
 import MlLayoutNavigationLink from './ml-layout-navigation-link.vue';
+
+enum PageAccess {
+    AUTH,
+    INAUTH
+}
+
+interface Link {
+    id: string;
+    url: string;
+    access?: PageAccess;
+}
+
+const LINKS: Link[] = [
+    { id: 'home', url: '/' },
+    { id: 'library', url: '/library', access: PageAccess.AUTH },
+    { id: 'notifications', url: '/notifications', access: PageAccess.AUTH },
+    { id: 'profile', url: '/profile', access: PageAccess.AUTH },
+    { id: 'sign-in', url: '/auth/sign-in', access: PageAccess.INAUTH }
+];
 
 export default defineComponent({
     name: 'MlLayoutNavigation',
@@ -22,18 +42,18 @@ export default defineComponent({
         MlLayoutNavigationLink
     },
 
-    links: [
-        { id: 'home', url: '/' },
-        { id: 'library', url: '/library' },
-        { id: 'notifications', url: '/notifications' },
-        { id: 'profile', url: '/profile' }
-    ],
-
     setup() {
         const router = useRouter();
+        const authStore = useAuthStore();
         const activeUrl = computed(() => router.activatedRoute.value.path);
 
-        return { activeUrl };
+        const links = computed(() => LINKS.filter((link) => {
+            if (!authStore.currentUser && link.access === PageAccess.AUTH) return false;
+            if (authStore.currentUser && link.access === PageAccess.INAUTH) return false;
+            return true;
+        }));
+
+        return { activeUrl, links };
     }
 });
 </script>

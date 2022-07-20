@@ -8,12 +8,25 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import { MlLayoutNavigation } from '~/components/common/layout';
+import { useAuthStore } from '~/store';
 
 export default defineComponent({
     name: 'Default',
 
     components: {
         MlLayoutNavigation
+    },
+
+    async middleware({ redirect }) {
+        const authStore = useAuthStore();
+
+        if (!authStore.isCurrentUserLoaded) {
+            await authStore.loadCurrentUser();
+        }
+
+        if (!authStore.currentUser) {
+            redirect('/auth/sign-in');
+        }
     }
 });
 </script>
