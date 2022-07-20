@@ -1,15 +1,15 @@
 <template>
-    <EmailVerificationSuccess v-if="isSuccess" />
-    <EmailVerificationPending @success="isSuccess = true" v-else-if="isValid" />
-    <EmailVerificationInvalid v-else />
+    <MlEmailVerificationSuccess v-if="isSuccess" />
+    <MlEmailVerificationPending @success="isSuccess = true" v-else-if="isValid" />
+    <MlEmailVerificationInvalid v-else />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref, useAsync } from '@nuxtjs/composition-api';
 import {
-    EmailVerificationPending,
-    EmailVerificationSuccess,
-    EmailVerificationInvalid
+    MlEmailVerificationPending,
+    MlEmailVerificationSuccess,
+    MlEmailVerificationInvalid
 } from '~/components/auth';
 import { EmailVerificationState, useAuthStore } from '~/store';
 import { useRouter } from '~/composables';
@@ -19,9 +19,9 @@ export default defineComponent({
     layout: 'none',
 
     components: {
-        EmailVerificationPending,
-        EmailVerificationSuccess,
-        EmailVerificationInvalid
+        MlEmailVerificationPending,
+        MlEmailVerificationSuccess,
+        MlEmailVerificationInvalid
     },
 
     setup() {

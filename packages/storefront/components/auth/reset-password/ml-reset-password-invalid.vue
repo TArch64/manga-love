@@ -18,7 +18,7 @@ import { MlButton } from '~/components/common';
 import MlAuthAction from '../ml-auth-action.vue';
 
 export default defineComponent({
-    name: 'ResetPasswordInvalid',
+    name: 'MlResetPasswordInvalid',
 
     components: {
         MlAuthAction,

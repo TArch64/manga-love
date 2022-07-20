@@ -5,5 +5,44 @@
             <path fill="var(--icon-foreground)" d="M114.879 222.75c14.928 0 27.03-12.088 27.03-27s-12.102-27-27.03-27c-14.929 0-27.03 12.088-27.03 27s12.101 27 27.03 27Zm216.242 0c14.929 0 27.031-12.088 27.031-27s-12.102-27-27.031-27c-14.928 0-27.03 12.088-27.03 27s12.102 27 27.03 27Zm-71.984 74.025c-12.35 0-22.414-9-24.015-20.925-.229-1.8-1.83-3.375-3.659-3.375h-1.601c-1.83 0-3.431 1.35-3.66 3.375v.9c2.059 16.2 16.01 28.8 32.935 28.8 16.926 0 30.877-12.6 32.936-28.8.229-2.25-1.372-4.275-3.66-4.275h-1.601c-1.829 0-3.43 1.35-3.659 3.375-1.601 11.925-11.665 20.925-24.016 20.925Z"/>
             <path fill="var(--icon-foreground)" d="M202.187 296.775c-12.351 0-22.415-9-24.016-20.925-.228-1.8-1.829-3.375-3.659-3.375h-1.373c-1.829 0-3.659 1.575-3.659 3.375v.9c2.058 16.2 16.01 28.8 32.935 28.8 16.926 0 30.877-12.6 32.936-28.8.229-2.25-1.373-4.275-3.66-4.275h-1.372c-1.83 0-3.431 1.35-3.66 3.375-2.058 11.925-12.122 20.925-24.472 20.925Z"/>
         </symbol>
+        <symbol id="navigation-link-home-inactive" fill="none" viewBox="0 0 24 24">
+            <path fill="var(--icon-foreground)" d="M22 12.667a.668.668 0 0 1-.474-.194L12 2.94l-9.527 9.533a.667.667 0 0 1-.94-.94l10-10a.667.667 0 0 1 .94 0l10 10A.668.668 0 0 1 22 12.667Z"/>
+            <path stroke="var(--icon-foreground)" stroke-width="1.5" d="M10 15.25h-.75v6.667H5.333a.583.583 0 0 1-.583-.584V13.53L12 6.254l7.249 7.23v7.85a.583.583 0 0 1-.584.583H14.75V15.25H10Z"/>
+        </symbol>
+        <symbol id="navigation-link-home-active" fill="none" viewBox="0 0 24 24">
+            <path fill="var(--icon-foreground)" d="M22 12.667a.668.668 0 0 1-.474-.194L12 2.94l-9.527 9.533a.667.667 0 0 1-.94-.94l10-10a.667.667 0 0 1 .94 0l10 10A.668.668 0 0 1 22 12.667Z"/>
+            <path fill="var(--icon-foreground)" stroke-width="1.5" d="M10 15.25h-.75v6.667H5.333a.583.583 0 0 1-.583-.584V13.53L12 6.254l7.249 7.23v7.85a.583.583 0 0 1-.584.583H14.75V15.25H10Z"/>
+        </symbol>
+        <symbol id="navigation-link-library-inactive" fill="none" viewBox="0 0 16 22">
+            <path fill="#fff" d="M3.9 18.2c-.6 0-1.1-.5-1.1-1.1V2.8c0-.6.5-1.1 1.1-1.1h10.2c.6 0 1.1.5 1.1 1.1V17c0 .6-.5 1.1-1.1 1.1H3.9v.1Z"/>
+            <path fill="var(--icon-foreground)" d="M14.2 2.4c.2 0 .4.2.4.4V17c0 .2-.2.4-.4.4H3.9c-.2 0-.4-.2-.4-.4V2.8c0-.2.2-.4.4-.4h10.3Zm0-1.5H3.9C2.9.9 2 1.7 2 2.8V17c0 1 .8 1.9 1.9 1.9h10.2c1 0 1.9-.8 1.9-1.9V2.8c0-1.1-.8-1.9-1.8-1.9Z"/>
+            <path fill="#fff" d="M4.3 18.2c-.8 0-1.5-.7-1.5-1.5V3.1c0-.8.7-1.5 1.5-1.5h9.5c.8 0 1.5.7 1.5 1.5v13.6c0 .8-.7 1.5-1.5 1.5H4.3Z"/>
+            <path fill="var(--icon-foreground)" d="M13.8 2.4c.4 0 .7.3.7.7v13.6c0 .4-.3.7-.7.7H4.3c-.4 0-.7-.3-.7-.7V3.1c0-.4.3-.7.7-.7h9.5Zm0-1.5H4.3c-1.2 0-2.2 1-2.2 2.2v13.6c0 1.2 1 2.2 2.2 2.2h9.5c1.2 0 2.2-1 2.2-2.2V3.1c0-1.2-.9-2.2-2.2-2.2Z"/>
+            <path fill="#fff" d="M2.2 20.4c-.8 0-1.5-.7-1.5-1.5V5.4c0-.8.7-1.5 1.5-1.5h9.5c.8 0 1.5.7 1.5 1.5v13.5c0 .8-.7 1.5-1.5 1.5H2.2Z"/>
+            <path fill="var(--icon-foreground)" d="M11.8 4.7c.4 0 .7.3.7.7v13.5c0 .4-.3.7-.7.7H2.2c-.4 0-.7-.3-.7-.7V5.4c0-.4.3-.7.7-.7h9.6Zm0-1.5H2.2C1 3.2 0 4.1 0 5.4v13.5c0 1.2 1 2.2 2.2 2.2h9.5c1.2 0 2.2-1 2.2-2.2V5.4c.1-1.3-.9-2.2-2.1-2.2Z"/>
+            <path fill="#fff" d="M2.7 1.7.9 3.9h1.8V1.7Z"/>
+            <path fill="var(--icon-foreground)" d="M2.7 1.7.9 3.9h1.8V1.7Z"/>
+        </symbol>
+        <symbol id="navigation-link-library-active" fill="none" viewBox="0 0 16 22">
+            <path fill="#fff" d="M4.3 18.15c-.8 0-1.5-.7-1.5-1.5V3.05c0-.8.7-1.5 1.5-1.5h9.5c.8 0 1.5.7 1.5 1.5v13.6c0 .8-.7 1.5-1.5 1.5H4.3Z"/>
+            <path fill="var(--icon-foreground)" d="M13.8 2.35c.4 0 .7.3.7.7v13.6c0 .4-.3.7-.7.7H4.3c-.4 0-.7-.3-.7-.7V3.05c0-.4.3-.7.7-.7h9.5Zm0-1.5H4.3c-1.2 0-2.2 1-2.2 2.2v13.6c0 1.2 1 2.2 2.2 2.2h9.5c1.2 0 2.2-1 2.2-2.2V3.05c0-1.2-.9-2.2-2.2-2.2Z"/>
+            <path fill="var(--icon-foreground)" d="M2.2 20.35c-.8 0-1.5-.7-1.5-1.5V5.35c0-.8.7-1.5 1.5-1.5h9.5c.8 0 1.5.7 1.5 1.5v13.5c0 .8-.7 1.5-1.5 1.5H2.2Z"/>
+            <path fill="var(--icon-foreground)" d="M11.8 4.65c.4 0 .7.3.7.7v13.5c0 .4-.3.7-.7.7H2.2c-.4 0-.7-.3-.7-.7V5.35c0-.4.3-.7.7-.7h9.6Zm0-1.5H2.2c-1.2 0-2.2.9-2.2 2.2v13.5c0 1.2 1 2.2 2.2 2.2h9.5c1.2 0 2.2-1 2.2-2.2V5.35c.1-1.3-.9-2.2-2.1-2.2Z"/>
+            <path fill="#fff" d="M2.7 1.65.9 3.85h1.8v-2.2Z"/>
+            <path fill="var(--icon-foreground)" d="M2.7 1.65.9 3.85h1.8v-2.2Z"/>
+        </symbol>
+        <symbol id="navigation-link-notifications-inactive" fill="none" viewBox="0 0 24 24">
+            <path stroke="var(--icon-foreground)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9Zm-4.27 13a1.999 1.999 0 0 1-3.46 0"/>
+        </symbol>
+        <symbol id="navigation-link-notifications-active" fill="none" viewBox="0 0 24 24">
+            <path fill="var(--icon-foreground)" stroke="var(--icon-foreground)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9Z"/>
+            <path stroke="var(--icon-foreground)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.73 21a1.999 1.999 0 0 1-3.46 0"/>
+        </symbol>
+        <symbol id="navigation-link-profile-inactive" fill="none" viewBox="0 0 24 24">
+            <path fill="var(--icon-foreground)" fill-rule="evenodd" d="M19.5 21s1.5 0 1.5-1.5-1.5-6-9-6-9 4.5-9 6S4.5 21 4.5 21h15ZM4.508 19.584v-.003.003Zm.025-.084h14.934a.379.379 0 0 0 .021-.003l.012-.003c-.002-.369-.231-1.479-1.248-2.496C17.274 16.02 15.434 15 12 15c-3.435 0-5.274 1.02-6.252 1.998-1.017 1.017-1.245 2.127-1.248 2.496l.033.006Zm14.961.084v-.003.003ZM12 10.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm4.5-3a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" clip-rule="evenodd"/>
+        </symbol>
+        <svg id="navigation-link-profile-active" fill="none" viewBox="0 0 24 24">
+            <path fill="var(--icon-foreground)" fill-rule="evenodd" d="M4.5 21S3 21 3 19.5s1.5-6 9-6 9 4.5 9 6-1.5 1.5-1.5 1.5h-15Zm7.5-9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z" clip-rule="evenodd"/>
+        </svg>
     </defs>
 </svg>

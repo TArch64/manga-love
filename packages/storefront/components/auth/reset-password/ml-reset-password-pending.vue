@@ -49,7 +49,7 @@ interface ResetPasswordForm extends ResetPasswordInfo {
 }
 
 export default defineComponent({
-    name: 'ResetPasswordPending',
+    name: 'MlResetPasswordPending',
 
     components: {
         MlButton,

@@ -1,12 +1,12 @@
 <template>
     <MlAuthAction
-        :title="$t('auth.resetPassword.success.title')"
-        :description="$t('auth.resetPassword.success.description')"
+        :title="$t('auth.emailVerification.success.title')"
+        :description="$t('auth.emailVerification.success.description')"
         result-type="success"
     >
         <template #actions>
             <MlButton class="ml-width--full" skin="outlined" size="lg" link="/">
-                {{ $t('auth.resetPassword.toHome') }}
+                {{ $t('auth.emailVerification.toHome') }}
             </MlButton>
         </template>
     </MlAuthAction>
@@ -18,7 +18,7 @@ import { MlButton } from '~/components/common';
 import MlAuthAction from '../ml-auth-action.vue';
 
 export default defineComponent({
-    name: 'ResetPasswordSuccess',
+    name: 'MlEmailVerificationSuccess',
 
     components: {
         MlAuthAction,

@@ -26,7 +26,7 @@ import { useToaster } from '~/composables';
 import MlAuthAction from '../ml-auth-action.vue';
 
 export default defineComponent({
-    name: 'EmailVerificationPending',
+    name: 'MlEmailVerificationPending',
 
     components: {
         MlAuthAction,

@@ -1,15 +1,15 @@
 <template>
-    <ResetPasswordSuccess v-if="isSuccess" />
-    <ResetPasswordPending @success="isSuccess = true" v-else-if="isValid" />
-    <ResetPasswordInvalid v-else />
+    <MlResetPasswordSuccess v-if="isSuccess" />
+    <MlResetPasswordPending @success="isSuccess = true" v-else-if="isValid" />
+    <MlResetPasswordInvalid v-else />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref, useAsync } from '@nuxtjs/composition-api';
 import {
-    ResetPasswordPending,
-    ResetPasswordSuccess,
-    ResetPasswordInvalid
+    MlResetPasswordPending,
+    MlResetPasswordSuccess,
+    MlResetPasswordInvalid
 } from '~/components/auth';
 import { ResetPasswordState, useAuthStore } from '~/store';
 import { useRouter } from '~/composables';
@@ -19,9 +19,9 @@ export default defineComponent({
     layout: 'none',
 
     components: {
-        ResetPasswordPending,
-        ResetPasswordSuccess,
-        ResetPasswordInvalid
+        MlResetPasswordPending,
+        MlResetPasswordSuccess,
+        MlResetPasswordInvalid
     },
 
     setup() {

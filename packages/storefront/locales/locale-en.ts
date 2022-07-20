@@ -107,5 +107,16 @@ export default {
                 label: 'Confirm new password'
             }
         }
+    },
+
+    layout: {
+        navigation: {
+            links: {
+                home: 'Home',
+                library: 'Library',
+                notifications: 'Notifications',
+                profile: 'Profile'
+            }
+        }
     }
 };

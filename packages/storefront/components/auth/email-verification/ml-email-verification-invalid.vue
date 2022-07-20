@@ -18,7 +18,7 @@ import { MlButton } from '~/components/common';
 import MlAuthAction from '../ml-auth-action.vue';
 
 export default defineComponent({
-    name: 'EmailVerificationInvalid',
+    name: 'MlEmailVerificationInvalid',
 
     components: {
         MlAuthAction,
