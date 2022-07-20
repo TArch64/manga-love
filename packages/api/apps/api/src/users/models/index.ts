@@ -1,2 +1,2 @@
-export { UserModel } from './user.model';
-export { UserAvatarModel } from './user-avatar.model';
+export { UserType } from './user.type';
+export { UserAvatarType } from './user-avatar.type';

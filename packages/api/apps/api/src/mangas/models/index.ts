@@ -1,2 +1,2 @@
-export { LibraryModel } from './library.model';
-export { LibraryFolderModel } from './library-folder.model';
+export { LibraryType } from './library.type';
+export { LibraryFolderType } from './library-folder.type';

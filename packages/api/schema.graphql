@@ -11,15 +11,6 @@ type UserActionState {
   username: String!
 }
 
-type LibraryFolder {
-  id: ID!
-  name: String!
-}
-
-type Library {
-  libraryFolders: [LibraryFolder!]!
-}
-
 type UserAvatar {
   id: ID!
   originalWidth: Float!
@@ -33,7 +24,15 @@ type User {
   username: String!
   avatarId: ID!
   avatar: UserAvatar!
-  libraryFolders: [LibraryFolder!]!
+}
+
+type LibraryFolder {
+  id: ID!
+  name: String!
+}
+
+type Library {
+  folders: [LibraryFolder!]!
 }
 
 type Query {
