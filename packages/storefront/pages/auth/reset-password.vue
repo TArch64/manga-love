@@ -10,7 +10,7 @@ import {
     ResetPasswordPending,
     ResetPasswordSuccess,
     ResetPasswordInvalid
-} from '~/components/reset-password';
+} from '~/components/auth';
 import { ResetPasswordState, useAuthStore } from '~/store';
 import { useRouter } from '~/composables';
 

@@ -20,10 +20,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@nuxtjs/composition-api';
-import { MlAuthAction } from '~/components/auth';
 import { MlButton } from '~/components/common';
 import { useAuthStore } from '~/store';
 import { useToaster } from '~/composables';
+import MlAuthAction from '../ml-auth-action.vue';
 
 export default defineComponent({
     name: 'EmailVerificationPending',

@@ -10,7 +10,7 @@ import {
     EmailVerificationPending,
     EmailVerificationSuccess,
     EmailVerificationInvalid
-} from '~/components/email-verification';
+} from '~/components/auth';
 import { EmailVerificationState, useAuthStore } from '~/store';
 import { useRouter } from '~/composables';
 

@@ -1,4 +1,5 @@
 import { NuxtRouteConfig } from '@nuxt/types/config/router';
+import { Configuration } from 'webpack';
 
 function proxyEnvs(envs: string[]): Record<string, string> {
     return envs.reduce((collector, env) => ({ ...collector, [env]: process.env[env] }), {});

@@ -42,7 +42,7 @@ import {
 import { ResetPasswordInfo, ResetPasswordState, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
 import { useRouter, useToaster } from '~/composables';
-import { MlAuthAction } from '../auth';
+import MlAuthAction from '../ml-auth-action.vue';
 
 interface ResetPasswordForm extends ResetPasswordInfo {
     passwordConfirmation: string;

@@ -14,8 +14,8 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
-import { MlAuthAction } from '~/components/auth';
 import { MlButton } from '~/components/common';
+import MlAuthAction from '../ml-auth-action.vue';
 
 export default defineComponent({
     name: 'ResetPasswordSuccess',
