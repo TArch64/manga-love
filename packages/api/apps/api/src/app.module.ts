@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { MicroservicesModule } from './microservices.config';
 import { UsersModule } from './users';
 import { MangasModule } from './mangas';
+import { AuthModule } from './auth';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { MangasModule } from './mangas';
             autoSchemaFile: join(process.cwd(), './schema.graphql'),
             context: ({ req, res }) => ({ req, res })
         }),
+        AuthModule,
         UsersModule,
         MangasModule,
         MicroservicesModule

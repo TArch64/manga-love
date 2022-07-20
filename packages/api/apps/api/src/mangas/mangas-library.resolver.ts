@@ -1,8 +1,8 @@
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { LibraryFolderRepository } from '@manga-love/database';
 import { UseGuards } from '@nestjs/common';
-import { UserModel } from '../users/models';
-import { CurrentUser, GqlAuthGuard, QLCurrentUser } from '../users/auth';
+import { UserModel } from '../users';
+import { CurrentUser, GqlAuthGuard, QLCurrentUser } from '../auth';
 import { LibraryFolderModel, LibraryModel } from './models';
 
 @Resolver(() => LibraryModel)

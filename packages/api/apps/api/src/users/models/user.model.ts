@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { LibraryFolderModel } from '../../mangas/models';
+import { LibraryFolderModel } from '../../mangas';
 import { UserAvatarModel } from './user-avatar.model';
 
 @ObjectType('User')
