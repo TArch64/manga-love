@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseUser, DatabaseImage, UsersRepository } from '@manga-love/database';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { MICROSERVICES } from '../microservices.config';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
@@ -23,7 +23,9 @@ export class SignInService {
         private readonly passwordService: AuthPasswordService,
         private readonly authTokenService: AuthTokenService,
         @Inject(MICROSERVICES.UPLOADER)
-        private readonly uploaderService: ClientProxy
+        private readonly uploaderService: ClientProxy,
+        @Inject(MICROSERVICES.MANGA_LIBRARY)
+        private readonly mangaLibraryService: ClientProxy
     ) {}
 
     public async signIn(email: string, password: string): Promise<string>  {
@@ -60,7 +62,7 @@ export class SignInService {
         const uploadingAvatar = this.uploaderService.send<DatabaseImage>('import', googleUser.picture);
         const avatar = await firstValueFrom(uploadingAvatar);
 
-        return this.usersRepository.create({
+        const user = await this.usersRepository.create({
             password: '',
             email: googleUser.email,
             username: googleUser.name,
@@ -70,5 +72,9 @@ export class SignInService {
                 connect: { id: avatar.id }
             }
         });
+
+        await firstValueFrom(this.mangaLibraryService.send('create-defaults', user));
+
+        return user;
     }
 }

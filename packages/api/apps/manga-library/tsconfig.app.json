@@ -2,7 +2,7 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "declaration": false,
-        "outDir": "../../dist/apps/uploader"
+        "outDir": "../../dist/apps/manga-library"
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "dist"]

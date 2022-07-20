@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseUser, DatabaseImage, Prisma, PrismaService } from '../../prisma';
 
+type UserQuery = Prisma.Prisma__DatabaseUserClient<DatabaseUser>;
+
 @Injectable()
 export class UsersRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    public async getUserById(id: string): Promise<DatabaseUser | undefined> {
+    public getUserById(id: string): UserQuery {
         return this.prisma.databaseUser.findUnique({
             where: { id }
         });

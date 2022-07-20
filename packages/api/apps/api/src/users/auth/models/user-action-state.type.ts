@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-@ObjectType()
+@ObjectType('UserActionState')
 export class UserActionStateType {
     @Field()
     public isValid: boolean;

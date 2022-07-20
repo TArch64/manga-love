@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type LibraryFolder {
+  id: ID!
+  name: String!
+}
+
+type Library {
+  libraryFolders: [LibraryFolder!]!
+}
+
 type UserAvatar {
   id: ID!
   originalWidth: Float!
@@ -15,21 +24,23 @@ type User {
   username: String!
   avatarId: ID!
   avatar: UserAvatar!
+  libraryFolders: [LibraryFolder!]!
 }
 
 type Success {
   success: Boolean!
 }
 
-type UserActionStateType {
+type UserActionState {
   isValid: Boolean!
   username: String!
 }
 
 type Query {
   currentUser: User!
-  resetPasswordState(code: String!): UserActionStateType!
-  emailVerificationState(code: String!): UserActionStateType!
+  resetPasswordState(code: String!): UserActionState!
+  emailVerificationState(code: String!): UserActionState!
+  library: Library!
 }
 
 type Mutation {

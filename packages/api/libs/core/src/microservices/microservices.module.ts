@@ -1,29 +1,26 @@
 import { DynamicModule, FactoryProvider, InjectionToken } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { MICROSERVICES } from './microservices.config';
 
-export interface MicroserviceConfig {
-    host: string;
-}
-
-export interface MicroservicesProvider<Config> {
-    MICROSERVICES: Record<keyof Config, InjectionToken>;
+export interface MicroservicesProvider<ServiceKey extends keyof typeof MICROSERVICES> {
+    MICROSERVICES: Record<ServiceKey, InjectionToken>;
     MicroservicesModule: DynamicModule;
 }
 
 export class MicroservicesFactoryModule {
-    public static create<Config extends Record<string, MicroserviceConfig>>(microservices: Config): MicroservicesProvider<Config> {
-        const tokens = {};
+    public static create<ServiceKey extends keyof typeof MICROSERVICES>(...microservices: ServiceKey[]): MicroservicesProvider<ServiceKey> {
+        const tokens: Partial<Record<ServiceKey, InjectionToken>> = {};
         const providers = [];
 
-        for (const [name, config] of Object.entries(microservices)) {
-            const service = this.provideMicroservice(name, config);
+        for (const serviceKey of microservices) {
+            const service = this.provideMicroservice(serviceKey);
 
-            tokens[name] = service.token;
+            tokens[serviceKey] = service.token;
             providers.push(service.provider);
         }
 
         return {
-            MICROSERVICES: tokens as MicroservicesProvider<Config>['MICROSERVICES'],
+            MICROSERVICES: tokens as Record<ServiceKey, InjectionToken>,
 
             MicroservicesModule: {
                 module: MicroservicesFactoryModule,
@@ -34,8 +31,9 @@ export class MicroservicesFactoryModule {
         };
     }
 
-    private static provideMicroservice(name: string, config: MicroserviceConfig): { token: InjectionToken, provider: FactoryProvider } {
+    private static provideMicroservice(name: keyof typeof MICROSERVICES): { token: InjectionToken, provider: FactoryProvider } {
         const token = Symbol(`${name}_MICROSERVICE`);
+        const config = MICROSERVICES[name];
 
         const provider: FactoryProvider = {
             provide: token,

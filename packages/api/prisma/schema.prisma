@@ -8,14 +8,15 @@ datasource db {
 }
 
 model DatabaseUser {
-    id             String               @id @default(uuid())
-    username       String               @db.VarChar(200) @unique
-    email          String               @db.VarChar(200) @unique
-    emailConfirmed Boolean              @default(false)
-    password       String               @db.VarChar(200)
+    id             String                  @id @default(uuid())
+    username       String                  @db.VarChar(200) @unique
+    email          String                  @db.VarChar(200) @unique
+    emailConfirmed Boolean                 @default(false)
+    password       String                  @db.VarChar(200)
     actions        DatabaseUserAction[]
-    avatarId       String               @unique
-    avatar         DatabaseImage        @relation(fields: [avatarId], references: [id], onDelete: Cascade)
+    avatarId       String                  @unique
+    avatar         DatabaseImage           @relation(fields: [avatarId], references: [id], onDelete: Cascade)
+    libraryFolders DatabaseLibraryFolder[]
 }
 
 model DatabaseUserAction {
@@ -39,4 +40,13 @@ model DatabaseImage {
     originalHeight   Int
     targetId         String?
     targetUserAvatar DatabaseUser?
+}
+
+model DatabaseLibraryFolder {
+    id     String       @id @default(uuid())
+    name   String       @db.VarChar(200)
+    userId String
+    user   DatabaseUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([name, userId], name: "libraryFolderName")
 }
