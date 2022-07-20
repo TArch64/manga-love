@@ -22,16 +22,21 @@ export default defineComponent({
 .ml-layout {
     height: 100%;
     display: grid;
-    grid-template-rows: 1fr max-content;
-    grid-template-areas: "layout-content" "layout-navigation";
 }
 
 @media (min-width: 992px) {
 
     .ml-layout {
-        grid-template-rows: 1fr;
         grid-template-columns: max-content 1fr;
         grid-template-areas: "layout-navigation layout-content";
+    }
+}
+
+@media (max-width: 991px) {
+
+    .ml-layout {
+        grid-template-rows: 1fr max-content;
+        grid-template-areas: "layout-content" "layout-navigation";
     }
 }
 

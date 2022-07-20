@@ -1,8 +1,7 @@
 <template>
     <nuxt-link
-        exact
         class="ml-layout-navigation__link"
-        active-class="ml-layout-navigation__link--active"
+        exact-active-class="ml-layout-navigation__link--active"
         :to="url"
         :title="title"
     >
@@ -57,12 +56,15 @@ export default defineComponent({
 .ml-layout-navigation__link {
     padding: 10px;
     display: flex;
+    -webkit-tap-highlight-color: transparent;
     --icon-foreground: #999;
-}
 
-.ml-layout-navigation__link:hover {
-    cursor: pointer;
-    --icon-foreground: #242424;
+    &:hover,
+    &:focus {
+        cursor: pointer;
+        outline: none;
+        --icon-foreground: #242424;
+    }
 }
 
 .ml-layout-navigation__link--active {
