@@ -9,7 +9,7 @@ import { computed, defineComponent, PropType } from '@nuxtjs/composition-api';
 import { LibraryFolder } from '~/store';
 
 export default defineComponent({
-    name: 'LibraryFolder',
+    name: 'MlLibraryFolder',
 
     props: {
         folder: {

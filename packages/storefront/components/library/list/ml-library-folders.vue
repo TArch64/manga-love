@@ -1,6 +1,6 @@
 <template>
     <div class="ml-library-folders">
-        <LibraryFolder
+        <MlLibraryFolder
             v-for="folder of folders"
             :key="folder.id"
             :folder="folder"
@@ -11,13 +11,13 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import { useLibraryStore } from '~/store';
-import LibraryFolder from './library-folder.vue';
+import MlLibraryFolder from './ml-library-folder.vue';
 
 export default defineComponent({
-    name: 'LibraryFolders',
+    name: 'MlLibraryFolders',
 
     components: {
-        LibraryFolder
+        MlLibraryFolder
     },
 
     setup() {

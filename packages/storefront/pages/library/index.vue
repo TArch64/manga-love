@@ -1,19 +1,19 @@
 <template>
     <div class="ml-library">
-        <LibraryFolders />
+        <MlLibraryFolders />
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import { useLibraryStore } from '~/store';
-import { LibraryFolders } from '~/components/library';
+import { MlLibraryFolders } from '~/components/library/list';
 
 export default defineComponent({
     name: 'Index',
 
     components: {
-        LibraryFolders
+        MlLibraryFolders
     },
 
     async middleware() {
