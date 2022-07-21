@@ -1,4 +1,5 @@
 @import "./offsets.css";
+@import "./page-transitions.css";
 
 /* Need to set styles for nuxt wrappers */
 /* stylelint-disable selector-max-specificity */

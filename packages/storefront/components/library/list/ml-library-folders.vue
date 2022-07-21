@@ -31,12 +31,12 @@ export default defineComponent({
 <style scoped>
 .ml-library-folders {
     display: grid;
-    gap: 15px;
 }
 
 @media (min-width: 992px) {
 
     .ml-library-folders {
+        gap: 15px;
         grid-template-columns: repeat(auto-fill, 400px);
         justify-content: space-evenly;
     }
@@ -45,6 +45,7 @@ export default defineComponent({
 @media (max-width: 991px) {
 
     .ml-library-folders {
+        gap: 20px;
         grid-template-columns: 1fr;
     }
 }

@@ -64,6 +64,7 @@ export default defineComponent({
     display: flex;
     background: #FFF;
     box-shadow: 0 -2px 50px rgba(0, 0, 0, 0.05);
+    z-index: 100;
 }
 
 @media (min-width: 992px) {

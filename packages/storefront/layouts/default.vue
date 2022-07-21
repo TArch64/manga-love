@@ -1,6 +1,8 @@
 <template>
     <div class="ml-layout">
-        <Nuxt class="ml-layout__content" />
+        <div class="ml-layout__content">
+            <Nuxt />
+        </div>
         <MlLayoutNavigation class="ml-layout__navigation" />
     </div>
 </template>
@@ -55,6 +57,7 @@ export default defineComponent({
 
 .ml-layout__content {
     grid-area: layout-content;
+    position: relative;
 }
 
 .ml-layout-navigation {

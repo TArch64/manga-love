@@ -64,19 +64,22 @@ export default defineComponent({
 .ml-layout-navigation__link {
     padding: 10px;
     display: flex;
+    color: #999;
+    transition: color 0.1s ease-out;
+    will-change: color;
     -webkit-tap-highlight-color: transparent;
-    --icon-foreground: #999;
+    --icon-foreground: currentColor;
 
     &:hover,
     &:focus {
         cursor: pointer;
         outline: none;
-        --icon-foreground: #242424;
+        color: #242424;
     }
 }
 
 .ml-layout-navigation__link--active {
     cursor: default !important;
-    --icon-foreground: #242424;
+    color: #242424;
 }
 </style>
