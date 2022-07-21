@@ -1,29 +1,24 @@
 <template>
     <div class="ml-library">
-        <ul>
-            <li v-for="folder of folders" :key="folder.id">
-                {{ folder.name }}
-            </li>
-        </ul>
+        <LibraryFolders />
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, useAsync } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
 import { useLibraryStore } from '~/store';
+import { LibraryFolders } from '~/components/library';
 
 export default defineComponent({
     name: 'Library',
 
-    setup() {
+    components: {
+        LibraryFolders
+    },
+
+    async middleware() {
         const libraryStore = useLibraryStore();
-
-        const folders = useAsync(async () => {
-            await libraryStore.loadFolders();
-            return libraryStore.folders;
-        });
-
-        return { folders };
+        await libraryStore.loadFolders();
     }
 });
 </script>
