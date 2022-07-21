@@ -5,4 +5,7 @@ import { LibraryFolderType } from './library-folder.type';
 export class LibraryType {
     @Field(() => [LibraryFolderType])
     public folders?: LibraryFolderType[];
+
+    @Field(() => LibraryFolderType)
+    public folder?: LibraryFolderType;
 }

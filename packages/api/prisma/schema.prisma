@@ -49,4 +49,5 @@ model DatabaseLibraryFolder {
     user   DatabaseUser @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([name, userId], name: "libraryFolderName")
+    @@unique([id, userId], name: "libraryFolderUser")
 }

@@ -16,4 +16,10 @@ export class LibraryFolderRepository {
     public findByUserId(userId: string): Promise<DatabaseLibraryFolder[]> {
         return this.usersRepository.getUserById(userId).libraryFolders();
     }
+
+    public getScopedById(userId: string, folderId: string): Promise<DatabaseLibraryFolder> {
+        return this.prisma.databaseLibraryFolder.findUnique({
+            where: { libraryFolderUser: { id: folderId, userId } }
+        });
+    }
 }

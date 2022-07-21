@@ -1,0 +1,8 @@
+query($id: ID!) {
+    library {
+        folder(id: $id) {
+            id
+            name
+        }
+    }
+}

@@ -33,6 +33,7 @@ type LibraryFolder {
 
 type Library {
   folders: [LibraryFolder!]!
+  folder(id: ID!): LibraryFolder!
 }
 
 type Query {

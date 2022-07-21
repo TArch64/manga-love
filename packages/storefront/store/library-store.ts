@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { LibraryFoldersQuery } from '~/graphql/library';
+import { LibraryFoldersQuery, LibraryFolderByIdQuery } from '~/graphql/library';
 
 export interface LibraryFolder {
     id: string;
@@ -8,11 +8,13 @@ export interface LibraryFolder {
 
 interface State {
     folders: LibraryFolder[];
+    activeFolder: LibraryFolder | null;
 }
 
 export const useLibraryStore = defineStore('library', {
     state: (): State => ({
-        folders: []
+        folders: [],
+        activeFolder: null
     }),
 
     actions: {
@@ -22,6 +24,16 @@ export const useLibraryStore = defineStore('library', {
             };
             const result = await this.$nuxt.$apollo.query<Result>(LibraryFoldersQuery);
             this.folders = result.library.folders;
+        },
+
+        async loadFolder(id: string): Promise<void> {
+            type Result = {
+                library: { folder: LibraryFolder };
+            };
+            const result = await this.$nuxt.$apollo.query<Result>(LibraryFolderByIdQuery, {
+                variables: { id }
+            });
+            this.activeFolder = result.library.folder;
         }
     }
 });
