@@ -1,14 +1,19 @@
 <template>
-    <nuxt-link
-        class="ml-layout-navigation__link"
-        exact-active-class="ml-layout-navigation__link--active"
-        :to="url"
-        :title="title"
-    >
-        <MlFadeTransition duration="150">
-            <MlIcon :name="activeIcon" size="24px" key="active-icon" v-if="active" />
-            <MlIcon :name="inactiveIcon" size="24px" key="inactive-icon" v-else />
-        </MlFadeTransition>
+    <nuxt-link custom :exact="exact" :to="localePath(url)">
+        <template #default="{ isActive, href, navigate }">
+            <a
+                class="ml-layout-navigation__link"
+                :class="{ 'ml-layout-navigation__link--active': isActive }"
+                :href="href"
+                :title="title"
+                @click="navigate"
+            >
+                <MlFadeTransition duration="150">
+                    <MlIcon :name="activeIcon" size="24px" key="active-icon" v-if="isActive" />
+                    <MlIcon :name="inactiveIcon" size="24px" key="inactive-icon" v-else />
+                </MlFadeTransition>
+            </a>
+        </template>
     </nuxt-link>
 </template>
 
@@ -37,9 +42,10 @@ export default defineComponent({
             required: true
         },
 
-        active: {
+        exact: {
             type: Boolean,
-            required: true
+            required: false,
+            default: false
         }
     },
 

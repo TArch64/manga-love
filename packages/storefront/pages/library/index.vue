@@ -10,7 +10,7 @@ import { useLibraryStore } from '~/store';
 import { LibraryFolders } from '~/components/library';
 
 export default defineComponent({
-    name: 'Library',
+    name: 'Index',
 
     components: {
         LibraryFolders

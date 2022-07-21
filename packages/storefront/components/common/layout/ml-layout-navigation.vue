@@ -5,7 +5,7 @@
             :key="link.id"
             :id="link.id"
             :url="link.url"
-            :active="link.url === activeUrl"
+            :exact="link.exact"
         />
     </nav>
 </template>
@@ -25,10 +25,11 @@ interface Link {
     id: string;
     url: string;
     access?: PageAccess;
+    exact?: boolean;
 }
 
 const LINKS: Link[] = [
-    { id: 'home', url: '/' },
+    { id: 'home', url: '/', exact: true },
     { id: 'library', url: '/library', access: PageAccess.AUTH },
     { id: 'notifications', url: '/notifications', access: PageAccess.AUTH },
     { id: 'profile', url: '/profile', access: PageAccess.AUTH },
