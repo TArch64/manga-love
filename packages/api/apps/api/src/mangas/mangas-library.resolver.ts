@@ -1,7 +1,6 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { LibraryFolderRepository } from '@manga-love/database';
 import { UseGuards } from '@nestjs/common';
-import { UserType } from '../users';
 import { CurrentUser, GqlAuthGuard, QLCurrentUser } from '../auth';
 import { LibraryFolderType, LibraryType } from './models';
 
@@ -16,7 +15,7 @@ export class MangasLibraryResolver {
     }
 
     @ResolveField(() => [LibraryFolderType])
-    public folders(@Parent() user: UserType): Promise<LibraryFolderType[]> {
-        return this.libraryFolderRepository.findByUserId(user.id);
+    public folders(@QLCurrentUser() currentUser: CurrentUser): Promise<LibraryFolderType[]> {
+        return this.libraryFolderRepository.findByUserId(currentUser.id);
     }
 }

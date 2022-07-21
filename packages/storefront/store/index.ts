@@ -1,4 +1,6 @@
 export { useAuthStore } from './auth-store';
+export { useLibraryStore } from './library-store';
+
 export type {
     SignInCredentials,
     SignUpInfo,
@@ -9,3 +11,5 @@ export type {
     GoogleSignInResponse,
     EmailVerificationState
 } from './auth-store';
+
+export type { LibraryFolder } from './library-store';

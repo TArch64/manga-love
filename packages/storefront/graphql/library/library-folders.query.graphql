@@ -1,0 +1,8 @@
+{
+    library {
+        folders {
+            id
+            name
+        }
+    }
+}

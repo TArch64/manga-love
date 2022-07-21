@@ -1,12 +1,35 @@
 <template>
-    <div>
-        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid, corporis deserunt eum eveniet
-            fugiat fugit hic necessitatibus non odit optio porro, possimus quo reprehenderit sunt vel veritatis
-            voluptate voluptates!
-        </div>
-        <div>Blanditiis commodi consequatur debitis est exercitationem facere fugiat ipsam mollitia officiis quo. Dolore
-            dolorem illum in ipsa tempora. A ab alias, enim eveniet ipsam necessitatibus odio qui quidem reprehenderit
-            vitae!
-        </div>
+    <div class="ml-library">
+        <ul>
+            <li v-for="folder of folders" :key="folder.id">
+                {{ folder.name }}
+            </li>
+        </ul>
     </div>
 </template>
+
+<script lang="ts">
+import { defineComponent, useAsync } from '@nuxtjs/composition-api';
+import { useLibraryStore } from '~/store';
+
+export default defineComponent({
+    name: 'Library',
+
+    setup() {
+        const libraryStore = useLibraryStore();
+
+        const folders = useAsync(async () => {
+            await libraryStore.loadFolders();
+            return libraryStore.folders;
+        });
+
+        return { folders };
+    }
+});
+</script>
+
+<style scoped>
+.ml-library {
+    padding: 45px 20px;
+}
+</style>
