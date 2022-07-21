@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, useContext } from '@nuxtjs/composition-api';
 import { GoogleCredentials } from '~/store';
-import { useExternalScript } from '~/composables';
+import { loadExternalScript } from '~/utils';
 
 export default defineComponent({
     name: 'MlGoogleAuth',
@@ -27,7 +27,7 @@ export default defineComponent({
 
         if (process.client) {
             onMounted(async () => {
-                await useExternalScript('https://accounts.google.com/gsi/client');
+                await loadExternalScript('https://accounts.google.com/gsi/client');
                 const api = window.google.accounts.id;
 
                 api.initialize({ client_id: context.env.STOREFRONT_GOOGLE_ID, callback: onSignIn });

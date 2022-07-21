@@ -44,9 +44,14 @@ type Query {
 
 type Mutation {
   signIn(email: String!, password: String!): Success!
-  googleSignIn(credential: String!): Success!
-  signUp(username: String!, email: String!, password: String!): Success!
+  googleSignIn(credential: String!, language: Language!): Success!
+  signUp(username: String!, email: String!, password: String!, language: Language!): Success!
   askResetPassword(email: String!): Success!
   resetPassword(password: String!, code: String!): Success!
   verifyEmail(code: String!): Success!
+}
+
+enum Language {
+  UA
+  EN
 }

@@ -9,6 +9,7 @@ import {
     SignUpMutation,
     VerifyEmailMutation
 } from '~/graphql/user';
+import { LANGUAGE_CODE } from '~/utils';
 
 export interface GoogleCredentials {
     credential: string;
@@ -81,12 +82,16 @@ export const useAuthStore = defineStore('auth', {
         },
 
         async signInByGoogle(credentials: GoogleCredentials) {
-            await this.$nuxt.$apollo.mutate(GoogleSignInMutation, { variables: credentials });
+            await this.$nuxt.$apollo.mutate(GoogleSignInMutation, {
+                variables: { ...credentials, language: LANGUAGE_CODE }
+            });
             this.isCurrentUserLoaded = false;
         },
 
         async signUp(info: SignUpInfo) {
-            await this.$nuxt.$apollo.mutate(SignUpMutation, { variables: info });
+            await this.$nuxt.$apollo.mutate(SignUpMutation, {
+                variables: { ...info, language: LANGUAGE_CODE }
+            });
             this.isCurrentUserLoaded = false;
         },
 

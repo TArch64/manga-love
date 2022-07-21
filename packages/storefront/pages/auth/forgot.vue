@@ -33,7 +33,8 @@ import { defineComponent, ref } from '@nuxtjs/composition-api';
 import { MlForm, useForm, MlTextField, validateRequired, validateEmail } from '~/components/common/form';
 import { ForgotInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isApiError, useToaster, ToastrMessage, useRouter } from '~/composables';
+import { useToaster, ToastrMessage, useRouter } from '~/composables';
+import { isApiError } from '~/utils';
 
 export default defineComponent({
     name: 'Forgot',

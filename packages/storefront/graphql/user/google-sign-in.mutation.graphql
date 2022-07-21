@@ -1,5 +1,5 @@
-mutation($credential: String!) {
-    googleSignIn(credential: $credential) {
+mutation($credential: String!, $language: Language!) {
+    googleSignIn(credential: $credential, language: $language) {
         success
     }
 }

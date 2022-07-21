@@ -54,7 +54,7 @@ export class AuthResolver {
 
     @Mutation(() => SuccessType)
     public googleSignIn(@QLResponse() response: Response, @Args() args: GoogleSignInArgs): Observable<SuccessType> {
-        return this.authService.send<string>('google-sign-in', args.credential).pipe(this.authOperator(response));
+        return this.authService.send<string>('google-sign-in', args).pipe(this.authOperator(response));
     }
 
     @Mutation(() => SuccessType)

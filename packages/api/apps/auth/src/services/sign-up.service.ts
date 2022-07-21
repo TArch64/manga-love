@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { handleUniqueConstrain, Prisma, UserActionsRepository, UsersRepository } from '@manga-love/database';
-import { PublicUrlService } from '@manga-love/core';
+import { Language, PublicUrlService } from '@manga-love/core';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { MICROSERVICES } from '../microservices.config';
@@ -22,14 +22,14 @@ export class SignUpService {
         private readonly mangaLibraryService: ClientProxy
     ) {}
 
-    public async signUp(input: Prisma.DatabaseUserCreateInput): Promise<string> {
+    public async signUp(input: Prisma.DatabaseUserCreateInput, language: Language): Promise<string> {
         try {
             input.password = await this.passwordService.encrypt(input.password);
             input.avatar = { create: this.createAvatar() };
 
             const user = await this.usersRepository.create(input);
 
-            await firstValueFrom(this.mangaLibraryService.send('create-defaults', user));
+            await firstValueFrom(this.mangaLibraryService.send('create-defaults', { user, language }));
             await this.emailVerificationService.sendEmail(user);
 
             return this.authTokenService.encodeToken(user);

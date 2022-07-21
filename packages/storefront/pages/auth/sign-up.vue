@@ -58,7 +58,8 @@ import {
 } from '~/components/common/form';
 import { SignUpInfo, useAuthStore } from '~/store';
 import { MlButton } from '~/components/common';
-import { isApiError, useRouter, useToaster, ToastrMessage } from '~/composables';
+import { useRouter, useToaster, ToastrMessage } from '~/composables';
+import { isApiError } from '~/utils';
 
 interface SignUpForm extends SignUpInfo {
     passwordConfirmation: string;

@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { Prisma } from '@manga-love/database';
-import { SuccessResponse } from '@manga-love/core';
+import { Language, SuccessResponse } from '@manga-love/core';
 import {
     SignUpService,
     SignInService,
@@ -21,6 +21,13 @@ interface ResetPasswordPayload {
     code: string;
 }
 
+interface GoogleSignInPayload {
+    credential: string;
+    language: Language;
+}
+
+type SignUpPayload = Prisma.DatabaseUserCreateInput & { language: Language };
+
 @Controller()
 export class AuthController {
     constructor(
@@ -31,8 +38,8 @@ export class AuthController {
     ) {}
 
     @MessagePattern('sign-up')
-    public async signUp(user: Prisma.DatabaseUserCreateInput): Promise<string> {
-        return this.signUpService.signUp(user);
+    public async signUp({ language, ...user }: SignUpPayload): Promise<string> {
+        return this.signUpService.signUp(user, language);
     }
 
     @MessagePattern('email-verification')
@@ -52,8 +59,8 @@ export class AuthController {
     }
 
     @MessagePattern('google-sign-in')
-    public async googleSignIn(credentials: string): Promise<string> {
-        return this.signInService.googleSignIn(credentials);
+    public async googleSignIn(payload: GoogleSignInPayload): Promise<string> {
+        return this.signInService.googleSignIn(payload.credential, payload.language);
     }
 
     @MessagePattern('ask-reset-password')

@@ -1,4 +1,4 @@
-export function useExternalScript(src: string): Promise<void> {
+export function loadExternalScript(src: string): Promise<void> {
     const isLoaded = document.querySelector(`script[src="${src}"]`);
 
     if (isLoaded) return Promise.resolve();

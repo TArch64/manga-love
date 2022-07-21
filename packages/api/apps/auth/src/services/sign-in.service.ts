@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { DatabaseUser, DatabaseImage, UsersRepository } from '@manga-love/database';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { Language } from '@manga-love/core';
 import { MICROSERVICES } from '../microservices.config';
 import { AuthPasswordService } from './auth-password.service';
 import { AuthTokenService } from './auth-token.service';
@@ -41,24 +42,24 @@ export class SignInService {
         throw new RpcException('bad-credentials');
     }
 
-    public async googleSignIn(credentials: string): Promise<string> {
+    public async googleSignIn(credentials: string, language: Language): Promise<string> {
         const googleUser = await this.jwtService.decode(credentials) as GoogleUser;
 
         if (googleUser?.aud !== process.env.API_AUTH_GOOGLE_ID) {
             this.throwUnauthorizedException();
         }
 
-        const user = await this.fetchGoogleUser(googleUser);
+        const user = await this.fetchGoogleUser(googleUser, language);
 
         return this.authTokenService.encodeToken(user);
     }
 
-    private async fetchGoogleUser(googleUser: GoogleUser): Promise<DatabaseUser> {
+    private async fetchGoogleUser(googleUser: GoogleUser, language: Language): Promise<DatabaseUser> {
         const existingUser = await this.usersRepository.getUserByEmail(googleUser.email);
-        return existingUser || this.createGoogleUser(googleUser);
+        return existingUser || this.createGoogleUser(googleUser, language);
     }
 
-    private async createGoogleUser(googleUser: GoogleUser): Promise<DatabaseUser> {
+    private async createGoogleUser(googleUser: GoogleUser, language: Language): Promise<DatabaseUser> {
         const uploadingAvatar = this.uploaderService.send<DatabaseImage>('import', googleUser.picture);
         const avatar = await firstValueFrom(uploadingAvatar);
 
@@ -73,7 +74,7 @@ export class SignInService {
             }
         });
 
-        await firstValueFrom(this.mangaLibraryService.send('create-defaults', user));
+        await firstValueFrom(this.mangaLibraryService.send('create-defaults', { user, language }));
 
         return user;
     }

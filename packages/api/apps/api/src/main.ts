@@ -2,8 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { reportMicroserviceStarted } from '@manga-love/core';
+import { Language, reportMicroserviceStarted } from '@manga-love/core';
+import { registerEnumType } from '@nestjs/graphql';
 import { AppModule } from './app.module';
+
+registerEnumType(Language, { name: 'Language' });
 
 async function bootstrap(): Promise<void> {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
