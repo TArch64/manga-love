@@ -4,7 +4,7 @@
         :class="buttonClasses"
         :disabled="loading"
         :type="type"
-        :link="buttonLink"
+        :link="localePath(buttonLink)"
         @click="$emit('click', $event)"
     >
         <slot />
