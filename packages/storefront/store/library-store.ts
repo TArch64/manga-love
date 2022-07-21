@@ -4,11 +4,17 @@ import { LibraryFoldersQuery, LibraryFolderByIdQuery } from '~/graphql/library';
 export interface LibraryFolder {
     id: string;
     name: string;
+    mangaCount: number;
+}
+
+export interface LibraryFolderDetails {
+    id: string;
+    name: string;
 }
 
 interface State {
     folders: LibraryFolder[];
-    activeFolder: LibraryFolder | null;
+    activeFolder: LibraryFolderDetails | null;
 }
 
 export const useLibraryStore = defineStore('library', {
@@ -28,7 +34,7 @@ export const useLibraryStore = defineStore('library', {
 
         async loadFolder(id: string): Promise<void> {
             type Result = {
-                library: { folder: LibraryFolder };
+                library: { folder: LibraryFolderDetails };
             };
             const result = await this.$nuxt.$apollo.query<Result>(LibraryFolderByIdQuery, {
                 variables: { id }

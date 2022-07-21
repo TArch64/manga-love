@@ -29,6 +29,7 @@ type User {
 type LibraryFolder {
   id: ID!
   name: String!
+  mangaCount: Int!
 }
 
 type Library {

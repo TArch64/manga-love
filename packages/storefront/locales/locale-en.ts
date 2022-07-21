@@ -118,6 +118,13 @@ export default {
                 profile: 'Profile',
                 'sign-in': 'Sign In'
             }
+        },
+        back: 'Back'
+    },
+
+    library: {
+        list: {
+            mangaCount: 'No mangas | One manga | {count} mangas'
         }
     }
 };

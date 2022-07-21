@@ -3,6 +3,7 @@
         folders {
             id
             name
+            mangaCount
         }
     }
 }

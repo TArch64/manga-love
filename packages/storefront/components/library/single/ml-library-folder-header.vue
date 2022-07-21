@@ -1,8 +1,6 @@
 <template>
     <header class="ml-library-folder__header">
-        <MlButton class="ml-library-folder__back" link="/library">
-            <MlIcon name="back" size="20px" />
-        </MlButton>
+        <MlButtonBack link="/library" />
 
         <h2 class="ml-library-folder__title">
             {{ folder.name }}
@@ -13,14 +11,13 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import { useLibraryStore } from '~/store';
-import { MlButton, MlIcon } from '~/components/common';
+import { MlButtonBack } from '~/components/common';
 
 export default defineComponent({
     name: 'MlLibraryFolderHeader',
 
     components: {
-        MlButton,
-        MlIcon
+        MlButtonBack
     },
 
     setup() {
@@ -44,21 +41,7 @@ export default defineComponent({
     }
 }
 
-.ml-library-folder__back {
-    padding: 5px;
-    border-radius: 3px;
-    transition: background-color 0.1s ease-out;
-    will-change: background-color;
-    --icon-foreground: #242424;
-
-    &:hover,
-    &:focus {
-        background-color: rgb(36, 36, 36, 0.1);
-    }
-}
-
 .ml-library-folder__title {
-    font-family: var(--font-sans);
     font-weight: 700;
     font-size: 18px;
     line-height: 25px;

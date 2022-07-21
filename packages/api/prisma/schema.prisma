@@ -43,10 +43,12 @@ model DatabaseImage {
 }
 
 model DatabaseLibraryFolder {
-    id     String       @id @default(uuid())
-    name   String       @db.VarChar(200)
-    userId String
-    user   DatabaseUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id         String       @id @default(uuid())
+    name       String       @db.VarChar(200)
+    userId     String
+    user       DatabaseUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mangaCount Int          @default(0)
+    position   Int
 
     @@unique([name, userId], name: "libraryFolderName")
     @@unique([id, userId], name: "libraryFolderUser")

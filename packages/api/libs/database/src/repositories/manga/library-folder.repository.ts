@@ -14,7 +14,9 @@ export class LibraryFolderRepository {
     }
 
     public findByUserId(userId: string): Promise<DatabaseLibraryFolder[]> {
-        return this.usersRepository.getUserById(userId).libraryFolders();
+        return this.usersRepository.getUserById(userId).libraryFolders({
+            orderBy: { position: 'asc' }
+        });
     }
 
     public getScopedById(userId: string, folderId: string): Promise<DatabaseLibraryFolder> {

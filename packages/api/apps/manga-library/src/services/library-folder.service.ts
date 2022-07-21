@@ -18,9 +18,10 @@ export class LibraryFolderService {
     constructor(private readonly libraryFolderRepository: LibraryFolderRepository) {}
 
     public async createUserDefaults(user: DatabaseUser, language: Language): Promise<void> {
-        const folders: BulkCreateInput[] = DEFAULT_FOLDERS.map((name) => ({
+        const folders: BulkCreateInput[] = DEFAULT_FOLDERS.map((name, index) => ({
             name: name[language],
-            userId: user.id
+            userId: user.id,
+            position: index
         }));
 
         await this.libraryFolderRepository.bulkCreate(folders);
