@@ -5,7 +5,10 @@
         :to="url"
         :title="title"
     >
-        <MlIcon :name="icon" size="24px" />
+        <MlFadeTransition duration="150">
+            <MlIcon :name="activeIcon" size="24px" key="active-icon" v-if="active" />
+            <MlIcon :name="inactiveIcon" size="24px" key="inactive-icon" v-else />
+        </MlFadeTransition>
     </nuxt-link>
 </template>
 
@@ -13,12 +16,14 @@
 import { computed, defineComponent } from '@nuxtjs/composition-api';
 import { MlIcon } from '~/components/common';
 import { useTranslate } from '~/composables';
+import { MlFadeTransition } from '../transitions';
 
 export default defineComponent({
     name: 'MlLayoutNavigationLink',
 
     components: {
-        MlIcon
+        MlIcon,
+        MlFadeTransition
     },
 
     props: {
@@ -41,13 +46,10 @@ export default defineComponent({
     setup(props) {
         const i18n = useTranslate();
         const title = computed(() => i18n.get(`layout.navigation.links.${props.id}`));
+        const inactiveIcon = computed(() => `navigation-link-${props.id}-inactive`);
+        const activeIcon = computed(() => `navigation-link-${props.id}-active`);
 
-        const icon = computed(() => {
-            const state = props.active ? 'active' : 'inactive';
-            return `navigation-link-${props.id}-${state}`;
-        });
-
-        return { title, icon };
+        return { title, inactiveIcon, activeIcon };
     }
 });
 </script>
