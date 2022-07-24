@@ -16,6 +16,8 @@ import { defineComponent } from '@nuxtjs/composition-api';
 import { MlLayoutNavigation } from '~/components/common/layout';
 import { useAuthStore } from '~/store';
 
+type MetaItem = Record<string, unknown> | undefined;
+
 export default defineComponent({
     name: 'Default',
 
@@ -23,14 +25,17 @@ export default defineComponent({
         MlLayoutNavigation
     },
 
-    async middleware({ redirect }) {
+    async middleware({ redirect, route }) {
         const authStore = useAuthStore();
 
         if (!authStore.isCurrentUserLoaded) {
             await authStore.loadCurrentUser();
         }
 
-        if (!authStore.currentUser) {
+        const meta = Array.isArray(route.meta) ? route.meta : [route.meta];
+        const isPublic = meta.some((meta: MetaItem) => meta?.public) ?? false;
+
+        if (!isPublic && !authStore.currentUser) {
             redirect('/auth/sign-in');
         }
     }

@@ -22,6 +22,10 @@ export default defineComponent({
         MlLayoutContent
     },
 
+    meta: {
+        public: true
+    },
+
     transition: navigationPageTransition()
 });
 </script>
