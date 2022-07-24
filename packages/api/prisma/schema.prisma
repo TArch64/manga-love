@@ -43,13 +43,37 @@ model DatabaseImage {
 }
 
 model DatabaseLibraryFolder {
-    id         String       @id @default(uuid())
-    name       String       @db.VarChar(200)
+    id         String                 @id @default(uuid())
+    name       String                 @db.VarChar(200)
     userId     String
-    user       DatabaseUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-    mangaCount Int          @default(0)
+    user       DatabaseUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mangaCount Int                    @default(0)
     position   Int
+    mangas     DatabaseLibraryManga[]
 
     @@unique([name, userId], name: "libraryFolderName")
     @@unique([id, userId], name: "libraryFolderUser")
+}
+
+model DatabaseLibraryManga {
+    folderId String
+    folder   DatabaseLibraryFolder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+    mangaId  String
+    manga    DatabaseManga         @relation(fields: [mangaId], references: [id], onDelete: Cascade)
+
+    @@unique([folderId, mangaId], name: "libraryFolderManga")
+}
+
+model DatabaseManga {
+    id      String                 @id @default(uuid())
+    titleId String                 @unique
+    title   DatabaseLocaleText     @relation(fields: [titleId], references: [id], onDelete: Cascade)
+    folders DatabaseLibraryManga[]
+}
+
+model DatabaseLocaleText {
+    id    String @id @default(uuid())
+    en    String
+    ua    String
+    manga DatabaseManga?
 }

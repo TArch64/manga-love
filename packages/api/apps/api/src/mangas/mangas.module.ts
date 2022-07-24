@@ -1,13 +1,19 @@
 import { Module } from '@nestjs/common';
 import { MangasDatabaseModule } from '@manga-love/database';
-import { MangasLibraryResolver } from './mangas-library.resolver';
+import { LibraryResolver } from './library.resolver';
+import { LibraryFolderResolver } from './library-folder.resolver';
+import { LibraryMangaResolver } from './library-manga.resolver';
+import { MangaResolver } from './manga.resolver';
 
 @Module({
     imports: [
         MangasDatabaseModule
     ],
     providers: [
-        MangasLibraryResolver
+        LibraryResolver,
+        LibraryFolderResolver,
+        LibraryMangaResolver,
+        MangaResolver
     ]
 })
 export class MangasModule {}

@@ -6,6 +6,12 @@ type Success {
   success: Boolean!
 }
 
+type LocaleText {
+  id: ID!
+  en: String!
+  ua: String!
+}
+
 type UserActionState {
   isValid: Boolean!
   username: String!
@@ -26,10 +32,23 @@ type User {
   avatar: UserAvatar!
 }
 
+type Manga {
+  id: ID!
+  titleId: ID!
+  title: LocaleText!
+}
+
+type LibraryManga {
+  folderId: ID!
+  mangaId: ID!
+  manga: Manga!
+}
+
 type LibraryFolder {
   id: ID!
   name: String!
   mangaCount: Int!
+  items: [LibraryManga!]!
 }
 
 type Library {

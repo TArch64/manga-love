@@ -5,7 +5,7 @@ import { CurrentUser, GqlAuthGuard, QLCurrentUser } from '../auth';
 import { LibraryFolderType, LibraryType } from './models';
 
 @Resolver(() => LibraryType)
-export class MangasLibraryResolver {
+export class LibraryResolver {
     constructor(private readonly libraryFolderRepository: LibraryFolderRepository) {}
 
     @UseGuards(GqlAuthGuard)

@@ -1,4 +1,5 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { LibraryMangaType } from './library-manga.type';
 
 @ObjectType('LibraryFolder')
 export class LibraryFolderType {
@@ -10,4 +11,7 @@ export class LibraryFolderType {
 
     @Field(() => Int)
     public mangaCount: number;
+
+    @Field(() => [LibraryMangaType])
+    public items?: LibraryMangaType[];
 }

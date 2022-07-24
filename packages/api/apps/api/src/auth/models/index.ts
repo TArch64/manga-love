@@ -1,4 +1,3 @@
-export { SuccessType } from './success.type';
 export { SignInArgs } from './sign-in.args';
 export { GoogleSignInArgs } from './google-sign-in.args';
 export { SignUpArgs } from './sign-up.args';

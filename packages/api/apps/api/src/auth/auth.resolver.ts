@@ -5,6 +5,7 @@ import { PublicUrlService } from '@manga-love/core';
 import { map, Observable, OperatorFunction, tap } from 'rxjs';
 import { Response } from 'express';
 import { MICROSERVICES } from '../microservices.config';
+import { SuccessType } from '../common';
 import { AuthStrategy } from './auth.strategy';
 import { QLResponse } from './response.decorator';
 import {
@@ -14,7 +15,6 @@ import {
     SignInArgs,
     GoogleSignInArgs,
     SignUpArgs,
-    SuccessType,
     ResetPasswordArgs,
     VerifyEmailBody
 } from './models';

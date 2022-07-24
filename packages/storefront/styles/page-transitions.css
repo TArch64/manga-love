@@ -50,7 +50,7 @@
 
     .ml-transition-subpage-in-enter,
     .ml-transition-subpage-out-leave-to {
-        transform: translateY(30px);
+        transform: translateY(50px);
     }
 }
 

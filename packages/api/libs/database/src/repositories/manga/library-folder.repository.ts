@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService, Prisma, DatabaseLibraryFolder } from '../../prisma';
 import { UsersRepository } from '../user';
 
+type FolderQuery = Prisma.Prisma__DatabaseLibraryFolderClient<DatabaseLibraryFolder>;
+
 @Injectable()
 export class LibraryFolderRepository {
     constructor(
@@ -19,7 +21,7 @@ export class LibraryFolderRepository {
         });
     }
 
-    public getScopedById(userId: string, folderId: string): Promise<DatabaseLibraryFolder> {
+    public getScopedById(userId: string, folderId: string): FolderQuery {
         return this.prisma.databaseLibraryFolder.findUnique({
             where: { libraryFolderUser: { id: folderId, userId } }
         });

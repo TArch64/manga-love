@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { PrismaService } from '../../prisma';
 import { UsersDatabaseModule } from '../user';
 import { LibraryFolderRepository } from './library-folder.repository';
+import { MangasRepository } from './mangas.repository';
 
 @Module({
     imports: [
@@ -9,10 +10,12 @@ import { LibraryFolderRepository } from './library-folder.repository';
     ],
     providers: [
         PrismaService,
-        LibraryFolderRepository
+        LibraryFolderRepository,
+        MangasRepository
     ],
     exports: [
-        LibraryFolderRepository
+        LibraryFolderRepository,
+        MangasRepository
     ]
 })
 export class MangasDatabaseModule {}
