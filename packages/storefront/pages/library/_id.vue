@@ -15,7 +15,7 @@ export default defineComponent({
         MlLayoutSubpage
     },
 
-    transition: navigationSubpageTransition('library-id'),
+    transition: navigationSubpageTransition(['library-id']),
 
     async middleware({ route }) {
         const libraryStore = useLibraryStore();

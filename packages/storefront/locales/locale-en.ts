@@ -123,8 +123,26 @@ export default {
     },
 
     library: {
+        title: 'Library',
+
         list: {
             mangaCount: 'No mangas | One manga | {count} mangas'
         }
+    },
+
+    index: {
+        title: 'Manga Love'
+    },
+
+    notifications: {
+        title: 'Notifications'
+    },
+
+    profile: {
+        title: 'Profile'
+    },
+
+    search: {
+        title: 'Search'
     }
 };

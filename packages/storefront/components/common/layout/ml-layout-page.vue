@@ -68,7 +68,14 @@ export default defineComponent({
 
 .ml-layout-page__action {
     padding: 5px;
+    transition: transform 100ms ease-out;
+    will-change: transform;
     --icon-foreground: #242424;
+
+    &:hover,
+    &:focus {
+        transform: scale(1.1);
+    }
 }
 
 @media (max-width: 991px) {

@@ -1,5 +1,5 @@
 <template>
-    <MlLayoutPage title="Profile">
+    <MlLayoutPage :title="$t('profile.title')">
         <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid, corporis deserunt eum eveniet
             fugiat fugit hic necessitatibus non odit optio porro, possimus quo reprehenderit sunt vel veritatis
             voluptate voluptates!
@@ -22,6 +22,6 @@ export default defineComponent({
         MlLayoutPage
     },
 
-    transition: navigationPageTransition()
+    transition: navigationPageTransition(['search'])
 });
 </script>

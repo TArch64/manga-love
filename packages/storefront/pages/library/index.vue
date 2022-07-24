@@ -1,5 +1,5 @@
 <template>
-    <MlLayoutPage title="Library">
+    <MlLayoutPage :title="$t('library.title')">
         <MlLibraryFolders />
     </MlLayoutPage>
 </template>
@@ -18,7 +18,7 @@ export default defineComponent({
         MlLayoutPage
     },
 
-    transition: navigationPageTransition(['library-id']),
+    transition: navigationPageTransition(['library-id', 'search']),
 
     async middleware() {
         const libraryStore = useLibraryStore();

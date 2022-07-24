@@ -1,5 +1,5 @@
 <template>
-    <MlLayoutPage title="Mange Love">
+    <MlLayoutPage :title="$t('index.title')">
         <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid, corporis deserunt eum eveniet
             fugiat fugit hic necessitatibus non odit optio porro, possimus quo reprehenderit sunt vel veritatis
             voluptate voluptates!
@@ -26,6 +26,6 @@ export default defineComponent({
         public: true
     },
 
-    transition: navigationPageTransition()
+    transition: navigationPageTransition(['search'])
 });
 </script>

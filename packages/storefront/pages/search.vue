@@ -1,5 +1,5 @@
 <template>
-    <MlLayoutPage :title="$t('notifications.title')">
+    <MlLayoutSubpage :title="$t('search.title')" :back-link="backLink">
         <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid, corporis deserunt eum eveniet
             fugiat fugit hic necessitatibus non odit optio porro, possimus quo reprehenderit sunt vel veritatis
             voluptate voluptates!
@@ -8,20 +8,32 @@
             dolorem illum in ipsa tempora. A ab alias, enim eveniet ipsam necessitatibus odio qui quidem reprehenderit
             vitae!
         </div>
-    </MlLayoutPage>
+    </MlLayoutSubpage>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
-import { navigationPageTransition, MlLayoutPage } from '~/components/common/layout';
+import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { MlLayoutSubpage, navigationSubpageTransition } from '~/components/common/layout';
+import { useRouter } from '~/composables';
 
 export default defineComponent({
-    name: 'Notifications',
+    name: 'Search',
 
     components: {
-        MlLayoutPage
+        MlLayoutSubpage
     },
 
-    transition: navigationPageTransition(['search'])
+    meta: {
+        public: true
+    },
+
+    transition: navigationSubpageTransition(['search']),
+
+    setup() {
+        const router = useRouter();
+        const backLink = computed(() => router.previousRoute.value?.name ?? '/');
+
+        return { backLink };
+    }
 });
 </script>
