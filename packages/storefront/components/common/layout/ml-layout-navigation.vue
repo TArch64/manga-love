@@ -71,12 +71,12 @@ export function navigationPageTransition(children: string[] = []): TransitionBui
     };
 }
 
-export function navigationSubpageTransition(children: string[]): TransitionBuilder {
+export function navigationSubpageTransition(child: string): TransitionBuilder {
     return (to: Route): string | Transition => {
-        const isFolder = children.includes(to.name as string);
-        const name = isFolder ? 'in' : 'out';
-        const inTiming = isFolder ? 'enter' : 'leave';
-        const outTiming = isFolder ? 'leave' : 'enter';
+        const isChild = child === to.name;
+        const name = isChild ? 'in' : 'out';
+        const inTiming = isChild ? 'enter' : 'leave';
+        const outTiming = isChild ? 'leave' : 'enter';
 
         return {
             name: `ml-transition-subpage-${name}`,

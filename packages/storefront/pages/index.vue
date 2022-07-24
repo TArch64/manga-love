@@ -1,5 +1,5 @@
 <template>
-    <MlLayoutContent>
+    <MlLayoutPage title="Mange Love">
         <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid, corporis deserunt eum eveniet
             fugiat fugit hic necessitatibus non odit optio porro, possimus quo reprehenderit sunt vel veritatis
             voluptate voluptates!
@@ -8,18 +8,18 @@
             dolorem illum in ipsa tempora. A ab alias, enim eveniet ipsam necessitatibus odio qui quidem reprehenderit
             vitae!
         </div>
-    </MlLayoutContent>
+    </MlLayoutPage>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
-import { navigationPageTransition, MlLayoutContent } from '~/components/common/layout';
+import { navigationPageTransition, MlLayoutPage } from '~/components/common/layout';
 
 export default defineComponent({
     name: 'Index',
 
     components: {
-        MlLayoutContent
+        MlLayoutPage
     },
 
     meta: {

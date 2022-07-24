@@ -1,35 +1,31 @@
 <template>
-    <MlLayoutContent class="ml-library-folder">
-        <MlLibraryFolderHeading />
-    </MlLayoutContent>
+    <MlLayoutSubpage :title="folder.name" back-link="/library" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import { useLibraryStore } from '~/store';
-import { MlLayoutContent, navigationSubpageTransition } from '~/components/common/layout';
-import { MlLibraryFolderHeading } from '~/components/library/single';
+import { MlLayoutSubpage, navigationSubpageTransition } from '~/components/common/layout';
 
 export default defineComponent({
     // eslint-disable-next-line vue/match-component-file-name
     name: 'Id',
 
     components: {
-        MlLibraryFolderHeading,
-        MlLayoutContent
+        MlLayoutSubpage
     },
 
-    transition: navigationSubpageTransition(['library-id']),
+    transition: navigationSubpageTransition('library-id'),
 
     async middleware({ route }) {
         const libraryStore = useLibraryStore();
         await libraryStore.loadFolder(route.params.id);
+    },
+
+    setup() {
+        const libraryStore = useLibraryStore();
+
+        return { folder: libraryStore.activeFolder };
     }
 });
 </script>
-
-<style scoped>
-.ml-library-folder {
-    padding-top: 35px;
-}
-</style>

@@ -1,13 +1,13 @@
 <template>
-    <MlLayoutContent class="ml-library">
+    <MlLayoutPage title="Library">
         <MlLibraryFolders />
-    </MlLayoutContent>
+    </MlLayoutPage>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import { useLibraryStore } from '~/store';
-import { MlLayoutContent, navigationPageTransition } from '~/components/common/layout';
+import { MlLayoutPage, navigationPageTransition } from '~/components/common/layout';
 import { MlLibraryFolders } from '~/components/library/list';
 
 export default defineComponent({
@@ -15,7 +15,7 @@ export default defineComponent({
 
     components: {
         MlLibraryFolders,
-        MlLayoutContent
+        MlLayoutPage
     },
 
     transition: navigationPageTransition(['library-id']),
@@ -26,9 +26,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style scoped>
-.ml-library {
-    padding: 45px 20px;
-}
-</style>

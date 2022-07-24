@@ -50,5 +50,11 @@
         <symbol id="navigation-link-sign-in-inactive" fill="none" viewBox="0 0 20 20">
             <path stroke="var(--icon-foreground)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.513 6.158V5.38a3.071 3.071 0 0 0-3.07-3.07H5.38a3.07 3.07 0 0 0-3.07 3.07v9.275a3.07 3.07 0 0 0 3.07 3.071h4.07a3.061 3.061 0 0 0 3.063-3.061v-.786m5.662-3.861H8.14m7.594-2.429 2.44 2.429-2.44 2.43"/>
         </symbol>
+        <symbol id="search" fill="none" viewBox="0 0 20 20">
+            <path fill="var(--icon-foreground)" d="M9.167 1.667c4.14 0 7.5 3.36 7.5 7.5 0 4.14-3.36 7.5-7.5 7.5-4.14 0-7.5-3.36-7.5-7.5 0-4.14 3.36-7.5 7.5-7.5Zm0 13.333A5.832 5.832 0 0 0 15 9.167a5.832 5.832 0 0 0-5.833-5.834 5.831 5.831 0 0 0-5.834 5.834A5.832 5.832 0 0 0 9.167 15Zm7.07.06 2.358 2.356-1.18 1.179-2.356-2.357 1.179-1.179Z"/>
+        </symbol>
+        <symbol id="sign-out" fill="none" viewBox="0 0 20 20">
+            <path stroke="var(--icon-foreground)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.513 6.158V5.38a3.071 3.071 0 0 0-3.07-3.07H5.38a3.07 3.07 0 0 0-3.07 3.07v9.275a3.07 3.07 0 0 0 3.07 3.071h4.07a3.061 3.061 0 0 0 3.063-3.061v-.786m5.662-3.861H8.14m7.594-2.429 2.44 2.429-2.44 2.43"/>
+        </symbol>
     </defs>
 </svg>

@@ -35,17 +35,17 @@
 
     .ml-transition-page-previous-enter,
     .ml-transition-page-next-leave-to {
-        transform: translateX(5px);
+        transform: translateX(10px);
     }
 
     .ml-transition-page-next-enter,
     .ml-transition-page-previous-leave-to {
-        transform: translateX(-5px);
+        transform: translateX(-10px);
     }
 
     .ml-transition-subpage-in-enter,
     .ml-transition-subpage-out-leave-to {
-        transform: translateY(5px);
+        transform: translateY(10px);
     }
 }
 
