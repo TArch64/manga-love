@@ -23,7 +23,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     }
 
     private useLogger(): void {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.$on<'query'>('query', (event) => {
             console.log('');

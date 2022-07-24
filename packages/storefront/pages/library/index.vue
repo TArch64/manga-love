@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import { useLibraryStore } from '~/store';
-import { MlLayoutContent } from '~/components/common/layout';
+import { MlLayoutContent, navigationPageTransition } from '~/components/common/layout';
 import { MlLibraryFolders } from '~/components/library/list';
 
 export default defineComponent({
@@ -17,6 +17,8 @@ export default defineComponent({
         MlLibraryFolders,
         MlLayoutContent
     },
+
+    transition: navigationPageTransition(['library-id']),
 
     async middleware() {
         const libraryStore = useLibraryStore();

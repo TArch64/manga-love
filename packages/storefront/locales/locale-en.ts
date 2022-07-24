@@ -112,7 +112,7 @@ export default {
     layout: {
         navigation: {
             links: {
-                home: 'Home',
+                index: 'Home',
                 library: 'Library',
                 notifications: 'Notifications',
                 profile: 'Profile',

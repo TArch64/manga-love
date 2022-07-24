@@ -8,11 +8,11 @@
         <symbol id="arrow" fill="none" viewBox="0 0 20 21">
             <path stroke="var(--icon-foreground)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m13.25 4-6.5 6.5 6.5 6.5"/>
         </symbol>
-        <symbol id="navigation-link-home-inactive" fill="none" viewBox="0 0 24 24">
+        <symbol id="navigation-link-index-inactive" fill="none" viewBox="0 0 24 24">
             <path fill="var(--icon-foreground)" d="M22 12.667a.668.668 0 0 1-.474-.194L12 2.94l-9.527 9.533a.667.667 0 0 1-.94-.94l10-10a.667.667 0 0 1 .94 0l10 10A.668.668 0 0 1 22 12.667Z"/>
             <path stroke="var(--icon-foreground)" stroke-width="1.5" d="M10 15.25h-.75v6.667H5.333a.583.583 0 0 1-.583-.584V13.53L12 6.254l7.249 7.23v7.85a.583.583 0 0 1-.584.583H14.75V15.25H10Z"/>
         </symbol>
-        <symbol id="navigation-link-home-active" fill="none" viewBox="0 0 24 24">
+        <symbol id="navigation-link-index-active" fill="none" viewBox="0 0 24 24">
             <path fill="var(--icon-foreground)" d="M22 12.667a.668.668 0 0 1-.474-.194L12 2.94l-9.527 9.533a.667.667 0 0 1-.94-.94l10-10a.667.667 0 0 1 .94 0l10 10A.668.668 0 0 1 22 12.667Z"/>
             <path fill="var(--icon-foreground)" stroke="var(--icon-foreground)" stroke-width="1.5" d="M10 15.25h-.75v6.667H5.333a.583.583 0 0 1-.583-.584V13.53L12 6.254l7.249 7.23v7.85a.583.583 0 0 1-.584.583H14.75V15.25H10Z"/>
         </symbol>

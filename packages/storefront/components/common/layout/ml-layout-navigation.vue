@@ -12,6 +12,8 @@
 
 <script lang="ts">
 import { computed, defineComponent } from '@nuxtjs/composition-api';
+import { Transition } from '@nuxt/types';
+import { Route } from 'vue-router';
 import { useRouter } from '~/composables';
 import { useAuthStore } from '~/store';
 import MlLayoutNavigationLink from './ml-layout-navigation-link.vue';
@@ -26,15 +28,64 @@ interface Link {
     url: string;
     access?: PageAccess;
     exact?: boolean;
+    children?: string[];
 }
 
 const LINKS: Link[] = [
-    { id: 'home', url: '/', exact: true },
-    { id: 'library', url: '/library', access: PageAccess.AUTH },
+    { id: 'index', url: '/', exact: true },
+    {
+        id: 'library',
+        url: '/library',
+        access: PageAccess.AUTH,
+        children: ['library-id']
+    },
     { id: 'notifications', url: '/notifications', access: PageAccess.AUTH },
     { id: 'profile', url: '/profile', access: PageAccess.AUTH },
     { id: 'sign-in', url: '/auth/sign-in', access: PageAccess.INAUTH }
 ];
+
+function findLinkIndex(route: Route): number {
+    return LINKS.findIndex((link) => link.id === route.name || link.children?.includes(route.name!));
+}
+
+type TransitionBuilder = (to: Route, from: Route | undefined) => string | Transition;
+
+export function navigationPageTransition(children: string[] = []): TransitionBuilder {
+    const childTransition = navigationSubpageTransition(children);
+
+    return (to: Route, from: Route | undefined): string | Transition => {
+        if (from?.name && children.includes(from.name)) {
+            return childTransition(to, from);
+        }
+
+        const toIndex = findLinkIndex(to);
+        const fromIndex = from ? findLinkIndex(from) : -1;
+        const direction = toIndex < fromIndex ? 'next' : 'previous';
+
+        return {
+            name: `ml-transition-page-${direction}`,
+            mode: 'out-in',
+            // @ts-ignore
+            duration: { enter: 150, leave: 100 }
+        };
+    };
+}
+
+export function navigationSubpageTransition(children: string[]): TransitionBuilder {
+    return (to: Route): string | Transition => {
+        const isFolder = children.includes(to.name as string);
+        const name = isFolder ? 'in' : 'out';
+        const inTiming = isFolder ? 'enter' : 'leave';
+        const outTiming = isFolder ? 'leave' : 'enter';
+
+        return {
+            name: `ml-transition-subpage-${name}`,
+            mode: 'out-in',
+            // @ts-ignore
+            duration: { [inTiming]: 150, [outTiming]: 100 }
+        };
+    };
+}
 
 export default defineComponent({
     name: 'MlLayoutNavigation',
