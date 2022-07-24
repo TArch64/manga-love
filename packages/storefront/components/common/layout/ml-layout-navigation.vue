@@ -62,8 +62,6 @@ export function navigationPageTransition(children: string[] = []): TransitionBui
         const fromIndex = from ? findLinkIndex(from) : -1;
         const direction = toIndex > fromIndex ? 'next' : 'previous';
 
-        console.log(direction);
-
         return {
             name: `ml-transition-page-${direction}`,
             mode: 'out-in',

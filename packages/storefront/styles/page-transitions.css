@@ -40,12 +40,12 @@
 
     .ml-transition-page-previous-enter,
     .ml-transition-page-next-leave-to {
-        transform: translateX(15px);
+        transform: translateX(30px);
     }
 
     .ml-transition-page-previous-leave-to,
     .ml-transition-page-next-enter {
-        transform: translateX(-15px);
+        transform: translateX(-30px);
     }
 
     .ml-transition-subpage-in-enter,
