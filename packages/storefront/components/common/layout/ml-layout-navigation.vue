@@ -60,7 +60,9 @@ export function navigationPageTransition(children: string[] = []): TransitionBui
 
         const toIndex = findLinkIndex(to);
         const fromIndex = from ? findLinkIndex(from) : -1;
-        const direction = toIndex < fromIndex ? 'next' : 'previous';
+        const direction = toIndex > fromIndex ? 'next' : 'previous';
+
+        console.log(direction);
 
         return {
             name: `ml-transition-page-${direction}`,
@@ -75,14 +77,11 @@ export function navigationSubpageTransition(children: string[]): TransitionBuild
     return (to: Route): string | Transition => {
         const isChild = children.includes(to.name as string);
         const name = isChild ? 'in' : 'out';
-        const inTiming = isChild ? 'enter' : 'leave';
-        const outTiming = isChild ? 'leave' : 'enter';
 
         return {
             name: `ml-transition-subpage-${name}`,
             mode: 'out-in',
-            // @ts-ignore
-            duration: { [inTiming]: 150, [outTiming]: 100 }
+            duration: 150
         };
     };
 }

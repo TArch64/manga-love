@@ -31,21 +31,26 @@
     opacity: 0;
 }
 
+.ml-transition-subpage-in-leave-to,
+.ml-transition-subpage-out-enter {
+    transform: scale(0.95);
+}
+
 @media (max-width: 991px) {
 
     .ml-transition-page-previous-enter,
     .ml-transition-page-next-leave-to {
-        transform: translateX(10px);
+        transform: translateX(15px);
     }
 
-    .ml-transition-page-next-enter,
-    .ml-transition-page-previous-leave-to {
-        transform: translateX(-10px);
+    .ml-transition-page-previous-leave-to,
+    .ml-transition-page-next-enter {
+        transform: translateX(-15px);
     }
 
     .ml-transition-subpage-in-enter,
     .ml-transition-subpage-out-leave-to {
-        transform: translateY(10px);
+        transform: translateY(30px);
     }
 }
 
